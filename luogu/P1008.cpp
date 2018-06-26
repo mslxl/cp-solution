@@ -29,9 +29,9 @@ bool is_legal(int a, int b, int c) {
             ab = is_include(i, a);
             bb = is_include(i, b);
             cb = is_include(i, c);
-            if (!((ab == true && bb == false && cb == false) ||
-                  (ab == false && bb == true && cb == false) ||
-                  (ab == false && bb == false && cb == true))) {
+            if (!((ab && !bb && !cb) ||
+                  (!ab && bb && !cb) ||
+                  (!ab && !bb && cb))) {
                 legal = false;
             }
         }
