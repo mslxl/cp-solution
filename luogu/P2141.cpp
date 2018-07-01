@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstring>
 
-//TODO Important
 int main() {
     int size, result = 0;
     std::cin >> size;
