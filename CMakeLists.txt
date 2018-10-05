@@ -5,19 +5,24 @@ set(CMAKE_CXX_STANDARD 98)
 
 file(GLOB_RECURSE SRC_LIST "*.cpp")
 
-foreach (SRC ${SRC_LIST})
-    # How to write the numerical operation in CMake...
-    # CMake 中数值运算怎么写...
-    if ((${SRC} MATCHES "CMakeFiles/") OR (${SRC} MATCHES ".idea/"))
+foreach (Src ${SRC_LIST})
+    if ((${Src} MATCHES "CMakeFiles/") OR (${Src} MATCHES ".idea/"))
         continue()
     endif ()
 
-    string(FIND ${SRC} "/" POS REVERSE)
-    string(SUBSTRING ${SRC} ${POS} -1 NAME_WITH)
-    string(SUBSTRING ${NAME_WITH} 1 -1 NAME_WITH)
-    string(FIND ${NAME_WITH} "." POS REVERSE)
-    string(SUBSTRING ${NAME_WITH} 0 ${POS} NAME)
+    string(FIND ${Src} "/" SlashPos REVERSE)
+    math(EXPR NamePos ${SlashPos}+1)
+    string(SUBSTRING ${Src} ${NamePos} -1 SrcName)
 
-    add_executable(${NAME} ${SRC})
-    message(${NAME} \t\t ${SRC})
+    string(SUBSTRING ${Src} 0 ${SlashPos} Path)
+    string(FIND ${Path} "/" PathSlashPos REVERSE)
+    math(EXPR LastPathPos ${PathSlashPos}+1)
+    string(SUBSTRING ${Path} ${LastPathPos} -1 Folder)
+
+    string(FIND ${SrcName} "." DotPos REVERSE)
+    string(SUBSTRING ${SrcName} 0 ${DotPos} Name)
+
+    set(Executable_Name "${Folder}-${Name}")
+    add_executable(${Executable_Name} ${Src})
+    message(${Executable_Name} \t\t ${Src})
 endforeach ()

@@ -13,8 +13,6 @@ int main() {
                     c++;
                     break;
                 }
-            default:
-                const char *ehi = "Poi!";
             case 0:
                 c++;
                 direct = 1;
