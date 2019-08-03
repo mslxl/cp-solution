@@ -2,8 +2,11 @@
 /build/
 !/.idea/fileTemplates/
 !/.idea/file.template.settings.xml
+/.vs/
+/.vscode/
 /cmake-build-debug/
 /CMakeFiles/
+/out/
 *.iml
 *.sh
 *.in

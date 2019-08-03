@@ -32,7 +32,8 @@ void match(int A,int B){
 int main(){
     int Times,Na,Nb;
     std::cin >> Times >> Na >> Nb;
-    int Ra[Na],Rb[Nb];
+	int* Ra = new int[Na];
+	int* Rb = new int[Nb];
     for (int i = 0; i < Na; ++i)
         std::cin >> Ra[i];
     for (int j = 0; j < Nb; ++j)

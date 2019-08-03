@@ -24,5 +24,6 @@ foreach (Src ${SRC_LIST})
 
     set(Executable_Name "${Folder}-${Name}")
     add_executable(${Executable_Name} ${Src})
+	target_link_libraries(${Executable_Name})
     message(${Executable_Name} \t\t ${Src})
 endforeach ()

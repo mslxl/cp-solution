@@ -23,7 +23,7 @@ int get_people_index(int & index, int length) {
 int main() {
     int m, n, a, s;
     std::cin >> n >> m;
-    struct people ppl[n];
+    struct people * ppl = new people[n];
     for (int i = 0; i < n; i++) {
         std::cin >> ppl[i].face >> ppl[i].name;
     }
