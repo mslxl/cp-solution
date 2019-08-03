@@ -1,7 +1,9 @@
 /.idea/*
+/build/
 !/.idea/fileTemplates/
 !/.idea/file.template.settings.xml
-cmake-build-debug/
+/cmake-build-debug/
+/CMakeFiles/
 *.iml
 *.sh
 *.in
