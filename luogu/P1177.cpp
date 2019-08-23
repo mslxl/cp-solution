@@ -1,6 +1,9 @@
 #include<iostream>
 
 int main() {
+	// ¸ßĞÔÄÜ
+	std::ios::sync_with_stdio(false);
+
 	int N;
 	std::cin >> N;
 	int* arr = new int[N];
