@@ -11,3 +11,6 @@
 *.iml
 *.sh
 *.in
+*.o
+*.hi
+*.map
