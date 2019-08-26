@@ -20,6 +20,7 @@ set(Folder_Black_List CMakeFiles/
     cmake-build-debug/
     out/)
 
+add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 foreach (Src ${SRC_LIST})
     set(Skip FALSE)
 
@@ -72,12 +73,5 @@ foreach (Src ${SRC_LIST})
             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${Src} ${PROJECT_BINARY_DIR}/${Executable_Name}.java
             COMMAND javac ${PROJECT_BINARY_DIR}/${Executable_Name}.java
             COMMENT "Building ${Src}")
-    elseif(COPY_UNKOWN_FILE)
-        set(Target_Name ${Executable_Name}-src)
-        message(CP: \t ${Target_Name} \t\t ${Src})
-        add_custom_target(
-            ${Target_Name}
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${Src} ${PROJECT_BINARY_DIR}/${Executable_Name}.${Extension}
-            COMMENT "Copy ${Src}")
     endif()
 endforeach ()
