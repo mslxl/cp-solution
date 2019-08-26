@@ -1,0 +1,179 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+    BUMPUP   9
+    COPYTO   8
+    ADD      9
+    COPYTO   7
+    ADD      8
+    COPYTO   6
+    ADD      7
+    COPYTO   5
+    ADD      6
+    COPYTO   4
+    ADD      5
+    COPYTO   3
+    ADD      4
+    COPYTO   2
+a:
+b:
+c:
+d:
+e:
+f:
+g:
+    INBOX   
+    COPYTO   0
+    SUB      2
+    JUMPN    h
+    COPYFROM 9
+    OUTBOX  
+    COPYFROM 8
+    OUTBOX  
+    COPYFROM 7
+    OUTBOX  
+    COPYFROM 6
+    OUTBOX  
+    COPYFROM 5
+    OUTBOX  
+    COPYFROM 4
+    OUTBOX  
+    COPYFROM 3
+    OUTBOX  
+    COPYFROM 2
+    OUTBOX  
+    JUMP     a
+h:
+    COPYFROM 0
+    SUB      3
+    JUMPN    i
+    COPYFROM 9
+    OUTBOX  
+    COPYFROM 8
+    OUTBOX  
+    COPYFROM 7
+    OUTBOX  
+    COPYFROM 6
+    OUTBOX  
+    COPYFROM 5
+    OUTBOX  
+    COPYFROM 4
+    OUTBOX  
+    COPYFROM 3
+    OUTBOX  
+    JUMP     b
+i:
+    COPYFROM 0
+    SUB      4
+    JUMPN    j
+    COPYFROM 9
+    OUTBOX  
+    COPYFROM 8
+    OUTBOX  
+    COPYFROM 7
+    OUTBOX  
+    COPYFROM 6
+    OUTBOX  
+    COPYFROM 5
+    OUTBOX  
+    COPYFROM 4
+    OUTBOX  
+    JUMP     c
+j:
+    COPYFROM 0
+    SUB      5
+    JUMPN    k
+    COPYFROM 9
+    OUTBOX  
+    COPYFROM 8
+    OUTBOX  
+    COPYFROM 7
+    OUTBOX  
+    COPYFROM 6
+    OUTBOX  
+    COPYFROM 5
+    OUTBOX  
+    JUMP     d
+k:
+    COPYFROM 6
+    SUB      6
+    JUMPN    l
+    COPYFROM 9
+    OUTBOX  
+    COPYFROM 8
+    OUTBOX  
+    COPYFROM 7
+    OUTBOX  
+    COPYFROM 6
+    OUTBOX  
+    JUMP     e
+l:
+    COPYFROM 0
+    SUB      7
+    JUMPN    m
+    COPYFROM 9
+    OUTBOX  
+    COPYFROM 8
+    OUTBOX  
+    COPYFROM 7
+    OUTBOX  
+    JUMP     f
+m:
+    COPYFROM 9
+    OUTBOX  
+    COPYFROM 8
+    OUTBOX  
+    JUMP     g
+
+
+DEFINE LABEL 0
+eJxzZ2BgYOTvipsp2BW3TUgwuURYNmeiSET9B5HHc9eJdi1eJzr7WI5YaVqnuFo0q2RMyDxp6+BChcxY
+LuXStMWqorWLVbV2PVXZsM9G417zbI3p6Ts018Tv0GSJmqz92p1f19nJUz/V2dFoi98tk/eJlqbPi76b
+9lcA8V6gtQwhUU35IVHvE6dFusf8DZMMUg7d4vcyaLLvFb/JvrN8JIMSvDJjj7tfqlLzmL4mwWvJ1p8+
+HDu7gjh2Kocu2XojYvoaoN5lfTEBEzLjdmZkxjm3t8XXzZJPOrotMsX8cFlq1VGdzL3HHXP3HgfZVVy0
+xc+tXC36T9WfrIiOwolF0yKOgMRvTt5g8m9ihBVfz6OIO23eZWrNWybrNagtmFprv4lhFIyCEQAAyVJ3
+Ew;
+
+DEFINE LABEL 2
+eJzTZ2BgOKtrn1umFZL6SyMkVV79feJm+bMJu2VCUpdJNOVvE3JunykYM/OH4J/1E0U27EuRnH2MS/ne
+CXn1eyd+acw+dlXr8wF+3SVbV+i7L0wzEK09q2s946zu5wOORoXXqk223gAazyDnbb/picfOtbscuhb/
+sQ9ZFe3wZ32BS9XRJx6F1/Z7LXhQ6/3+tZz3zk+LPGW/cbrbf2+ws/9+ykrwbbbVtZsd1oXXGuxeX1Tz
+OHkhwavtnJhfxBExv0v7f/r072UYBaNgFFAMAEjcWig;
+
+DEFINE LABEL 3
+eJxTZ2BgENc6m1CmNT9stsYWv69yzk7zpBkclkmkOhuJfA+QFTibwMljVqfHZT1DjytzUS/X+2XHef6s
+NxLR2tUpnrvnr3TunhuyWruEFJZs3aEpOb1b73O1p35pmo5eadoGnYQ8E+0NlZGaWyZHatpvmqy9YZ+O
+3uxjQCsZOqzdF051YpnP6T5/tpz3/Nl3vN0XynmXrm71ED20yu3eCT3XH7cYRsEoGAU0BwDhPD0l;
+
+DEFINE LABEL 4
+eJzTYWBgaJT6HvBAarJvo5SeV47YXtvLwmaWPwTNLG8LzLbh5KkLPc8ZkjqVXbR2KvvBOV/YuxZn8JSu
+3iYUsipHzH2hu4Tk9MOSbZ1SsjszzOXmh+2W6Yo7LClayyqp188qeW5po9TOtTEyshs3y8tuBFrFIGMi
+WttsKFrrqc/QelXr8VxxLcEV4lqX9l/VMj+sYqh0usPa+YybzYZ9bjZNWzqsb62bYGG0stnQfaGnfuYi
+HT2jlQyjYBSMAqoCAH89QRY;
+
+DEFINE LABEL 5
+eJzTZGBgOKD2KCJRbbKvkMIKVylZPa9O8Z0ZvGL9Ff6isxv9Rd8v4xX7s/6FOMfOB1IcO83ljm7LVJ6+
+5oBa12JxrcmTJmvfa/6kLZtTpiWYnKjWX+GiGjDBRfXgnEQ194XiWmuWAI1neG49u1HEvGuxiPn7ZYYW
+RivNnGQ3Frgs2Vrg4rNb0nHv8T/29048t957fK2l6CGQ+gkW95o7rO81s9jObnzisbeJYRSMglFAMwAA
+SEBB2Q;
+
+DEFINE LABEL 6
+eJxTZWBgKNOKCXmqcs+uTzHC6qtchNVfaQaHEuG60B+CXXGL+DZULuKbPMlKUG3BC3H7TUIKWrv6FLV2
+qavYb9qg87pnhf6tzBX6pWmv9IxS+HV3ZphoR9SbaB+cs0EnZJWnvv2mOOOj2y6ZH90GtIZB0nF2Y7Jt
+4cSpTtYzYsIFV4DE+AJzywMCNlQa+zu3M3q9X/bEw2c3wygYBaOAbgAAm4s4QA;
+
+DEFINE LABEL 7
+eJzTZWBguGR+qUrG5E/WJ+260F8a3wPk1SWDdsvcynwgdbRQS1xyupZ405ZlEv1750lXHd0sf+/EUxWG
+U/Lq906Ia0UcuWXyZ/0Ei67FLLbO7Sy2orXPrS9VZVuJ1q61rGq4ZF44UcRcbYGI+ZKtEyy0dmla5+6Z
+a5+7B2glwyq3zEWLPOfP/ukTM1M7KGbmkZD5s3eHr1lSGTF9ze7w59vnhfnsZgvZsE8qYu/xkKi2c5uj
+Xl9cHlx3/6P/ggcMo2AUjAKqAQCnllJ5;
+
+DEFINE LABEL 8
+eJxTYWBgWKwaE6KussVPSOGk22HJ1+6iwtbBarxGKZs4tEqnsu9tmspeOLGX6/FcZ76uxbICa5bYS3ct
+rpStm3VBYXZjpnJd6AnlkNRMZbO61UqpHauV1iw5obxz7WLVpi2/NGQ3Ao1neKW3oovdQLFNxZCh9bsp
+Q+tza71+FtsfU5fasMz/b/R8+3+j/r2Wpp8PvHG9d4JhFIyCUUBXAAB4DDpe;
+
+DEFINE LABEL 9
+eJxTZGBgWK0UUb9ayShFSIElSkq2LtRfdH5YBo9g8h+WS1UNzCu6Gpgfz5VkK11dwJm4eRX3kq37+Pv3
+nhYzP5wiKXooRsZnt5DCmiWrlXj7TihrlfYpVjUUKsyffUGBZf5TldLVB9Rurburfmsd0BqGNIOYmf+N
+tkz+b/T6Ioivo8d7easZhD0KRsEoGBgAAOD8NBg;
+
