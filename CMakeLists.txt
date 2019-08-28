@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.8)
 
 project(oi)
 
-set(CMAKE_CXX_STANDARD 98)
+set(CMAKE_CXX_STANDARD 14)
 
 file(GLOB_RECURSE SRC_LIST "*")
 

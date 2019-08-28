@@ -12,13 +12,16 @@ int main() {
 	int p1, p2, p3;
 	std::cin >> p1 >> p2 >> p3;
 	char* c = new char[101];
+	auto begin = c;
 	std::memset(c, '\0', sizeof(char) * 101);
 	std::cin >> c;
+
 	do {
 		if (*c != '-') {
 			std::cout << *c;
+
 		} else {
-			if (*(c + 1) == '-' || *(c - 1) == '-') {
+			if (*(c + 1) == '-' || *(c - 1) == '-' || c == begin || *(c+1) == '\0') {
 				std::cout << '-';
 				continue;
 			}
@@ -39,5 +42,6 @@ int main() {
 			}
 		}
 	} while (*(++c) != '\0');
+
 	return 0;
 }

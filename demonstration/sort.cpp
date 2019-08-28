@@ -61,6 +61,28 @@ S* quick_sort(int* begin, int* end) {
 	return s;
 }
 
+S* bucket_sort(int* begin, int* end){
+	auto s = new S;
+	auto i = begin;
+
+	int n[1024];
+	std::memset(n,0,sizeof(i));
+
+	while((i++) != end){
+		n[*begin]++;
+	}
+	
+	for (auto j = 0; j < 1024; j++)
+	{
+		while(n[j]-- > 0){
+			s->swap++;
+			*(begin++) = j;
+		}
+	}
+
+	return s;
+}
+
 S* bubble_sort(int* begin, int* end) {
 	S* s = new S;
 	int compare = 0, swap = 0;
@@ -78,7 +100,7 @@ S* bubble_sort(int* begin, int* end) {
 }
 
 int main() {
-	int arr[] = { 4,3,5,6,7,8,9,1,2,3,12,8,23,56,56,98,45,3,56,78,59,26,45,26,84,312,465,978,78,465 };
+	int arr[] = { 4,3,5,6,7,8,9,1,2,3,12,8,23,56,56,98,45,3,56,78,59,26,45,26,84,312,465,478,78,465 };
 	auto offset = sizeof(arr) / sizeof(int);
 
 	std::cout << "Before sort:";
@@ -96,6 +118,16 @@ int main() {
 	std::cout << "Compare: " << s->compare << std::endl
 		<< "Swap: " << s->swap << std::endl << std::endl;
 	delete s;
+
+
+	std::memcpy(tmp, arr, sizeof(arr));
+	s = bucket_sort(begin, end);
+	std::cout << "After bucket sort :";
+	print_array(begin, end);
+	std::cout << "Compare: " << s->compare << std::endl
+		<< "Swap: " << s->swap << std::endl << std::endl;
+	delete s;
+
 
 	std::memcpy(tmp, arr, sizeof(arr));
 	s = quick_sort(begin, end);
