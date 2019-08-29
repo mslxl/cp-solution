@@ -1,5 +1,5 @@
 #include<iostream>
-
+#include<cstring>
 
 
 void print_array(int* begin, int* end) {
@@ -18,46 +18,40 @@ struct S {
 };
 
 S* quick_sort(int* begin, int* end) {
-	S* s = new S;
+	auto s = new S;
+	auto left = begin, right = end - 1;
 
-	auto pivot = begin;
-	auto i = begin - 1;
-
-	while (++i != end) {// Put less num to left
-		s->compare++;
-		if (*i < *pivot && i > pivot) {
+	if (left >= right) {
+		return s;
+	}
+	int tmp = *left; // 基准数
+	while (left != right) {
+		while (*(right) >= tmp && left < right) {
+			s->compare++;
+			right--;
+		}
+		while (*(left) <= tmp && left < right) {
+			s->compare++;
+			left++;
+		}
+		if (left < right) {
 			s->swap++;
-			std::swap(*i, *pivot);
-			pivot = i;
+			auto t = *left;
+			*left = *right;
+			*right = t;
 		}
 	}
-
-	i = end;
-
-	while (--i != begin - 1) {
-		s->compare++;
-		if (*i > * pivot && i < pivot) {
-			s->swap++;
-			std::swap(*i, *pivot);
-			pivot = i;
-		}
-	}
-	if (pivot - begin > 1) {
-		auto subS = quick_sort(begin, pivot);
-		s->compare += subS->compare;
-		s->swap += subS->compare;
-		delete subS;
-
-	}
-	
-	if (end - pivot > 0) {
-		auto subS = quick_sort(pivot + 1, end);
-		s->compare += subS->compare;
-		s->swap += subS->compare;
-		delete subS;
-	}
-	
-
+	*begin = *left;
+	*left = tmp;
+	s->compare++;
+	auto t = quick_sort(begin, left + 1);
+	s->compare += t->compare;
+	s->swap += t->swap;
+	delete t;
+	t = quick_sort(left + 1, end);
+	s->compare += t->compare;
+	s->swap += t->swap;
+	delete t;
 	return s;
 }
 
@@ -66,11 +60,13 @@ S* bucket_sort(int* begin, int* end){
 	auto i = begin;
 
 	int n[1024];
-	std::memset(n,0,sizeof(i));
+	std::memset(n,0,sizeof(n));
 
-	while((i++) != end){
-		n[*begin]++;
-	}
+	do {
+		n[*i]++;
+		s->compare++;
+	} while ((++i) != end);
+
 	
 	for (auto j = 0; j < 1024; j++)
 	{
@@ -119,7 +115,7 @@ int main() {
 		<< "Swap: " << s->swap << std::endl << std::endl;
 	delete s;
 
-
+	//Bucket Sort
 	std::memcpy(tmp, arr, sizeof(arr));
 	s = bucket_sort(begin, end);
 	std::cout << "After bucket sort :";
@@ -128,7 +124,7 @@ int main() {
 		<< "Swap: " << s->swap << std::endl << std::endl;
 	delete s;
 
-
+	//Quick Sort
 	std::memcpy(tmp, arr, sizeof(arr));
 	s = quick_sort(begin, end);
 	std::cout << "After quick sort :";
