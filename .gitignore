@@ -1,7 +1,5 @@
-/.idea/*
+/.idea/
 /build/
-!/.idea/fileTemplates/
-!/.idea/file.template.settings.xml
 /.vs/
 /.vscode/
 /cmake-build-debug/
