@@ -1,1 +1,1 @@
-main = sequence_ $ take 4 $ repeat (putStrLn "****")
+main = sequence_ $ take 4 $ repeat $ putStrLn "****"
