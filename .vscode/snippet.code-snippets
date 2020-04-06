@@ -15,13 +15,41 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
+	"LOCAL_MAIN_DEF":{
+		"scope": "cpp",
+		"prefix": "local_main",
+		"body": [
+			"#ifdef LOCAL_TEST",
+			"int main()",
+			"{",
+			"\t$1",
+			"\treturn 0;",
+			"}",
+			"#endif"
+		],
+		"description": ""
+	},
 	"LOCAL_TEST_DEF":{
-		"scope": "c++",
+		"scope": "cpp",
 		"prefix": "local_test",
 		"body": [
 			"#ifdef LOCAL_TEST",
 			"$1",
 			"#endif"
-		]
+		],
+		"description": ""
+	},
+	"LUOGU_START":{
+		"scope": "cpp",
+		"prefix": "mainl",
+		"body": [
+			"#include<iostream>",
+			"#include<iomanip>",
+			"int main(){",
+			"\t$1",
+			"\treturn 0;",
+			"}"
+		],
+		"description": ""
 	}
 }
