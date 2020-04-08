@@ -51,5 +51,16 @@
 			"}"
 		],
 		"description": ""
+	},
+	"LEETCODE_START_PY":{
+		"scope": "python",
+		"prefix": "main",
+		"body": [
+			"if __name__ == \"__main__\":",
+			"\tobj = Solution()",
+			"\tobj.$1",
+			"\tpass",
+		],
+		"description": ""
 	}
 }
