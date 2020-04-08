@@ -1,6 +1,6 @@
 #ifdef LOCAL_TEST
 #include "leetcode.h"
-#include "2.h"
+#include "add_two_numbers.h"
 #endif
 
 class Solution
