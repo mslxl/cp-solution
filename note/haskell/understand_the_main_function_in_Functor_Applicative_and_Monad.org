@@ -1,0 +1,86 @@
+#+TITLE: Understand The Main Function In Functor Applicative And Monad
+
+* Functor
+
+** Function
+#+BEGIN_SRC haskell
+fmap :: Functor f => (a -> b) -> f a -> f b
+#+END_SRC
+
+** Detail
+
+If we pass a unary function into =fmap=, we can gain its result which was contained in related Functor.
+
+#+BEGIN_SRC haskell
+fmap (+3) (Just 2)
+#+END_SRC
+
+#+RESULTS:
+: Nothing
+
+#+BEGIN_SRC haskell
+fmap (+3) Nothing
+#+END_SRC
+
+#+RESULTS:
+: Nothing
+
+But if we pass a binary function into =fmap=, we can only gain a unary function that contained in Functor. At this time, the Functor would be convert a Applicative
+
+#+BEGIN_SRC haskell
+:t fmap (+) (Just 3)
+#+END_SRC
+
+#+RESULTS:
+: fmap (+) (Just 3) :: Num a => Maybe (a -> a)
+
+* Applicative
+** Function
+
+#+BEGIN_SRC haskell
+(<*>) :: Applicative f => f (a -> b) -> f a -> f b
+#+END_SRC
+** Detail
+
+#+BEGIN_SRC haskell
+Just (+3) <*> Just 4
+#+END_SRC
+
+#+RESULTS:
+: Just 7
+
+To a list, we can use =<*>= too
+
+#+BEGIN_SRC haskell
+[(+1),(*2)] <*> [2,3]
+#+END_SRC
+
+#+RESULTS:
+| 3 | 4 | 4 | 6 |
+
+That is awesome, right?
+
+But if we have a function that receive a ordinary data and return a container, we can not use =fmap= to calc. e.g.
+
+#+BEGIN_SRC haskell
+fmap (\x -> Just (x+3)) (Just 1)
+#+END_SRC
+
+#+RESULTS:
+: Just (Just 4)
+
+So we need to use =Monad=
+
+* Monad
+** Function
+#+BEGIN_SRC haskell
+(>>=) :: Monad f => f a -> (a -> f b) -> f b
+#+END_SRC
+** Detail
+To solve the problem above, we can use:
+#+BEGIN_SRC haskell
+Just 1 >>= \x -> Just (x+3)
+#+END_SRC
+
+#+RESULTS:
+: Just 4

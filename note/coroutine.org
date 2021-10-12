@@ -1,0 +1,98 @@
+#+TITLE: Coroutine
+* 核心
+函数或一段程序能够被挂起，稍后在挂起的位置恢复，程序通过主动让出运行权实现协作。
+** 与线程的区别
++ 线程的运行是连续的，调度是抢占式的，不存在协作问题
++ 主流编程语言引入的线程一般是照搬内核线珵概念，一般来说自身不实现线程
+
+* 分类
+** 按调用栈
++ 有栈协程（Stackful Coroutine): 每个协程都有自己的调用栈，类似于线程，除了调度在实现上也很像线程
++ 无栈协程（Stackless Coroutine): 没有调用栈，挂起点状态通过状态机或闭包等语法实现
+** 按调度方式
++ 对称协程（Symmetric Coroutine): 任何一个线程平等且独立，调度权可以任意转移
++ 非对称协程（Asymmetric Coroutine): 协程让出调度权的目标只能是它的调用者
+
+
+** 例子
+*** 无栈协程 Python 的 Generator
+#+begin_src python :results output
+def numbers():
+    i = 0
+    while i < 10:
+        print("yield")
+        yield(i)
+        i += 1
+
+gen = numbers()
+print(f"[0] {next(gen)}")
+print(f"[1] {next(gen)}")
+for i in gen:
+    print(f"[Loop] {i}")
+#+end_src
+
+#+RESULTS:
+#+begin_example
+yield
+[0] 0
+yield
+[1] 1
+yield
+[Loop] 2
+yield
+[Loop] 3
+yield
+[Loop] 4
+yield
+[Loop] 5
+yield
+[Loop] 6
+yield
+[Loop] 7
+yield
+[Loop] 8
+yield
+[Loop] 9
+#+end_example
+*** Lua 标准库 非对称有栈协程
+#+begin_src lua :results output
+function producer()
+  for i = 0, 3 do
+    print("send " .. i)
+    coroutine.yield(i)
+  end
+  print("End producer")
+end
+
+function consumer(value)
+  repeat
+    print("receive " .. value)
+    value = coroutine.yield()
+  until(not value)
+  print("End Consumer")
+end
+
+producerCoroutine = coroutine.create(producer)
+consumerCoroutine = coroutine.create(consumer)
+
+repeat
+  status, product = coroutine.resume(producerCoroutine)
+  coroutine.resume(consumerCoroutine, product)
+until(not status)
+print("End main")
+#+end_src
+
+#+RESULTS:
+#+begin_example
+send 0
+receive 0
+send 1
+receive 1
+send 2
+receive 2
+send 3
+receive 3
+End producer
+End Consumer
+End main
+#+end_example
