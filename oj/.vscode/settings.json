@@ -1,7 +1,7 @@
 {
     "code-runner.executorMap": {
         "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && zsh -c \"cat $fileNameWithoutExt.in | ./$fileNameWithoutExt > $fileNameWithoutExt.out\" ",
-        "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && zsh -c \"cat $fileNameWithoutExt.in | ./$fileNameWithoutExt > $fileNameWithoutExt.out && rm $fileNameWithoutExt  && cat $fileNameWithoutExt.out\"",
+        "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && zsh -c \"cat $fileNameWithoutExt.in | ./$fileNameWithoutExt > $fileNameWithoutExt.test.out ; set stats=\"$?\"; rm $fileNameWithoutExt ; cat $fileNameWithoutExt.test.out\"; return $stats",
     },
     "files.associations": {
         "iostream": "cpp",

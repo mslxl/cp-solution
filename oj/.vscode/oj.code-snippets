@@ -15,18 +15,21 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
-	"Start to work on oj":{
-		"scope":"cpp",
+	"Start to work on oj": {
+		"scope": "cpp",
 		"prefix": "main",
 		"body": [
 			"#include <iostream>",
 			"#include <cstdio>",
 			"#include <cstring>",
+			"#include <map>",
 			"#include <string>",
 			"#include <vector>",
 			"#include <algorithm>",
 			"#include <cmath>",
-			"using std::string;",
+			"#define _for(i,init,lim) for(int i=(init);  i< (lim); i++)",
+			"#define _rep(i,init,lim_eq) for(int i=(init); i<=(lim_eq); ++i)",
+			"#define _br() std::cout << std::endl;",
 			"typedef long long ll;",
 			"typedef unsigned long long ull;",
 			"int main(int argc, char const *argv[]){",
@@ -36,7 +39,7 @@
 			"}"
 		]
 	},
-	"Include file":{
+	"Include file": {
 		"scope": "c,cpp",
 		"prefix": "inc",
 		"body": "#include <$1>"
