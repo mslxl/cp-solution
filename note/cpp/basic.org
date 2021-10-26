@@ -176,533 +176,6 @@ int main(int argc, char *argv[]) {
 : true: 1
 : false: 0
 
-* string
-** 拼接字符常量 (类似原始字符串)
-任何两个由空白分隔的字符串常量都会被自动拼接为一个
-#+begin_src cpp :results output
-#include <iostream>
-int main(){
-    char str[] = "wwwwwwwwwwwwwww"
-        "ffffffffffffffff\n" "pppppppp";
-    std::cout << str;
-}
-
-#+end_src
-
-#+RESULTS:
-: wwwwwwwwwwwwwwwffffffffffffffff
-: pppppppp
-** 标准库的使用
-*** 不同的初使化方式
-标准库类型 =string= 表示可变长的字符序列
-#+begin_src cpp :results output
-#include <string>
-#include <iostream>
-using namespace std;
-int main(int argc, char *argv[]) {
-    string s1 = "amiya";
-    cout << "s1=" << s1 << endl;
-
-    string s2(5,'c');
-    cout << "s2=" << s2 << endl;
-
-    string s3;
-    cout << "s3=" << s3 << endl;
-
-    string s4("donkey"); // s4 是字面量 donkey 的副本
-    cout << "s4=" << s4 << endl;
-
-    string s5(s4); // s5 是 s4 的副本
-    cout << "s5=" << s5 << endl;
-
-    string s6 = s5; // s6 是 s5 的副本
-    cout << "s6=" << s6 << endl;
-
-
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-: s1=amiya
-: s2=ccccc
-: s3=
-: s4=donkey
-: s5=donkey
-: s6=donkey
-**** 直接初使化和拷贝初使化
-使用等号是拷贝初使化，不使用等号是直接初使化
-
-当初始值只有一个时，使用任何一种方式初始化都相同。但像 s2 一样的只能用直接初始化的方式了。
-
-其实使用两个值也可以使用拷贝初始化，不过需要临时变量，如下：
-
-#+begin_src cpp :results output
-#include <iostream>
-#include <string>
-using namespace std;
-int main(int argc, char *argv[]) {
-    string s1 = string(5,'c');
-
-    // 等价于 :
-    string tmp(5,'c');
-    string s2 = tmp;
-
-    cout << "s1=" << s1 << endl
-         << "s2=" << s2 << endl;
-    return 0;
-}
-
-#+end_src
-
-#+RESULTS:
-: s1=ccccc
-: s2=ccccc
-*** 操作
-**** IO
-#+begin_src cpp :results output
-#include <iostream>
-#include <string>
-using namespace std;
-int main(int argc, char *argv[]) {
-    string s1;
-    cin >> s1;  // 简单的输入单词
-    cout << s1 << endl;
-
-    while(cin >> s1){ // 反复读取单词，直到 EOF
-        cout << s1 << endl;
-    }
-
-    string line;
-    while(getline(cin,line)){ // 读取一行，直到 EOF
-        cout << line << endl;
-    }
-
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-:
-
-**** empty
-为空返回 =true=, 否则返回 =false=
-#+begin_src cpp :results output
-#include <string>
-#include <iostream>
-using namespace std;
-int main(int argc, char *argv[]) {
-    string s = "this is a unempty string";
-    string e;
-    cout << "s: " << s.empty() << endl
-        << "e: " << e.empty();
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-: s: 0
-: e: 1
-
-**** size
-返回 =string::size_type= 代表字符串的长度
-#+begin_src cpp :results output
-#include <iostream>
-#include <string>
-using namespace std;
-int main(int argc, char *argv[]) {
-    string s = "123456789";
-    cout << "size=" << s.size() << endl;
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-: size=9
-
-***** string::size_type 类型
-string 与其他标准类库一样，定义了几个配套的类型，体现了标准库和机器无关的特性。
-尽管不知道细节，但可以肯定 =string::size_type= 是一个无符号整数
-所有储存 string 的 size 的地方都应使用 string::size_type 类型
-
-在 C++ 11 中，可使用 auto 避免类型名太长
-#+begin_src cpp :results output
-#include <iostream>
-#include <string>
-using namespace std;
-int main(int argc, char *argv[]) {
-    string s = "wwwwwwwwww";
-    auto size = s.size();
-    cout << size << endl;
-
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-: 10
-
-**** 两个 string 相加
-需要注意，由引号括起的字符串是 =cstring= 并不能直接将两个字面字符串相加，但可以与 c++ 的风格字符串相加
-#+begin_src cpp :results output
-#include <iostream>
-#include <string>
-using namespace std;
-int main(int argc, char *argv[]) {
-    string www = "sss";
-    string ccc = "ccc";
-    cout << www + ccc << endl
-         << www + "any" << endl
-        << "wwww" << ccc;
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-: sssccc
-: sssany
-: wwwwccc
-
-**** 基于范围的 for 循环
-对给定的序列的每个元素执行某操作，格式如下：
-#+begin_src
-for (declaration : expression)
-    statement
-#+end_src
-
-***** 遍历
-#+begin_src cpp :results output
-#include <iostream>
-#include <string>
-int main(int argc, char *argv[]) {
-    std::string ww = "qwerrtyuiop";
-    for(auto c : ww)
-        std::cout << c << '|';
-
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-: q|w|e|r|r|t|y|u|i|o|p|
-
-***** 操作
-
-#+begin_src cpp :results output
-#include <iostream>
-#include <string>
-#include <cctype>
-int main(int argc, char *argv[]) {
-    std::string ww = "qwerrtyuiop";
-    for(auto &c : ww) // c 必须是引用
-        c = toupper(c);
-    std::cout << ww;
-
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-: QWERRTYUIOP
-
-**** 基于下标访问
-下标运算符接受参数类型是 =string::size_type=
-#+begin_src cpp :results output
-#include <iostream>
-#include <string>
-int main(int argc, char *argv[]) {
-    std::string str ="qwert";
-    std::cout << str[0] << std::endl
-              << str[5];
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-: q
-:  
-
-只要字符串不是字面值（即不是 c style string，就可以使用下标运算符
-
-* C Style String
-与 C 中的字符串有关的函数被定义在 cstring 头中
-
-| strlen(p)     | 返回 p 的长度，不记入 '\0'                                              |
-| strcmp(p1,p2) | 比较相等性，如果 p1==p2 返回0; 如果 p1>p2 返回正数; 如果 p1<p2 返回负数 |
-| strcat(p1,p2) | 将 p2 连接到 p1, 返回 p1                                                |
-| strcpy(p1,p2) | p2 拷贝给 p1                                                            |
-
-** 与 string 标准库之间的关系
-可以使用 C 风格字符串来初始化 string 对象
-#+begin_src cpp
-string s("wwwwwwwwwwww");
-#+end_src
-
-string 库也提供了 c_str() 函数来获取 C 风格字符串
-
-#+begin_src cpp
-string s("hello");
-const char *str = s.c_str();
-#+end_src
-
-*无法保证 c_str 返回的数组一直有效，如果后续操作改变了 s 的值就可能让之前返回的数组失去效用*
-*如果想让数组一直可用，最好的方法是将该数组重新拷贝*
-** 常用操作
-*** cstring
- + sprintf(char *dst, const char * str, ...)
- + strlen(const char * str)
- + strcat(const char * str,const char * str2)
- + strcpy(const char * str,const char * str2)
-
-* vector
-vector 是一个类模板，需要提供额外信息
-编译器根据额外信息生成代码的过程称为实例化
-
-** 定义与初始化
-#+begin_src cpp :results output
-#include <vector>
-#include <iostream>
-using std::vector;
-int main(int argc, char *argv[]) {
-    vector<int> v1; // 空 vector
-    vector<int> v2; // v2 中包含 v1 的所有元素的副本
-    vector<int> v3 = v2; // 等价于 v2
-    vector<char> v4(5,'c'); // 有 5 个 c 的 vector
-    vector<int> v5(5); // 包含了 5 个重复地执行了初始化的值
-    vector<int> v6{1,2,3}; // v6 = {1,2,3}
-    vector<int> v7 = {1,2,3}; // 等价于 v6, 该方式称为列表初始化
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-
-** 向 vector 中添加元素
-适用于直接初始化的方式有三种：
-+ 初始值已知，数量少
-+ 是另一 vector 已经存在
-
-可以使用 =push_back= 来将一个元素压入 vector 内
-#+begin_src cpp :results output
-#include <iostream>
-#include <vector>
-#include <string>
-int main(int argc, char *argv[]) {
-    std::vector<std::string> v;
-    v.push_back("关注");
-    v.push_back("嘉然");
-    v.push_back("今晚");
-    v.push_back("吃");
-    v.push_back("什么");
-    std::cout << v.size() << std::endl;
-    for(auto i : v){
-        std::cout << i;
-    }
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-: 5
-: 关注嘉然今晚吃什么
-
-*** 假定
-
-如果循环内部有向 vector 中添加元素的语句，则不能使用范围 for 循环
-
-** 其他操作
-
-#+begin_src cpp :results output
-#include <iostream>
-#include <vector>
-#include <string>
-using std::cout;
-using std::endl;
-int main(int argc, char *argv[]) {
-    std::vector<std::string> v;
-    v.push_back("关注");
-    cout << "为空：" << v.empty() << endl
-         << "大小（个数）：" << v.size() << endl
-         << "随机访问：" << v[0] << endl;
-
-    std::vector<std::string> vv;
-    vv = v; // 把 v 拷贝给 vv
-    cout << "元素数量相同且相同位置的元素相同：" << (v == vv) << endl
-         << "不相等：" << (v != vv) << endl << endl;
-
-
-    cout << vv[0] << endl;
-    for (auto &i : vv){
-        i = i + ".edited";
-    }
-    cout << vv[0] << endl;
-
-
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-: 为空：0
-: 大小（个数）：1
-: 随机访问：关注
-: 元素数量相同且相同位置的元素相同：1
-: 不相等：0
-:
-: 关注
-: 关注.edited
-
-** size_type
-若使用 =vector::size_type= 也需要提供额外参数
-#+begin_src cpp
-vector<int>::size_type; // Right
-vector::size_type; // Wrong
-#+end_src
-
-** 不可预料！
-试图用下标访问一个不存在的元素将引发错误，但它不会被编译器发现，而是在运行中产生一个不可预知的值
-缓冲区溢出（ buffer overflow）指的就是这种错误，会导致设备上的应用安全问题
-** 常用操作清单
-+ size()
-+ resize()
-+ push_back()
-+ pop_back()
-* set
-内元素必须实现 =<= 方法,集合内元素无序，不存在重复元素
-** 常用操作：
-+ insert
-+ begin
-+ end
-* sstream
-** stringstream
-*** 类型转化
-#+begin_src cpp :results output
-#include <sstream>
-#include <string>
-#include <iostream>
-int main(int argc, char *argv[]) {
-    std::stringstream ss;
-    ss << 3.14;
-    std::string str;
-    ss >> str;
-    std::cout << str << std::endl;
-
-    ss.clear();
-    ss << 2.71;
-    ss >> str;
-    std::cout << str;
-    return 0;
-}
-
-#+end_src
-
-#+RESULTS:
-: 3.14
-: 2.71
-*** 拼接字符串
-#+begin_src cpp :results output
-#include <sstream>
-#include <string>
-#include <iostream>
-
-int main(int argc, char *argv[]) {
-    std::stringstream ss;
-    ss << "wwwwwww";
-    ss << "fffffff" << std::endl;
-    std::string s1 = ss.str();
-    std::string s2 = ss.str();
-    ss.str("");
-    std::string s3 = ss.str();
-    std::cout << s1 << std::endl
-              << s2 << std::endl
-              << s3 << std::endl;
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-: wwwwwwwfffffff
-:
-: wwwwwwwfffffff
-:
-:
-
-* iterator
-标准库中不是每个容器都支持下标访问，但迭代器是一中更为通用的方式，类似于指针，迭代器也提供了对对象的间接访问
-迭代器有有效和无效之分，有效的迭代器指向某个元素，或指向容器中尾元素的下一个位置，其他所有都是无效
-
-我们通过 =begin= 获得指向第一个元素的迭代器，通过 =end= 获得尾元素的下一位置 (one past the end) 的迭代器，该迭代器没有实际含义，仅是个标记。 end 返回的迭代器常称为尾后迭代器（ off-the-end iterator) 或者简称尾迭代器
-
-*当容器为空，begin 和 end 返回同一个尾后迭代器*
-
-** 运算
-| *iter          | 返回 iter 所指的元素的引用                           |
-| iter->mem      | 解引用并获取名为 mem 的成员，等价于 (*iter).mem      |
-| ++iter         | 令 iter 指示下一元素                                 |
-| --iter         | 令 iter 指示上一元素                                 |
-| iter1 == iter2 | 两个迭代器是否相等                                   |
-| iter + n       | 结果向后移动 n 个                                    |
-| iter - n       |                                                      |
-| iter += n      | 自身向后移动 n 个                                    |
-| iter -= n      |                                                      |
-| iter1 - iter2  | 他们间的距离，即右迭代器向左移动多少次和左迭代器重复 |
-
-#+begin_src cpp :results output
-#include <iostream>
-#include <string>
-#include <cctype>
-using std::string;
-using std::cout;
-int main(int argc, char *argv[]) {
-    string str = "Amiya Donkey";
-    for(auto iter = str.begin(); iter != str.end() && !isspace(*iter); iter++){
-        ,*iter = toupper(*iter);
-    }
-    cout << str << std::endl;
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-: AMIYA Donkey
-
-** 迭代器的类型
-我们一般不知道也不需知道迭代器的精确类型，实际上，拥有迭代器的标准库使用 iterator 和 const_iterator 来表示迭代器的类型。
-#+begin_src cpp
-vector<int>::iterator it;
-vector<int>::const_iterator onlyReadIter;
-#+end_src
-
-begin 和 end 返回的具体类型由对象是否为常量决定
-#+begin_src cpp
-vector<int> v;
-vector<int> cv;
-auto it1 = v.begin(); // it1 is vector<int>::iterator
-auto it2 = cv.begin(); //it2 is vector<int>::const_iterator
-#+end_src
-
-** 失效！
-但凡使用了迭代器的循环体，都不要向所属的容器内添加元素
-
-** 迭代器的算数运算
-#+begin_src cpp :results output
-#include <iostream>
-#include <string>
-using namespace std;
-int main(int argc, char *argv[]) {
-    string s = "12345678987654321";
-    auto mid = s.begin() + s.size() / 2;
-    cout << *mid << endl;
-    for(auto iter = s.begin(); iter < mid; iter++)
-        cout << *iter;
-    return 0;
-}
-#+end_src
-
-#+RESULTS:
-: 9
-: 12345678
-
 * array
 ** 字符数组
 
@@ -742,6 +215,36 @@ int main(int argc, char *argv[]) {
 #+RESULTS:
 
 想要理解数组声明的含义，最好的办法是从数组的名字开始按照由内到外的顺序阅读
+
+* C Style String
+与 C 中的字符串有关的函数被定义在 cstring 头中
+
+| strlen(p)     | 返回 p 的长度，不记入 '\0'                                              |
+| strcmp(p1,p2) | 比较相等性，如果 p1==p2 返回0; 如果 p1>p2 返回正数; 如果 p1<p2 返回负数 |
+| strcat(p1,p2) | 将 p2 连接到 p1, 返回 p1                                                |
+| strcpy(p1,p2) | p2 拷贝给 p1                                                            |
+
+** 与 string 标准库之间的关系
+可以使用 C 风格字符串来初始化 string 对象
+#+begin_src cpp
+string s("wwwwwwwwwwww");
+#+end_src
+
+string 库也提供了 c_str() 函数来获取 C 风格字符串
+
+#+begin_src cpp
+string s("hello");
+const char *str = s.c_str();
+#+end_src
+
+*无法保证 c_str 返回的数组一直有效，如果后续操作改变了 s 的值就可能让之前返回的数组失去效用*
+*如果想让数组一直可用，最好的方法是将该数组重新拷贝*
+** 常用操作
+*** cstring
+ + sprintf(char *dst, const char * str, ...)
+ + strlen(const char * str)
+ + strcat(const char * str,const char * str2)
+ + strcpy(const char * str,const char * str2)
 
 * struct
 #+begin_src cpp :results output
@@ -912,6 +415,579 @@ vector<int> invc(begin(arr),end(arr));
 指针加减整数，结果仍是指针，代表指针移动后的位置
 指针相减，结果为 =ptrdiff_t=, 是定义在 cstddef 头的机器相关类型，带符号。
 
+* STL
+** iterator
+标准库中不是每个容器都支持下标访问，但迭代器是一中更为通用的方式，类似于指针，迭代器也提供了对对象的间接访问
+迭代器有有效和无效之分，有效的迭代器指向某个元素，或指向容器中尾元素的下一个位置，其他所有都是无效
+
+我们通过 =begin= 获得指向第一个元素的迭代器，通过 =end= 获得尾元素的下一位置 (one past the end) 的迭代器，该迭代器没有实际含义，仅是个标记。 end 返回的迭代器常称为尾后迭代器（ off-the-end iterator) 或者简称尾迭代器
+
+*当容器为空，begin 和 end 返回同一个尾后迭代器*
+
+*** 运算
+| *iter          | 返回 iter 所指的元素的引用                           |
+| iter->mem      | 解引用并获取名为 mem 的成员，等价于 (*iter).mem      |
+| ++iter         | 令 iter 指示下一元素                                 |
+| --iter         | 令 iter 指示上一元素                                 |
+| iter1 == iter2 | 两个迭代器是否相等                                   |
+| iter + n       | 结果向后移动 n 个                                    |
+| iter - n       |                                                      |
+| iter += n      | 自身向后移动 n 个                                    |
+| iter -= n      |                                                      |
+| iter1 - iter2  | 他们间的距离，即右迭代器向左移动多少次和左迭代器重复 |
+
+#+begin_src cpp :results output
+#include <iostream>
+#include <string>
+#include <cctype>
+using std::string;
+using std::cout;
+int main(int argc, char *argv[]) {
+    string str = "Amiya Donkey";
+    for(auto iter = str.begin(); iter != str.end() && !isspace(*iter); iter++){
+        ,*iter = toupper(*iter);
+    }
+    cout << str << std::endl;
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: AMIYA Donkey
+
+*** 迭代器的类型
+我们一般不知道也不需知道迭代器的精确类型，实际上，拥有迭代器的标准库使用 iterator 和 const_iterator 来表示迭代器的类型。
+#+begin_src cpp
+vector<int>::iterator it;
+vector<int>::const_iterator onlyReadIter;
+#+end_src
+
+begin 和 end 返回的具体类型由对象是否为常量决定
+#+begin_src cpp
+vector<int> v;
+vector<int> cv;
+auto it1 = v.begin(); // it1 is vector<int>::iterator
+auto it2 = cv.begin(); //it2 is vector<int>::const_iterator
+#+end_src
+
+*** 失效！
+但凡使用了迭代器的循环体，都不要向所属的容器内添加元素
+
+*** 迭代器的算数运算
+#+begin_src cpp :results output
+#include <iostream>
+#include <string>
+using namespace std;
+int main(int argc, char *argv[]) {
+    string s = "12345678987654321";
+    auto mid = s.begin() + s.size() / 2;
+    cout << *mid << endl;
+    for(auto iter = s.begin(); iter < mid; iter++)
+        cout << *iter;
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: 9
+: 12345678
+
+** string
+*** 拼接字符常量 (类似原始字符串)
+任何两个由空白分隔的字符串常量都会被自动拼接为一个
+#+begin_src cpp :results output
+#include <iostream>
+int main(){
+    char str[] = "wwwwwwwwwwwwwww"
+        "ffffffffffffffff\n" "pppppppp";
+    std::cout << str;
+}
+
+#+end_src
+
+#+RESULTS:
+: wwwwwwwwwwwwwwwffffffffffffffff
+: pppppppp
+*** 标准库的使用
+**** 不同的初使化方式
+标准库类型 =string= 表示可变长的字符序列
+#+begin_src cpp :results output
+#include <string>
+#include <iostream>
+using namespace std;
+int main(int argc, char *argv[]) {
+    string s1 = "amiya";
+    cout << "s1=" << s1 << endl;
+
+    string s2(5,'c');
+    cout << "s2=" << s2 << endl;
+
+    string s3;
+    cout << "s3=" << s3 << endl;
+
+    string s4("donkey"); // s4 是字面量 donkey 的副本
+    cout << "s4=" << s4 << endl;
+
+    string s5(s4); // s5 是 s4 的副本
+    cout << "s5=" << s5 << endl;
+
+    string s6 = s5; // s6 是 s5 的副本
+    cout << "s6=" << s6 << endl;
+
+
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: s1=amiya
+: s2=ccccc
+: s3=
+: s4=donkey
+: s5=donkey
+: s6=donkey
+***** 直接初使化和拷贝初使化
+使用等号是拷贝初使化，不使用等号是直接初使化
+
+当初始值只有一个时，使用任何一种方式初始化都相同。但像 s2 一样的只能用直接初始化的方式了。
+
+其实使用两个值也可以使用拷贝初始化，不过需要临时变量，如下：
+
+#+begin_src cpp :results output
+#include <iostream>
+#include <string>
+using namespace std;
+int main(int argc, char *argv[]) {
+    string s1 = string(5,'c');
+
+    // 等价于 :
+    string tmp(5,'c');
+    string s2 = tmp;
+
+    cout << "s1=" << s1 << endl
+         << "s2=" << s2 << endl;
+    return 0;
+}
+
+#+end_src
+
+#+RESULTS:
+: s1=ccccc
+: s2=ccccc
+**** 操作
+***** IO
+#+begin_src cpp :results output
+#include <iostream>
+#include <string>
+using namespace std;
+int main(int argc, char *argv[]) {
+    string s1;
+    cin >> s1;  // 简单的输入单词
+    cout << s1 << endl;
+
+    while(cin >> s1){ // 反复读取单词，直到 EOF
+        cout << s1 << endl;
+    }
+
+    string line;
+    while(getline(cin,line)){ // 读取一行，直到 EOF
+        cout << line << endl;
+    }
+
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+:
+
+***** empty
+为空返回 =true=, 否则返回 =false=
+#+begin_src cpp :results output
+#include <string>
+#include <iostream>
+using namespace std;
+int main(int argc, char *argv[]) {
+    string s = "this is a unempty string";
+    string e;
+    cout << "s: " << s.empty() << endl
+        << "e: " << e.empty();
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: s: 0
+: e: 1
+
+***** size
+返回 =string::size_type= 代表字符串的长度
+#+begin_src cpp :results output
+#include <iostream>
+#include <string>
+using namespace std;
+int main(int argc, char *argv[]) {
+    string s = "123456789";
+    cout << "size=" << s.size() << endl;
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: size=9
+
+****** string::size_type 类型
+string 与其他标准类库一样，定义了几个配套的类型，体现了标准库和机器无关的特性。
+尽管不知道细节，但可以肯定 =string::size_type= 是一个无符号整数
+所有储存 string 的 size 的地方都应使用 string::size_type 类型
+
+在 C++ 11 中，可使用 auto 避免类型名太长
+#+begin_src cpp :results output
+#include <iostream>
+#include <string>
+using namespace std;
+int main(int argc, char *argv[]) {
+    string s = "wwwwwwwwww";
+    auto size = s.size();
+    cout << size << endl;
+
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: 10
+
+***** 两个 string 相加
+需要注意，由引号括起的字符串是 =cstring= 并不能直接将两个字面字符串相加，但可以与 c++ 的风格字符串相加
+#+begin_src cpp :results output
+#include <iostream>
+#include <string>
+using namespace std;
+int main(int argc, char *argv[]) {
+    string www = "sss";
+    string ccc = "ccc";
+    cout << www + ccc << endl
+         << www + "any" << endl
+        << "wwww" << ccc;
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: sssccc
+: sssany
+: wwwwccc
+
+***** 基于范围的 for 循环
+对给定的序列的每个元素执行某操作，格式如下：
+#+begin_src
+for (declaration : expression)
+    statement
+#+end_src
+
+****** 遍历
+#+begin_src cpp :results output
+#include <iostream>
+#include <string>
+int main(int argc, char *argv[]) {
+    std::string ww = "qwerrtyuiop";
+    for(auto c : ww)
+        std::cout << c << '|';
+
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: q|w|e|r|r|t|y|u|i|o|p|
+
+****** 操作
+
+#+begin_src cpp :results output
+#include <iostream>
+#include <string>
+#include <cctype>
+int main(int argc, char *argv[]) {
+    std::string ww = "qwerrtyuiop";
+    for(auto &c : ww) // c 必须是引用
+        c = toupper(c);
+    std::cout << ww;
+
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: QWERRTYUIOP
+
+***** 基于下标访问
+下标运算符接受参数类型是 =string::size_type=
+#+begin_src cpp :results output
+#include <iostream>
+#include <string>
+int main(int argc, char *argv[]) {
+    std::string str ="qwert";
+    std::cout << str[0] << std::endl
+              << str[5];
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: q
+:  
+
+只要字符串不是字面值（即不是 c style string，就可以使用下标运算符
+
+** vector
+vector 是一个类模板，需要提供额外信息
+编译器根据额外信息生成代码的过程称为实例化
+
+*** 定义与初始化
+#+begin_src cpp :results output
+#include <vector>
+#include <iostream>
+using std::vector;
+int main(int argc, char *argv[]) {
+    vector<int> v1; // 空 vector
+    vector<int> v2; // v2 中包含 v1 的所有元素的副本
+    vector<int> v3 = v2; // 等价于 v2
+    vector<char> v4(5,'c'); // 有 5 个 c 的 vector
+    vector<int> v5(5); // 包含了 5 个重复地执行了初始化的值
+    vector<int> v6{1,2,3}; // v6 = {1,2,3}
+    vector<int> v7 = {1,2,3}; // 等价于 v6, 该方式称为列表初始化
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+
+*** 向 vector 中添加元素
+适用于直接初始化的方式有三种：
++ 初始值已知，数量少
++ 是另一 vector 已经存在
+
+可以使用 =push_back= 来将一个元素压入 vector 内
+#+begin_src cpp :results output
+#include <iostream>
+#include <vector>
+#include <string>
+int main(int argc, char *argv[]) {
+    std::vector<std::string> v;
+    v.push_back("关注");
+    v.push_back("嘉然");
+    v.push_back("今晚");
+    v.push_back("吃");
+    v.push_back("什么");
+    std::cout << v.size() << std::endl;
+    for(auto i : v){
+        std::cout << i;
+    }
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: 5
+: 关注嘉然今晚吃什么
+
+**** 假定
+
+如果循环内部有向 vector 中添加元素的语句，则不能使用范围 for 循环
+
+*** 其他操作
+
+#+begin_src cpp :results output
+#include <iostream>
+#include <vector>
+#include <string>
+using std::cout;
+using std::endl;
+int main(int argc, char *argv[]) {
+    std::vector<std::string> v;
+    v.push_back("关注");
+    cout << "为空：" << v.empty() << endl
+         << "大小（个数）：" << v.size() << endl
+         << "随机访问：" << v[0] << endl;
+
+    std::vector<std::string> vv;
+    vv = v; // 把 v 拷贝给 vv
+    cout << "元素数量相同且相同位置的元素相同：" << (v == vv) << endl
+         << "不相等：" << (v != vv) << endl << endl;
+
+
+    cout << vv[0] << endl;
+    for (auto &i : vv){
+        i = i + ".edited";
+    }
+    cout << vv[0] << endl;
+
+
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: 为空：0
+: 大小（个数）：1
+: 随机访问：关注
+: 元素数量相同且相同位置的元素相同：1
+: 不相等：0
+:
+: 关注
+: 关注.edited
+
+*** size_type
+若使用 =vector::size_type= 也需要提供额外参数
+#+begin_src cpp
+vector<int>::size_type; // Right
+vector::size_type; // Wrong
+#+end_src
+
+*** 不可预料！
+试图用下标访问一个不存在的元素将引发错误，但它不会被编译器发现，而是在运行中产生一个不可预知的值
+缓冲区溢出（ buffer overflow）指的就是这种错误，会导致设备上的应用安全问题
+*** 常用操作清单
++ size()
++ resize()
++ push_back()
++ pop_back()
+** set
+内元素必须实现 =<= 方法,集合内元素无序，不存在重复元素
+*** 常用操作：
++ insert
++ begin
++ end
+** sstream
+*** stringstream
+**** 类型转化
+#+begin_src cpp :results output
+#include <sstream>
+#include <string>
+#include <iostream>
+int main(int argc, char *argv[]) {
+    std::stringstream ss;
+    ss << 3.14;
+    std::string str;
+    ss >> str;
+    std::cout << str << std::endl;
+
+    ss.clear();
+    ss << 2.71;
+    ss >> str;
+    std::cout << str;
+    return 0;
+}
+
+#+end_src
+
+#+RESULTS:
+: 3.14
+: 2.71
+**** 拼接字符串
+#+begin_src cpp :results output
+#include <sstream>
+#include <string>
+#include <iostream>
+
+int main(int argc, char *argv[]) {
+    std::stringstream ss;
+    ss << "wwwwwww";
+    ss << "fffffff" << std::endl;
+    std::string s1 = ss.str();
+    std::string s2 = ss.str();
+    ss.str("");
+    std::string s3 = ss.str();
+    std::cout << s1 << std::endl
+              << s2 << std::endl
+              << s3 << std::endl;
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: wwwwwwwfffffff
+:
+: wwwwwwwfffffff
+:
+:
+
+** priority_queue
+该类位于 =queue= 头文件中, 是一种优先队列, 先出的元素是优先级最高的元素
+用 =push()= 和 =pop()= 进行元素操作， =top()= 取队首元素，但是不删除
+
+定义：
+#+begin_src cpp
+#include <queue>
+std::priority_queue<Type, Container, Functor>
+#+end_src
+在 STL 中， Container 默认是使用 vector
+#+begin_src cpp
+#include <vector>
+#include <queue>
+std::priority_queue<int, std::vector<int>, std::greater<int> > q;
+std::priority_queue<int, std::vector<int>, std::less<int> > q;
+#+end_src
+
+*** Functor
+对于 Functor， 实现方法如下
+#+begin_src cpp
+struct Functor{
+    bool operator() (int a, int b){
+        return a > b; // 小顶堆
+    }
+}
+
+#+end_src
+** queue
+是一种先进先出结构, 只能在在队尾入队，在头部出队
+
+*不支持 =begin()= 和 =end()= ，不能随机访问*
+#+begin_src cpp :results output
+#include <queue>
+#include <iostream>
+int main(int argc, char *argv[]) {
+    std::queue<int> queue;
+    queue.push(1);
+    queue.push(2);
+    std::cout << queue.front() << std::endl;
+    queue.pop();
+    std::cout << queue.front() << std::endl;
+
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: 1
+: 2
+*** 常用操作
++ front()：返回 queue 中第一个元素的引用。如果 queue 是常量，就返回一个常引用；如果 queue 为空，返回值是未定义的。
++ back()：返回 queue 中最后一个元素的引用。如果 queue 是常量，就返回一个常引用；如果 queue 为空，返回值是未定义的。
++ push(const T& obj)：在 queue 的尾部添加一个元素的副本。这是通过调用底层容器的成员函数 push_back() 来完成的。
++ push(T&& obj)：以移动的方式在 queue 的尾部添加元素。这是通过调用底层容器的具有右值引用参数的成员函数 push_back() 来完成的。
++ pop()：删除 queue 中的第一个元素。
++ size()：返回 queue 中元素的个数。
++ empty()：如果 queue 中没有元素的话，返回 true。
++ emplace()：用传给 emplace() 的参数调用 T 的构造函数，在 queue 的尾部生成对象。
++ swap(queue<T> &other_q)：将当前 queue 中的元素和参数 queue 中的元素交换。它们需要包含相同类型的元素。也可以调用全局函数模板 swap() 来完成同样的操作。
+** deque
+中文别名：双端队列
+支持双端插入，具有数个连续空间组成的顺序容器
+
+可以进行以下操作:
++ *operator[]()*
++ push_back()
++ pop_back()
++ push_front()
++ pop_front()
++ insert()
++ begin()
++ end()
+** map
+*在插入时使用 =operator<(const obj& rhs)= 来判断key是否存在，及他的位置*
+注意在重载运算符时，尽量使用 && 连接各项操作
 * gdb
 ** 编译
 编译时添加 =-g= 选项以添加调试信息

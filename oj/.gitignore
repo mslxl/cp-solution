@@ -1,5 +1,7 @@
 *.in
 *.out
+*.eg
+*.diff
 *.a
 *.obj
 *.exe

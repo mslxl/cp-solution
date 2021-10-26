@@ -1,7 +1,9 @@
 {
     "code-runner.executorMap": {
-        "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && zsh -c \"cat $fileNameWithoutExt.in | ./$fileNameWithoutExt > $fileNameWithoutExt.out\" ",
-        "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && zsh -c \"cat $fileNameWithoutExt.in | ./$fileNameWithoutExt > $fileNameWithoutExt.test.out ; set stats=\"$?\"; rm $fileNameWithoutExt ; cat $fileNameWithoutExt.test.out\"; return $stats",
+        // "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && zsh -c \"cat $fileNameWithoutExt.in | ./$fileNameWithoutExt > $fileNameWithoutExt.out\" ",
+        // "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && zsh -c \"cat $fileNameWithoutExt.in | ./$fileNameWithoutExt > $fileNameWithoutExt.test.out ; set stats=\"$?\"; rm $fileNameWithoutExt ; cat $fileNameWithoutExt.test.out\"; return $stats",
+        "cpp": "$workspaceRoot/.vscode/test_data.sh \"$fileName\" \"$fileNameWithoutExt\" \"$dir\"",
+        "cp": "$workspaceRoot/.vscode/test_data.sh \"$fileName\" \"$fileNameWithoutExt\" \"$dir\"",
     },
     "files.associations": {
         "iostream": "cpp",
