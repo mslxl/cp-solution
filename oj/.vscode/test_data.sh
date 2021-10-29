@@ -34,7 +34,7 @@ else
     $EXEC | tee "$STDOUT"
 fi
 echo "Finish!"
-echo "***"
+echo
 
 OUTPUT_LEN=${#$(cat "$STDOUT" )}
 if [[ "$OUTPUT_LEN" -ne "0" ]]; then
@@ -52,10 +52,11 @@ if [[ -f "$FILE_DIR/$FILE_NAME_WITHOUT_EXT.out" ]]; then
         rm "$FILE_DIR/$FILE_NAME_WITHOUT_EXT.out.diff"
     else 
         echo "Diff: "
-        # cat "$FILE_DIR/$FILE_NAME_WITHOUT_EXT.out.diff" |highlight --syntax diff -O xterm256
-        cat "$FILE_DIR/$FILE_NAME_WITHOUT_EXT.out.diff" 
-        echo "***"
-        echo "diff file save to $FILE_NAME_WITHOUT_EXT.out.diff"
+        echo
+        cat "$FILE_DIR/$FILE_NAME_WITHOUT_EXT.out.diff" | highlight --syntax diff -O xterm256
+        # cat "$FILE_DIR/$FILE_NAME_WITHOUT_EXT.out.diff" 
+        echo
+        echo "Differ file save to $FILE_DIR/$FILE_NAME_WITHOUT_EXT.out.diff"
     fi
 else
     echo "OUTPUT: "
