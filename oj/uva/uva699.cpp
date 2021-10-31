@@ -78,9 +78,7 @@ int main(int argc, char const* argv[]) {
             }
         }
         root = read_tree();
-        if (root != nullptr) {
-            std::cout << std::endl << std::endl;
-        }
+        std::cout << std::endl << std::endl;
     }
 
     return 0;

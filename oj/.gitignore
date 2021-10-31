@@ -9,3 +9,4 @@
 /.vs/
 /out/
 build/
+!/.vscode/test_data.sh
