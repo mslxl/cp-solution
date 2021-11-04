@@ -1,0 +1,112 @@
+#+TITLE: Regex in Python
+
+* re.match(pattern, string, [[flags]]=0)
+从字符串的起始位置开始匹配，成功返回 [[re.MatchObject]] ，失败放回 =None=
+#+begin_src python :results output
+import re
+print(re.match("www", "www.baidu.com"))
+#+end_src
+
+#+RESULTS:
+: <re.Match object; span=(0, 3), match='www'>
+
+* re.search(pattern, string, [[flags]]=0)
+扫描整个字符串，返回第一个成功匹配的结果 [[re.MatchObject]]
+#+begin_src python :results output
+import re
+string="I use www.google.com instead of www.baidu.com"
+print(re.search(r"(www\..+?\.com)", string))
+#+end_src
+
+#+RESULTS:
+: <re.Match object; span=(6, 20), match='www.google.com'>
+
+* re.sub(pattern, repl, string, count = 0, [[flags]] = 0)
+替换字符串中的匹配项
+** repl 可为普通字符串
+#+begin_src python :results output
+import re
+print(re.sub(r".+i", "ni", "mi estas bela"))
+
+#+end_src
+
+#+RESULTS:
+: ni estas bela
+** repl 可为带编号的字符串
+#+begin_src python :results output
+import re
+
+print(re.sub(r"(.+?)\..*$", r"\1.txt", "main.java"))
+#+end_src
+
+#+RESULTS:
+: main.txt
+** repl 可为函数 ([[re.MatchObject]]) -> str
+#+begin_src python :results output
+import re
+def time2(matched):
+    return str(int(matched.group(1)) * 2)
+
+print(re.sub(r"(\d+)", time2, "114514 != 57257"))
+#+end_src
+
+#+RESULTS:
+: 229028 != 114514
+
+* re.compile(pattern[, [[flags]] ]) -> [[re.RegexObject]]
+* re.finditer(pattern, string, [[flags]]=0)
+匹配所有字串，并作为迭代器返回
+#+begin_src python :results output
+import re
+print(re.finditer(r"www\..+?\.com","I use www.google.com instead of www.baidu.com"))
+print(list(re.finditer(r"www\..+?\.com","I use www.google.com instead of www.baidu.com")))
+
+#+end_src
+
+#+RESULTS:
+: <callable_iterator object at 0x7fc117b84400>
+: [<re.Match object; span=(6, 20), match='www.google.com'>, <re.Match object; span=(32, 45), match='www.baidu.com'>]
+
+* re.split(pattern, string[, maxsplit=0,[[flag]]=0])
+按照能够匹配的子串分割字符串，返回列表
+#+begin_src python :results output
+import re
+print(re.split(r"\D", "11-22-33-44ww55pp66--77"))
+#+end_src
+
+#+RESULTS:
+: ['11', '22', '33', '44', '', '55', '', '66', '', '77']
+
+* re.MatchObject
+** start()
+返回匹配开始的位置
+** end()
+返回匹配结束的位置
+** span()
+返回包含开始结束位置的元组
+** groups()
+返回包含所有字符的元组
+** group(num=0)
+返回对应编号的字符串，0 为匹配结果，1 为第一个组
+* re.RegexObject
+** findall(string[, pos[, endpos ]])
+匹配所有字串，并返回一个列表
+如果匹配失败，则返回空列表
+#+begin_src python :results output
+import re
+regex = re.compile(r"www\..+?\.com")
+print(regex.findall("I use www.google.com instead of www.baidu.com"))
+
+#+end_src
+
+#+RESULTS:
+: ['www.google.com', 'www.baidu.com']
+
+* flags
+多个标志可以使用按位或来链接
+| re.I | 大小写不敏感                                               |
+| re.L | 启用本地化识别(locale-aware)匹配                           |
+| re.M | 多行匹配，将影响 =^= 和 =$=                                |
+| re.S | 使 =.=  能匹配所有字符（*包括换行*）                       |
+| re.U | 使用 Unicode 字符集解析，将影响 =\w= 、 =\W= 、 =b= 和 =B= |
+| re.X | 灵活格式                                                   |
