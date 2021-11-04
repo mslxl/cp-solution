@@ -1,0 +1,173 @@
+#+TITLE: REGEX in Python
+在 Python 中的 =re= 模块中，提供类似 Perl 风格的正则模块
+
+* re.Match
+匹配返回结果
+** span() 获取匹配到的位置
+#+begin_src python :results output
+import re
+string="114514义务巫医"
+span = re.match("\d+",string).span()
+print(span)
+print(string[span[0]:span[1]])
+#+end_src
+
+#+RESULTS:
+: (0, 6)
+: 114514
+
+** start() 获取匹配开始的位置
+相似的，这种类型的有
++ end()
++ start()
+
+
+#+begin_src python :results output
+import re
+print(re.match("www","www.baidu.com").start())
+print(re.match("www","www.baidu.com").end())
+#+end_src
+
+#+RESULTS:
+: 0
+: 3
+
+** group(idx=0) 获取匹配到的字符串
+#+begin_src python :results output
+import re
+print(re.match(r"blog\.(.+)\.com","blog.mslxl.com").group())
+print(re.match(r"blog\.(.+)\.com","blog.mslxl.com").group(1))
+#+end_src
+
+#+RESULTS:
+: blog.mslxl.com
+: mslxl
+
+** groups()
+
+#+begin_src python :results output
+import re
+print(re.match(r"blog\.(.+)\.com","blog.mslxl.com").groups())
+#+end_src
+
+#+RESULTS:
+: ('mslxl',)
+
+* re.match(pattern, string, flag=0) 从起始位置匹配
+尝试从起始位置匹配, 成功返回 =re.Match= ，失败返回 =None=
+
+#+begin_src python :results output
+import re
+print(re.match(r"www", "www.mslxl.com"))
+print(re.match(r"com", "www.mslxl.com"))
+print(re.match(r"www\.(.*)\.com", "www.mslxl.com"))
+#+end_src
+
+#+RESULTS:
+: <re.Match object; span=(0, 3), match='www'>
+: None
+: <re.Match object; span=(0, 13), match='www.mslxl.com'>
+
+** flag 参数
+flag 有一下几种
+| re.I | 大小写不敏感                       |
+| re.L | 本地化（locale-aware）匹配         |
+| re.M | 多行匹配，将改变 =^= 和 =$= 的行为 |
+| re.S | 使 =.= 能匹配所有字符，包括 =\n=   |
+| re.U | 使用 Unicode                       |
+| re.X | 灵活的表达式                       |
+*** 多个 flag
+不同的 flag 之间采用按位或连接
+#+begin_src python :results output
+import re
+print(re.match("WWW", "www", re.I | re.U ))
+
+#+end_src
+
+#+RESULTS:
+: <re.Match object; span=(0, 3), match='www'>
+
+** 原始字符串 r""
+原始字符串中，转义符将不再生效，适合书写正则表达式
+#+begin_src python :results output
+print(r"What string with \n and so on will display as its appearance.")
+#+end_src
+
+#+RESULTS:
+: What string with \n and so on will display as its appearance.
+
+* re.search(pattern,string,flag=0) 扫描整个字符串，返回第一个结果
+#+begin_src python :results output
+import re
+string="I use www.google.com instead of www.baidu.com"
+print(re.search(r"www\.(.+?)\.com", string).groups())
+#+end_src
+
+#+RESULTS:
+: ('google',)
+
+* re.sub(pattern, repl, string, count=0, flag=0) 字符串替换
+repl 可以是普通的文本，带分组的文本，甚至是一个接受 =re.Match= 返回 =str= 的函数
+#+begin_src python :results output
+import re
+wds="My name is SORA"
+print("Normal: " + re.sub(r"^.*?\s", "", wds))
+print("With group number: " + re.sub(r"name is (.+)$", r"words mean that \1 is my name.", wds))
+
+
+def rep(match):
+    value = int(match.group(1))
+    return str(value * 2)
+
+print("With function: " + re.sub(r"(\d+)", rep, "57257 * 2 = 114514"))
+
+
+#+end_src
+
+#+RESULTS:
+: Normal: name is SORA
+: With group number: My words mean that SORA is my name.
+: With function: 114514 * 4 = 229028
+
+* re.finditer(pattern, string, flags=0) 搜索所有文本，以迭代器形式返回
+#+begin_src python :results output
+import re
+string="I use www.google.com instead of www.baidu.com"
+iter = re.finditer("www\.(.+?)\.com",string)
+print(list(iter))
+#+end_src
+
+#+RESULTS:
+: [<re.Match object; span=(6, 20), match='www.google.com'>, <re.Match object; span=(32, 45), match='www.baidu.com'>]
+
+* re.compile(pattern, flags)-> re.RegexOjbect
+* re.RegexObject.findall(pattern[, pos[, endpos]]) 搜索所有文本
+#+begin_src python :results output
+import re
+string="I use www.google.com instead of www.baidu.com"
+regex = re.compile("www\.(.+?)\.com")
+print(regex.findall(string))
+print(regex.findall(string, 20))
+print(regex.findall(string, 0, 20))
+#+end_src
+
+#+RESULTS:
+: ['google', 'baidu']
+: ['baidu']
+: ['google']
+
+
+
+* 贪婪模式与非贪婪模式
+正则 =*= 或 =+= 会尽可能多的匹配字符，而 =?= 和加了 =?= 的表达式则会尽可能少的匹配
+
+#+begin_src python :results output
+import re
+string="I use www.google.com instead of www.baidu.com"
+print(re.search(r"www\.(.+)\.com", string).groups())
+print(re.search(r"www\.(.+?)\.com", string).groups())
+#+end_src
+
+#+RESULTS:
+: ('google.com instead of www.baidu',)
+: ('google',)

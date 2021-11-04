@@ -1,0 +1,77 @@
+* Venv
+venv 全称 virtualenv ，可以创建“隔离的” python 环境
+
+venv需要单独安装
+#+begin_src shell
+pip install virtualenv
+#+end_src
+
+** 创建环境
+
+#+BEGIN_SRC bash
+mkdir project
+cd project
+virtualenv venv
+#+END_SRC
+这样就创建了一套独立的 python 运行环境，命名为 =venv=
++ 旧版本需要 =--no-site-packages= , 意味不复制系统python环境的第三方包，也就是说新创建的环境中不包含任何第三方库
++ 新版本如果需要复制系统 python 的第三方库，需要添加参数 =--system-site-packages=
+
+虚拟环境文件目录：
+#+BEGIN_SRC raw
+  venv
+    │  .gitignore
+    │  pyvenv.cfg
+    │
+    ├─Lib
+    │  └─site-packages
+    │      └─...
+    └─Scripts
+            activate
+            activate.bat
+            activate.fish
+            activate.nu
+            activate.ps1
+            activate_this.py
+            deactivate.bat
+            deactivate.nu
+            pip-3.10.exe
+            pip.exe
+            pip3.10.exe
+            pip3.exe
+            pydoc.bat
+            python.exe
+            pythonw.exe
+            wheel-3.10.exe
+            wheel.exe
+            wheel3.10.exe
+            wheel3.exe
+#+END_SRC
+
+** 激活环境
+运行 =/venv/Script/actiate= 即可激活环境
+
+Powershell 默认情况下需要修改 Policy 才能执行外部脚本
+
+#+BEGIN_SRC powershell
+set-ExecutionPolicy RemoteSigned
+#+END_SRC
+
+** 取消激活
+运行 =/venv/Script/deactiate= 即可激活环境
+
+** 保存第三方包
+须注意，venv 并没有保存第三方包的能力，也*不推荐*将 venv 加入到版本管理中
+
+保存第三方包的有关信息仍需要依赖 requirement.txt
+
+*** 生成 requirement.txt
+#+BEGIN_SRC bash
+pip freeze > requirements.txt
+#+END_SRC
+
+*** 安装
+安装前记得激活 venv 环境
+#+BEGIN_SRC bash
+pip install -r requirements.txt
+#+END_SRC
