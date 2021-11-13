@@ -16,10 +16,10 @@
     "code-runner.saveFileBeforeRun": true,
     "code-runner.saveAllFilesBeforeRun": true,
     "code-runner.executorMap": {
-        // "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && zsh -c \"cat $fileNameWithoutExt.in | ./$fileNameWithoutExt > $fileNameWithoutExt.out\" ",
-        // "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && zsh -c \"cat $fileNameWithoutExt.in | ./$fileNameWithoutExt > $fileNameWithoutExt.test.out ; set stats=\"$?\"; rm $fileNameWithoutExt ; cat $fileNameWithoutExt.test.out\"; return $stats",
-        "cpp": "$workspaceRoot/.vscode/test_data.sh \"$fileName\" \"$fileNameWithoutExt\" \"$dir\"",
-        "cp": "$workspaceRoot/.vscode/test_data.sh \"$fileName\" \"$fileNameWithoutExt\" \"$dir\"",
+        "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt.exe && ./$fileNameWithoutExt.exe",
+        "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt.exe && ./$fileNameWithoutExt.exe",
+        // "cpp": "$workspaceRoot/.vscode/test_data.sh \"$fileName\" \"$fileNameWithoutExt\" \"$dir\" gcc",
+        // "c": "$workspaceRoot/.vscode/test_data.sh \"$fileName\" \"$fileNameWithoutExt\" \"$dir\" gcc",
     },
     "files.associations": {
         "iostream": "cpp",

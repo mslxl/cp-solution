@@ -21,7 +21,8 @@ fi
 
 
 echo "Compling to $EXEC"
-g++ "$FILE_DIR/$FILE_NAME" -o "$EXEC"
+# g++ "$FILE_DIR/$FILE_NAME" -o "$EXEC"
+g++  -D_GLIBCXX_DEBUG "$FILE_DIR/$FILE_NAME" -o "$EXEC"
 if [[ "$?" -ne "0" ]]; then
     exit $?
 fi
