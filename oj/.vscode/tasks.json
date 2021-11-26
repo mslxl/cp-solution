@@ -5,6 +5,7 @@
             "label": "C/C++: g++ build",
             "command": "/usr/bin/g++",
             "args": [
+                "-std=c++11",
                 "-g",
                 "${file}",
                 "-o",
