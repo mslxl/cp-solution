@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "CPP Launch",
             "type": "cppdbg",
@@ -22,7 +23,7 @@
             ]
         },
         {
-            "name": "CPP Attach",
+            "name": "Rust Launch",
             "type": "cppdbg",
             "request": "launch",
             // "program": "${fileDirname}/${fileBasenameNoExtension}",
@@ -40,7 +41,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "C/C++: g++ build",
+            "preLaunchTask": "Rust: build",
             "miDebuggerPath": "/usr/bin/gdb"
         }
     ]

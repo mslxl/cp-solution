@@ -7,6 +7,33 @@
             "args": [
                 "-std=c++11",
                 "-g",
+                "-Wall",
+                "-Werror",
+                "-fsanitize=address,undefined",
+                "-DDEBUG",
+                "${file}",
+                "-o",
+                // "${fileDirname}/${fileBasenameNoExtension}"
+                "/tmp/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Start debugger"
+        },
+
+        {
+            "type": "process",
+            "label": "Rust: build",
+            "command": "/usr/sbin/rustc",
+            "args": [
                 "${file}",
                 "-o",
                 // "${fileDirname}/${fileBasenameNoExtension}"

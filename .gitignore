@@ -12,6 +12,7 @@ cmake-build-debug/
 *.o
 *.hi
 *.map
+*.html
 
 a.out
 CMakeSettings.json
