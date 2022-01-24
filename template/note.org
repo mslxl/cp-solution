@@ -1,0 +1,264 @@
+#+TITLE: Note
+* STL
+** stack 栈
+*** =template <class T, class Container = deque<T> >=
++ T :: 元素类型
++ Container :: 使用的容器，必须支持 =empty=, =size=, =back=, =push\under{}back=, =pop\under{}back=, =back= 。 =vector=, =deque= 和 =list= 都满足要求
+*** 操作
++ push() ::
++ pop() ::
++ top() -> T ::
++ empty() -> bool ::
++ size() -> size\under{}t ::
+
+注意：当 empty()->true 时， pop() 和 top() 会 RE
+
+没有 clear() 操作，需要清空时可以循环出栈，也可以重新创建一个栈
+不支持迭代器！
+** vector 动态数组
+*** 构造器
++ ()  ::
++ (size\under{}t) :: 指定初始 vector 容量
++ (size\under{}t, T) :: 初始值为 size_t 个 T
++ (vector&) :: 浅拷贝
++ (iter\under{}begin, iter\under{}end) :: 浅拷贝
++ (init\under{}list) :: 初始化列表
+*** 操作
++ begin() -> riter ::
++ end() -> riter ::
++ back() -> T ::
++ front() -> T ::
++ operator [](size\under{}t) -> T ::
++ push\under{}back(T) ::
++ pop\under{}back() -> T ::
++ empty() -> bool ::
++ size() -> size\under{}t ::
+*** 经典应用
+**** 邻接表
+#+begin_src cpp :results none
+struct edge{
+    int from,to;
+    int value;
+};
+const int maxn = 1e5 + 5;
+vector<edge> map[maxn];
+#+end_src
+
+** set 集合
+*** template <class T, class Compare = less<T>, class Alloc = allocator<T>>
++ T :: 元素类型
++ Compare :: 比较器，除了从小到大 =less<T>= 之外还可以用 =greater<T>=
++ Allow :: 内存分配器
+  用堆实现，能在 log^n 的时间复杂度内实现更新查询
+*** 操作
++ clear() ::
++ insert(T) ::
++ count(T) -> size\under{}t :: 由于集合的性质， =count= 只会返回 0 或 1, 可以用他判断元素是否存在
++ find(T) -> iter :: 查找元素，找不到 =iter= 就与 =end()= 相同
++ size() -> size\under{}t ::
++ earse(T) :: 删除元素 T
++ begin() -> biter :: 返回的是双向迭代器，不支持随机访问
++ end() -> biter :: 返回的是双向迭代器，不支持随机访问
+*** 主要应用
+去重，排序
+
+** string 字符串
+不能说很难用，只能说十分难用 +那也比没有好+
+
+*** 操作
++ length() -> size\under{}t ::
++ size() -> size\under{}t ::
++ operator string +, += ::
++ operator string <, <\eq, ==, !\eq, >\eq, > ::
++ substr(size\under{}t begin) -> str ::
++ substr(size\under{}t begin, size\under{}t len) -> str ::
++ insert(size\under{}t pos, char[]) -> str& :: 在 =pos= 位置插入 =char[]= , 原位置的字符顺势后延
++ insert(size\under{}t pos, size\under{}t len, char[]) -> str& :: 在 =pos= 位置插入 =len= 个 =char=, 原位置的字符顺势后延
++ easer(size\under{}t begin) -> str& ::
++ easer(size\under{}t begin, size\under{}t end) -> str& ::
++ c\under{}str() -> char* ::
++ swap(str&) ::
++ find(str, pos) ::
++ find(str) ::
+
+** map 键值对
+
+*** template < class Key, class T, class Compare = less<Key>, class Alloc = allocator<pair<const Key, T> >
++ Key :: 建类型
++ T :: 值类型
++ Compare :: 比较器，需要 Key 实现对应的方法（默认 =less<Key= 需要实现 =operator bool<= ）
+
+*** 操作
++ count(Key) -> size\under{}t ::
++ find(Key) -> iter ::
++ earse(Key) -> size\under{}t :: 返回删除元素的个数
++ earse(iter) ::
++ insert(pair<Key,T>) :: 由于 =map= 内部的 =key= 结构是 =insert=, 古行为与 =set= 一致，即当 =key= 已存在时，不进行任何操作
++ operator T& [Key] ::
+
+** algorithm 算法头
+*** sort(begin\under{}iter, end\under{}iter)
+*** reverse(begin\under{}iter, end\under{}iter)
+*** next\under{}permutation(begin\under{}iter, end\under{}iter) -> bool
+进行下一次全排列，当已经没有下一个排列后返回 =false= （即达到最大字典序） 。
+*注意：在使用该函数前请先对数据进行 =sort= 操作*
+**** 算法
+从最右边开始，两两比较相邻的元素，直到找到右边比左边大的一对，左边那个就是将要被替换的。再从最右边开始找比这个元素大的第一个，交换这两个。
+交换之后，翻转交换元素后面的所有元素
+
+例如：
+#+begin_src dot :file ./figure/dot/next_permutation.png
+digraph G {
+  rankdir = "LR";
+  st[label = "1 3 [4 6] 5 2" ];
+  nd[label = "1 3 [5] 6 [4] 2"];
+  rd[label = "1 3 5 [2 4 6]"]
+  st -> nd [label = "从右侧找到比 4 打的数 5, 交换"];
+  nd -> rd [label = "翻转左边交换后面的所有元素(reverse)"];
+}
+#+end_src
+
+#+RESULTS:
+[[file:./figure/dot/next_permutation.png]]
+*** prev\under{}permutation(begin\under{}iter, end\under{}iter) -> bool
+*** 不能用的函数
++ unique :: c++17 引入第一版，11 上没有
+
+
+* 结构与算法
+** 数据预处理
+*** 离散化
+保留原有数据的相对关系，缩小数据范围
+
+可以采用排序来解决
+#+begin_src cpp :exports both :results output
+#include <algorithm>
+#include <cstdio>
+#include <vector>
+struct Element {
+  int v;
+  int in_order;
+  bool operator<(const Element &rhs) const { return this->v < rhs.v; }
+};
+void print_arr(int *arr, int len) {
+  for (int i = 0; i < len; i++) {
+    printf("%d ", arr[i]);
+  }
+  printf("\n");
+}
+int main() {
+  int data[] = {54432, 11, 3434, 233, 11};
+  printf("Before: ");
+  print_arr(data, 5);
+
+  std::vector<Element> list;
+  for (int i = 0; i < 5; i++) {
+    // 实际操作可读入时便构造结构体
+    list.push_back(Element{data[i], i});
+  }
+  // 排序是重中之重
+  std::sort(list.begin(), list.end());
+  for (int i = 0, count = 1; i < list.size(); i++) {
+    if (i > 0 && list[i].v != list[i - 1].v) {
+      count++;
+    }
+    data[list[i].in_order] = count;
+  }
+
+  printf("After: ");
+  print_arr(data, 5);
+  return 0;
+}
+#+end_src
+
+#+RESULTS:
+: Before: 54432 11 3434 233 11
+: After: 4 1 3 2 1
+
+** 图
+#+begin_src dot :file ./figure/dot/simple_g.png
+digraph{
+  rankdir = "LR";
+  2 -> 1;
+  3 -> 1;
+  3 -> 4 -> 2;
+}
+#+end_src
+
+#+RESULTS:
+[[file:./figure/dot/simple_g.png]]
+
++ 前驱 :: 有向图中指向某个节点的上一个节点，例如上图中 =1= 的前驱有 =2= 和 =3=
++ 度 :: 某个节点所临近的边，例如 =3= 的度为 2，分别是 =3->1= 和 =3->4=
++ 入度 :: 指向该节点的边的数量，例如 =1= 的入度为 2, =2= 的入度为 1
+*** 拓扑排序
+拓扑排序是指将一个 *有向无环* 图 G 的所有项排成一个线性结构，使得有向无环图 G 的边集中的任意一条边 <u, v> 始终满足 u 出现在 v 前面
+
+通常这样的序列成为拓扑序列，拓扑序列经常不唯一
+
+基本思想：
+
+#+begin_src dot :file ./figure/dot/mind_topo.png
+digraph{
+  rankdir = "LR";
+  st[label="在 DAG 中找到一个没有前驱的节点（即入度为0的节点），输出"];
+  nd[label="在图中删除该节点，并删除以该节点为尾的弧"];
+  Start -> st;
+  st -> nd;
+  nd -> st[label="存在未被删除的节点"];
+  nd -> End[label="所有节点都被删除"]
+}
+
+#+end_src
+
+#+RESULTS:
+[[file:./figure/dot/mind_topo.png]]
+**** 暴力
+(图片仅为示例)
+
+#+begin_src txt
+<5,3> <5,6> <5,8> <1,3> <6,3> <8,3> <3,4> <3,2> <7,2>
+#+end_src
+#+begin_src dot :file ./figure/dot/sample_topo_quest.png
+digraph{
+  lang[label="高级语言程序设计（ID:1）"];
+  sys[label="操作系统（ID:2)"];
+  ds[label="数据结构与算法 (ID:3)"];
+  net[label="计算机网络 (ID:4)"];
+  hm[label="高等数学 (ID:5)"];
+  la[label="线性代数 (ID:6)"];
+  en[label="大学英语 (ID:7)"];
+  mm[label="离散数学 (ID:8)"];
+
+  hm->ds;
+  hm->la;
+  hm->mm;
+  ds->sys;
+  lang->ds;
+  en->sys;
+  ds->net;
+  mm->ds;
+  la->ds;
+}
+#+end_src
+
+#+RESULTS:
+[[file:./figure/dot/sample_topo_quest.png]]
+
+
+
+#+INCLUDE: ./03_topological_sort_violence.cpp src cpp
+
+#+begin_src txt
+1 5 6 7 8 3 2 4
+#+end_src
+** 维护区间
+*** 树状数组
+如果在统计过程中存在中间操作，则树状数组不可用，请使用线段树
+#+INCLUDE: ./01_binary_indexed_tree.cpp src cpp
+*** 线段树
+**** 线段树模板
+#+INCLUDE: ./02_simple_segment_tree.cpp src cpp
+**** 加乘线段树模板
+#+INCLUDE: ./02_segment_tree.cpp src cpp
+**** TODO zwk 线段树
