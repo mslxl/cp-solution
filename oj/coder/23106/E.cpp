@@ -6,7 +6,11 @@ int main() {
   while (T--) {
     scanf("%lld%lld", &n, &m);
     if (m == 1) {
-      printf("-1\n");
+      if (n == 1) {
+        printf("1\n");
+      } else {
+        printf("-1\n");
+      }
       continue;
     } else {
       ll ppl = n - 1;

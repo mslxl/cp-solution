@@ -1,14 +1,14 @@
+#include <cassert>
 #include <cstdio>
 typedef long long ll;
-#define ValueType ll
-#define RangeType ll
 long long modd;
 struct SegTreeNode {
   SegTreeNode *ptr_left_node = nullptr, *ptr_right_node = nullptr;
-  RangeType left, right;
-  ValueType value;
-  constexpr RangeType mid() { return left + (right - left) / 2; }
-  constexpr RangeType interval_size() { return this->right - this->left + 1; }
+  ll left, right;
+  ll value;
+  SegTreeNode(ll l, ll r) : left(l), right(r), value(1) {}
+  constexpr ll mid() { return left + (right - left) / 2; }
+
   SegTreeNode &left_node() {
     if (ptr_left_node == nullptr) {
       ptr_left_node = new SegTreeNode(left, mid());
@@ -21,17 +21,16 @@ struct SegTreeNode {
     }
     return *ptr_right_node;
   }
-  SegTreeNode(RangeType l, RangeType r) : left(l), right(r), value(1) {}
 
   void pull_up() {
     this->value = (left_node().value * right_node().value) % modd;
   }
 
-  void set(RangeType start, RangeType end, ValueType k) {
+  void set(ll start, ll end, ll k) {
     if (right < start || end < left) {
       return;
     }
-    if (start <= left && right <= end) {
+    if (left >= right) {
       this->value = k;
     } else {
       left_node().set(start, end, k);
@@ -39,7 +38,7 @@ struct SegTreeNode {
       this->pull_up();
     }
   }
-  ValueType ask(RangeType start, RangeType end) {
+  ll ask(ll start, ll end) {
     if (right < start || end < left)
       return 1;
     if (start <= left && right <= end) {
@@ -69,8 +68,8 @@ int main() {
   while (t--) {
     ll Q;
     ll op, x;
-    SegTreeNode st(1, Q + 1);
     scanf("%lld%lld", &Q, &modd);
+    SegTreeNode st(1, Q);
     for (int i = 1; i <= Q; i++) {
       scanf("%lld%lld", &op, &x);
       if (op == 1) {
