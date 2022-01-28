@@ -174,6 +174,11 @@ int main() {
 #+RESULTS:
 : Before: 54432 11 3434 233 11
 : After: 4 1 3 2 1
+** 贪心
+*** 选择不相交区间问题
+经典例题：[[https://www.luogu.com.cn/problem/P1803][P1803]]
+放置右端点靠左的线段，从左往右放，右端点越靠左妨碍越少
+#+INCLUDE: ../oj/luogu/P1803.cpp src cpp
 
 ** 图
 #+begin_src dot :file ./figure/dot/simple_g.png
@@ -257,8 +262,43 @@ digraph{
 如果在统计过程中存在中间操作，则树状数组不可用，请使用线段树
 #+INCLUDE: ./01_binary_indexed_tree.cpp src cpp
 *** 线段树
+
+利用线段树计算的公式必须满足结合律！e.g. $a + b + c + d = a + (b+c)+d$
+
+用数组实现时一般开 4 倍节点空间（也有不够的时候）
+
+*注意！当线段树无 lazy 标签时，下传一定要传到最后一个子节点，否则在区间操作时会 WA 掉*
+lazy 标签的存在正是为了减少下传次数。
+即
+#+NAME: 无 lazy 的线段树 update
+#+begin_src cpp :exports code
+void update(int start, int end){
+    if(end < left || right < start){
+        // 出界，无更新直接返回
+        return;
+    }
+    if (left == right){
+        // 一定要更新到最后一个节点
+        tree[node] = val
+    }else{
+        int mid = left + (right - left) / 2;
+        if(start <= mid){
+            left_node.update(start, end);
+        }
+        // 不是 else if 逻辑，因为更新区间可能跨 mid
+        if(end >= mid){
+            right_node.update(start, end);
+        }
+    }
+}
+
+#+end_src
 **** 线段树模板
 #+INCLUDE: ./02_simple_segment_tree.cpp src cpp
 **** 加乘线段树模板
 #+INCLUDE: ./02_segment_tree.cpp src cpp
-**** TODO zwk 线段树
+**** zwk 线段树
+ [[https://zhuanlan.zhihu.com/p/29876526][Mike He 的讲解]] ，[[https://www.luogu.com.cn/blog/pks-LOVING/senior-data-structure-qian-tan-xian-duan-shu-segment-tree][洛谷日报]],[[http://codeforces.com/blog/entry/18051][ Efficient and easy segment trees]]
+
+ [[./figure/zkw.png]]
+ #+INCLUDE: ./04_zkw_segment_tree.cpp src cpp
