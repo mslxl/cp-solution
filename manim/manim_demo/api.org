@@ -1,0 +1,104 @@
+#+TITLE: Manim API
+#+OPTIONS: ^:nil
+#+OPTIONS: _:nil
+
+* 动画
+
+** 位移变换动画
+单纯操作 Mobject 不会有动画，播放动画必须调用 =play= ：
+
+#+begin_src python :exports code
+scene.play(mob.shift, LEFT, {
+    # kwargs of shift
+})
+#+end_src
+
+新版可以使用 =animation=
+
+#+begin_src python :exports code
+scene.play(mob.animation.shift(LEFT, kwargs))
+#+end_src
+
+
+* 位移变换
+所有对 mob 的移动操作都需要 =scene.add= 操作后才可以显示
+[[https://www.bilibili.com/video/BV1p54y197cC/][B站：物体的位移与座标变换]]
+** shift
++ =*vector= :: 移动方向
+
+** move_to
++ =point_or_mobject= :: 移动到的位置
++ kwargs ::
+  + aligned_edge =ndarray= :: 与最终位置对齐的边
+  + coor_mask =ndarray= :: 类似 PS 中的 Mask, 坐标为 1 表示不阻拦
+** scale
++ =int= :: 缩放参数
++ kwargs ::
+  + [ about_edge =ndarray= ] :: 基准边（位置不动的边），可取 =LEFT=, =RIGHT=, =UP= 等
+  + [ about_point =ndarray= ] :: 基准点（可以在图形外），可手动指定座标，也可使用 =UL=, =DL= 等
+
+** rotate
++ angle =int= :: 旋转角度，例如 180 度应表示为 =180*DEGRESS=
++ kwargs ::
+  + axis =ndarray= :: 旋转轴，用右手定则
+  + [ about_point =ndarray= ] :: 关于哪个点旋转
+
+** flip
++ kwargs ::
+  + [ axis =ndarray= ] :: 哪个方向旋转
+  + [ about_point =ndarray= ] :: 对称轴过哪个点
+
+** stretch
++ kwargs ::
+  + factor =int= :: 拉伸大小
+  + dim =int= :: 拉伸维度。0, 1, 2 分别对应 x, y, z
+  + [ about_edge =ndarray= ] :: 基准点
+
+** to_corner
++ =ndarray= :: 最终位置，可以 =UL= 等
++ kwargs ::
+  + [buff 0.5 =int= ] :: 离最终座标的距离，但最后给的位置一定在向量上，（图为 =UL= 下的不同 =buff= ） [[./img/to_corner_buffer.png]]
+
+** to_edge
+
++ =ndarray= :: 最终位置，可以 =LEFT=, =UP= 等
++ kwargs ::
+  + [buff 0.5 =int= ] :: 离最终座标的距离，但最后给的位置一定在向量上
+** align_to
++ =mobject_or_point= :: 对齐物体/坐标
++ [direction =ndarray=] :: 使哪一边对齐
+
+** next_to
++ =mobject_or_point= :: 靠近的物体/坐标
++ [aligned_edge =ndarray=] :: 靠近哪一边，可为 =UP=, =DOWN=, =LEFT=, =RIGHT=, =ORIGIN=
++ kwargs ::
+  + [submobject_to_align =mob= ] :: 用 =self= 这个 group 中的子 =mob= 对齐
+  + [index_of_submobject_to_align =int= ] :: 与 =mobject_or_point= 这个 group 中的子 =mob= 的 =aligned_edge= 边对齐
+  + [buff =int=] :: 缓冲区
+
+** set_width
++ kwargs ::
+  + height =int= :: 设置宽度
+  + [stretch =bool=] :: 默认为 =False= ，行为与 scale 一致
+
+** set_height
+
++ kwargs ::
+  + height =int= :: 设置高度
+  + [stretch =bool=] :: 默认为 =False= ，行为与 scale 一致
+* 常用几何
+[[https://www.bilibili.com/video/BV1kA411b7kq/][B站：常用几何类]]
+** Line/Arrow
+[[./img/line_arrow.png]]
+** Arc
+[[./img/arc.png]]
+** Circle/Dot/Ellipse
+[[./img/circle.png]]
+** Annulus/AnnulusSector/Sector
+[[./img/sector.png]]
+** Polygon/RegularPolygon/Triangle
+[[./img/poly.png]]
+** Rectangle/Square/RoundedRectangle
+[[./img/rect.png]]
+** VGroup
+[[./img/vgroup.png]]
