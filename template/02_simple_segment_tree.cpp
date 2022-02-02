@@ -32,6 +32,8 @@ struct SegTreeNode {
 
     rn.value = this->tag * rn.interval_size();
     rn.tag = this->tag;
+
+    this->tag = 0;
   }
   ValueType ask(RangeType start, RangeType end) {
     if (right < start || end < left)

@@ -3,6 +3,7 @@
 #include <iostream>
 /**
  * 动态开点线段树
+ * 复合加法与乘法
  * */
 
 template <typename RangeType = int, typename ValueType = int> class SegTree {
