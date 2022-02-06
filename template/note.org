@@ -132,7 +132,7 @@ digraph G {
 
 
 * 结构与算法
-** 数据预处理
+** 预处理
 *** 离散化
 保留原有数据的相对关系，缩小数据范围
 
@@ -185,6 +185,12 @@ int main() {
 经典例题：[[https://www.luogu.com.cn/problem/P1803][P1803]]
 放置右端点靠左的线段，从左往右放，右端点越靠左妨碍越少
 #+INCLUDE: ../oj/luogu/P1803.cpp src cpp
+** 树
+$PreOrder(T) = Root(T) + PreOrder(Left(T)) + PreOrder(Right(T))$
+$InOrder(T) =  InOrder(Left(T)) + Root(T) + InOrder(Right(T))$
+$PostOrder(T) = PostOrder(Left(T)) + PostOrder(Right(T)) + Root(T)$
+*** 构造
+根据后序遍历找到树根，然后在中序遍历中找到树根，从而找到左右子树的节点列表，然后递归构造左右子树。
 
 ** 图
 #+begin_src dot :file ./figure/dot/simple_g.png
@@ -263,6 +269,7 @@ digraph{
 #+begin_src txt
 1 5 6 7 8 3 2 4
 #+end_src
+#
 *** 最短路问题
 **** Dijkstra
 [[https://www.bilibili.com/video/BV1zz4y1m7Nq][B 站讲解]]
@@ -271,6 +278,8 @@ digraph{
 2. 计算刚加入节点 A 的邻近节点 B 的路径 (不包含标记的节点), 若节点到起点的长度小于已存储的距离，就更新该节点
 ***** 例题
 #+INCLUDE: ../oj/luogu/P3371.cpp src cpp
+*** 环
+**** 并查集
 
 ** 维护区间
 *** 树状数组
