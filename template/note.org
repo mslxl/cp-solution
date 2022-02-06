@@ -9,7 +9,7 @@
 + pop() ::
 + top() -> T ::
 + empty() -> bool ::
-+ size() -> size\under{}t ::
+  + size() -> size\under{}t ::
 
 注意：当 empty()->true 时， pop() 和 top() 会 RE
 
@@ -61,6 +61,12 @@ vector<edge> map[maxn];
 + end() -> biter :: 返回的是双向迭代器，不支持随机访问
 *** 主要应用
 去重，排序
+
+** priority_queue 优先队列
+*** template <class T, class Container = std::vector<T>, class Compare = std::less<typename Container::value_type>> class priority_queue;
++ T :: 元素类型
++ Container :: 使用的容器
++ Compare :: 比较器，除了从小到大 =less<T>= 之外还可以用 =greater<T>=, 或者重载 =bool operator ()=
 
 ** string 字符串
 不能说很难用，只能说十分难用 +那也比没有好+
@@ -257,6 +263,15 @@ digraph{
 #+begin_src txt
 1 5 6 7 8 3 2 4
 #+end_src
+*** 最短路问题
+**** Dijkstra
+[[https://www.bilibili.com/video/BV1zz4y1m7Nq][B 站讲解]]
+总结可以分为两步
+1. 每次从未标记的节点中选择距离出发点最近的节点，标记，收录到最优路径集合中
+2. 计算刚加入节点 A 的邻近节点 B 的路径 (不包含标记的节点), 若节点到起点的长度小于已存储的距离，就更新该节点
+***** 例题
+#+INCLUDE: ../oj/luogu/P3371.cpp src cpp
+
 ** 维护区间
 *** 树状数组
 如果在统计过程中存在中间操作，则树状数组不可用，请使用线段树
