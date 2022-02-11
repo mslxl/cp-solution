@@ -1,9 +1,10 @@
+
 #include <cmath>
 #include <iostream>
 
 typedef long long ll;
 int bx, by, hx, hy;
-ll map[20][20] = {0};
+ll map[50][50] = {0};
 
 constexpr bool is_avil(int x, int y) {
   return !(x < 0 || y < 0 || x > bx || y > by ||               // 越界
