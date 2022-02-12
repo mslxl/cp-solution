@@ -1,4 +1,8 @@
+#+LATEX_CLASS: org-ctex
 #+TITLE: Note
+#+OPTIONS: _:nil
+#+OPTIONS: ^:nil
+
 * STL
 ** stack 栈
 *** =template <class T, class Container = deque<T> >=
@@ -69,6 +73,7 @@ vector<edge> map[maxn];
 + Compare :: 比较器，除了从小到大 =less<T>= 之外还可以用 =greater<T>=, 或者重载 =bool operator ()=
 
 ** string 字符串
+
 不能说很难用，只能说十分难用 +那也比没有好+
 
 *** 操作
@@ -109,6 +114,7 @@ vector<edge> map[maxn];
 进行下一次全排列，当已经没有下一个排列后返回 =false= （即达到最大字典序） 。
 *注意：在使用该函数前请先对数据进行 =sort= 操作*
 **** 算法
+
 从最右边开始，两两比较相邻的元素，直到找到右边比左边大的一对，左边那个就是将要被替换的。再从最右边开始找比这个元素大的第一个，交换这两个。
 交换之后，翻转交换元素后面的所有元素
 
@@ -130,10 +136,12 @@ digraph G {
 *** 不能用的函数
 + unique :: c++17 引入第一版，11 上没有
 
-
 * 结构与算法
+
 ** 预处理
+
 *** 离散化
+
 保留原有数据的相对关系，缩小数据范围
 
 可以采用排序来解决
@@ -181,18 +189,25 @@ int main() {
 : Before: 54432 11 3434 233 11
 : After: 4 1 3 2 1
 ** 贪心
+
 *** 选择不相交区间问题
+
 经典例题：[[https://www.luogu.com.cn/problem/P1803][P1803]]
 放置右端点靠左的线段，从左往右放，右端点越靠左妨碍越少
 #+INCLUDE: ../oj/luogu/P1803.cpp src cpp
 ** 树
-$PreOrder(T) = Root(T) + PreOrder(Left(T)) + PreOrder(Right(T))$
-$InOrder(T) =  InOrder(Left(T)) + Root(T) + InOrder(Right(T))$
-$PostOrder(T) = PostOrder(Left(T)) + PostOrder(Right(T)) + Root(T)$
+
+前序遍历：$PreOrder(T) = Root(T) + PreOrder(Left(T)) + PreOrder(Right(T))$
+
+中序遍历：$InOrder(T) =  InOrder(Left(T)) + Root(T) + InOrder(Right(T))$
+
+后序遍历：$PostOrder(T) = PostOrder(Left(T)) + PostOrder(Right(T)) + Root(T)$
+
 *** 构造
 根据后序遍历找到树根，然后在中序遍历中找到树根，从而找到左右子树的节点列表，然后递归构造左右子树。
 
 ** 图
+
 #+begin_src dot :file ./figure/dot/simple_g.png
 digraph{
   rankdir = "LR";
@@ -209,6 +224,8 @@ digraph{
 + 度 :: 某个节点所临近的边，例如 =3= 的度为 2，分别是 =3->1= 和 =3->4=
 + 入度 :: 指向该节点的边的数量，例如 =1= 的入度为 2, =2= 的入度为 1
 *** 拓扑排序
+
+
 拓扑排序是指将一个 *有向无环* 图 G 的所有项排成一个线性结构，使得有向无环图 G 的边集中的任意一条边 <u, v> 始终满足 u 出现在 v 前面
 
 通常这样的序列成为拓扑序列，拓扑序列经常不唯一
@@ -230,59 +247,94 @@ digraph{
 
 #+RESULTS:
 [[file:./figure/dot/mind_topo.png]]
-**** 暴力
-(图片仅为示例)
 
-#+begin_src txt
-<5,3> <5,6> <5,8> <1,3> <6,3> <8,3> <3,4> <3,2> <7,2>
-#+end_src
-#+begin_src dot :file ./figure/dot/sample_topo_quest.png
-digraph{
-  lang[label="高级语言程序设计（ID:1）"];
-  sys[label="操作系统（ID:2)"];
-  ds[label="数据结构与算法 (ID:3)"];
-  net[label="计算机网络 (ID:4)"];
-  hm[label="高等数学 (ID:5)"];
-  la[label="线性代数 (ID:6)"];
-  en[label="大学英语 (ID:7)"];
-  mm[label="离散数学 (ID:8)"];
 
-  hm->ds;
-  hm->la;
-  hm->mm;
-  ds->sys;
-  lang->ds;
-  en->sys;
-  ds->net;
-  mm->ds;
-  la->ds;
++这其实是一种 DAG DP+
+
+**** BFS
+
+#+begin_src cpp
+//采用vector存图(G是图)
+inline int topo(void)
+{
+	queue<int>q;//入度为0节点的队列
+	int ans[MAXN],tot=0;
+   	//in数组为每个节点的入度
+	for(register int i=1;i<=n;i++)
+		if(in[i]==0) q.push(i);
+	while(!q.empty())
+	{
+		register int t=q.front();
+		q.pop();
+		ans[++tot]=t;//记录答案
+        //干掉它
+		for(register int i=0;i<G[t].size();i++)
+		{
+			in[G[t][i]]--;
+			if(in[G[t][i]]==0) q.push(G[t][i]);
+		}
+	}
+	return tot==n;
 }
 #+end_src
 
-#+RESULTS:
-[[file:./figure/dot/sample_topo_quest.png]]
+如果要求拓扑排序时遵从字典序，可以考虑 =priority_queue=
+
+**** DFS
+
+可以借助 DFS 完成拓扑排序，在访问完一个节点后把它加到当前拓扑的首部。 *不是尾部*
 
 
+以 UVA10305 为例题 [[https://www.luogu.com.cn/problem/UVA10305][Ordering Tasks - 洛谷]]。
 
-#+INCLUDE: ./03_topological_sort_violence.cpp src cpp
+#+INCLUDE: ../oj/uva/uva10305.cpp src cpp
 
-#+begin_src txt
-1 5 6 7 8 3 2 4
-#+end_src
-#
 *** 最短路问题
 **** Dijkstra
+
 [[https://www.bilibili.com/video/BV1zz4y1m7Nq][B 站讲解]]
+
 总结可以分为两步
 1. 每次从未标记的节点中选择距离出发点最近的节点，标记，收录到最优路径集合中
 2. 计算刚加入节点 A 的邻近节点 B 的路径 (不包含标记的节点), 若节点到起点的长度小于已存储的距离，就更新该节点
 ***** 例题
 #+INCLUDE: ../oj/luogu/P3371.cpp src cpp
+
+*** 欧拉回路/道路
+
+也就是平时所说的一笔划问题
+
+在欧拉道路中，除了起点和终点外，其他点的度数应该是偶数。
+如果不存在奇点，那么一定存在 *欧拉回路*
+
+对于有向图：最多只能有两个点的入度不等于出度，而且必须其中 *一个点的出度比入度大 1(作为起点)* 另一个 *入度比出度大 1(作为终点)*.
+
+根据联通性可以判断出无向图和有向图是否存在欧拉道路和欧拉回路。可以用 DFS 构造欧拉回路和欧拉道路。
+
+下面程序同时适用于欧拉回路和欧拉道路，但是如果是欧拉道路时，调用的参数必须是道路起点。另外， *打印顺序是逆序的* ，可以用一个 =stack= 先存起来。
+
+#+begin_src cpp
+void euler(int u){
+    for(int v = 0; v < n; v++){
+        if(G[u][v] && !vis[u][v]){
+            vis[u][v] = vis[v][u] = 1;
+            euler(v);
+            printf("%d <- %d", u, v);
+        }
+    }
+}
+#+end_src
+
+上述代码仅适用于无向图，如果改为有向图，需要吧 =vis[u][v] = vis[v][u] = 1= 改为 =vis[u][v]= 即可。
+
 *** 环
+
 **** 并查集
 
 ** 维护区间
+
 *** 树状数组
+
 如果在统计过程中存在中间操作，则树状数组不可用，请使用线段树
 #+INCLUDE: ./01_binary_indexed_tree.cpp src cpp
 *** 线段树
@@ -318,11 +370,100 @@ void update(int start, int end){
 
 #+end_src
 **** 线段树模板
+
 #+INCLUDE: ./02_simple_segment_tree.cpp src cpp
 **** 加乘线段树模板
+
 #+INCLUDE: ./02_segment_tree.cpp src cpp
 **** zwk 线段树
+
  [[https://zhuanlan.zhihu.com/p/29876526][Mike He 的讲解]] ，[[https://www.luogu.com.cn/blog/pks-LOVING/senior-data-structure-qian-tan-xian-duan-shu-segment-tree][洛谷日报]],[[http://codeforces.com/blog/entry/18051][ Efficient and easy segment trees]]
 
  [[./figure/zkw.png]]
  #+INCLUDE: ./04_zkw_segment_tree.cpp src cpp
+
+** 数学
+
+*** mod
+出题人为了减少难度而让输出模一个数的结果
+
+加法，乘法对取模的运算顺序和结果都无影响，但要注意要先算加或成
+
+要
+#+begin_src cpp
+ans+= value;
+ans%= modd;
+#+end_src
+不要
+#+begin_src cpp
+ans+= value%modd;
+#+end_src
+
+*会 WA 的* [[https://www.luogu.com.cn/record/69237315][40]]->[[https://www.luogu.com.cn/record/69237350][100]]
+*** GCD
+
+**** 更相减损法
+
+#+begin_src cpp :results output :exports both
+int gcd(int a,int b)
+{
+    if(a==b)
+        return a;
+    if(a>b)
+        return gcd(a-b,b);
+    if(a<b)
+        return gcd(b-a,a);
+}
+
+#include <iostream>
+int main(){
+    std::cout << gcd(6,9);
+}
+#+end_src
+
+#+RESULTS:
+: 3
+**** 辗转相除法
+
+#+begin_src cpp :results output :exports both
+int gcd(int x, int y) { return y ? gcd(y, x % y) : x; }
+
+#include <iostream>
+int main(){
+    std::cout << gcd(6,9);
+}
+#+end_src
+
+#+RESULTS:
+: 3
+
+*** LCM
+
+$lcm(a,b) = \frac{a \cdot b}{gcd(a,b)}$
+
+#+begin_src cpp :results output :exports both
+int gcd(int x, int y) { return y ? gcd(y, x % y) : x; }
+int lcm(int a, int b) { return (a*b) / gcd(a,b); }
+
+#include<iostream>
+int main(){
+    std::cout << lcm(6,9);
+}
+#+end_src
+
+#+RESULTS:
+: 18
+
+*** 数字根
+
+一个数字的数字根是指：将该数字各数位上的数字相加得到一个新的数，直到得到的数字小于 101010 为止，例如，149149149 的数字根为 149=>1+4+9=14=>1+4=5149 => 1+4+9=14 => 1+4=5 149=>1+4+9=14=>1+4=5，故 149149149 的数字根为 5。我们约定，小于 101010 的数字，其数字根就为其本身
+
+一个数 $mod  9$ 就是他的数字根，特别的，如果模 9 得 0,那么数字根为 9
+
+*** 组合数的应用例题
+
+**** 牛牛看云
+
+[[https://ac.nowcoder.com/acm/contest/23106/H][牛客网-牛牛看云]]
+
+#+INCLUDE: ../oj/coder/23106/H.cpp src cpp
