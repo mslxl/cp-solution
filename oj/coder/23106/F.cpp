@@ -1,3 +1,4 @@
+
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
@@ -19,37 +20,23 @@ template <typename T> T rd() {
     num *= 10;
     num += c - '0';
   }
-  printf("read num %d\n", flag ? -num : num);
+  // printf("read num %d\n", flag ? -num : num);
 
   return flag ? -num : num;
 }
 
 void solve() {
-  int split_num = 1;
-
-  int num, min_mid;
-  num = rd<int>();
-  min_mid = rd<int>();
-  int arr[num + 1];
-  arr[1] = rd<int>();
-  int mid = arr[1];
-  for (int i = 1; i <= num; i++) {
-    if (i % 2 == 0) {
-      mid = std::min(arr[i / 2], arr[i / 2 + 1]);
-    } else {
-      mid = arr[i / 2 + 1];
-    }
-
-    if (mid >= min_mid) {
-      // do split
-      split_num++;
-      num -= i;
-      i = 1;
-      arr[1] = rd<int>();
-      int mid = arr[1];
-      printf("split at %d, now we have %d segment", mid, split_num);
-    }
+  int n = rd<int>(), m = rd<int>();
+  int cnt[2] = {0};
+  for (int i = 0; i < n; i++) {
+    int v = rd<int>();
+    cnt[v >= m]++;
   }
+  int ans = cnt[1] - cnt[0];
+  if(ans <= 0){
+      ans = -1;
+  }
+  printf("%d\n", ans);
 }
 
 int main() {

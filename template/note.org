@@ -1,5 +1,5 @@
 #+LATEX_CLASS: org-ctex
-#+TITLE: Note
+#+TITLE: 算法笔记和板子
 #+OPTIONS: _:nil
 #+OPTIONS: ^:nil
 
@@ -32,7 +32,7 @@
 + end() -> riter ::
 + back() -> T ::
 + front() -> T ::
-+ operator [](size\under{}t) -> T ::
++ operator string[](size\under{}t) -> T ::
 + push\under{}back(T) ::
 + pop\under{}back() -> T ::
 + empty() -> bool ::
@@ -80,7 +80,7 @@ vector<edge> map[maxn];
 + length() -> size\under{}t ::
 + size() -> size\under{}t ::
 + operator string +, += ::
-+ operator string <, <\eq, ==, !\eq, >\eq, > ::
++ operator string <, <=, ==, !=, >=, > ::
 + substr(size\under{}t begin) -> str ::
 + substr(size\under{}t begin, size\under{}t len) -> str ::
 + insert(size\under{}t pos, char[]) -> str& :: 在 =pos= 位置插入 =char[]= , 原位置的字符顺势后延
@@ -137,10 +137,47 @@ digraph G {
 + unique :: c++17 引入第一版，11 上没有
 
 * 结构与算法
+** 快读
 
-** 预处理
++随手写的，有时间优化下+
 
-*** 离散化
+#+begin_src cpp
+template <typename T> T rd() {
+  T num = 0;
+  bool flag = false;
+  char c;
+  while ((c = getchar()) && c != '-' && !std::isdigit(c));
+  if (c == '-')
+    flag = true;
+   else
+    num += c - '0';
+  while ((c = getchar()) && std::isdigit(c))
+    num = 10 * num + c-'0';
+  return flag ? -num : num;
+}
+#+end_src
+
+** 快速幂
+
+#+begin_src cpp
+template <typename T> T pow(T a, T b) {
+  T ans = 1;
+  for (; b; b >>= 1LL) {
+    if (b & 1)
+      ans = ans * a;
+    a = a * a;
+  }
+  return ans;
+}
+
+#include <iostream>
+int main() { std::cout << pow(2ULL, 50ULL) << std::endl; }
+#+end_src
+
+#+RESULTS: :wrap src text
+: 1125899906842624
+
+** 离散化
 
 保留原有数据的相对关系，缩小数据范围
 
@@ -184,12 +221,7 @@ int main() {
   return 0;
 }
 #+end_src
-
-#+RESULTS:
-: Before: 54432 11 3434 233 11
-: After: 4 1 3 2 1
 ** 贪心
-
 *** 选择不相交区间问题
 
 经典例题：[[https://www.luogu.com.cn/problem/P1803][P1803]]
@@ -205,6 +237,8 @@ int main() {
 
 *** 构造
 根据后序遍历找到树根，然后在中序遍历中找到树根，从而找到左右子树的节点列表，然后递归构造左右子树。
+
+#+INCLUDE: ../oj/uva/uva548.cpp src cpp
 
 ** 图
 
@@ -255,26 +289,25 @@ digraph{
 
 #+begin_src cpp
 //采用vector存图(G是图)
-inline int topo(void)
-{
-	queue<int>q;//入度为0节点的队列
-	int ans[MAXN],tot=0;
-   	//in数组为每个节点的入度
-	for(register int i=1;i<=n;i++)
-		if(in[i]==0) q.push(i);
-	while(!q.empty())
-	{
-		register int t=q.front();
-		q.pop();
-		ans[++tot]=t;//记录答案
-        //干掉它
-		for(register int i=0;i<G[t].size();i++)
-		{
-			in[G[t][i]]--;
-			if(in[G[t][i]]==0) q.push(G[t][i]);
-		}
-	}
-	return tot==n;
+inline int topo(void) {
+  queue<int> q; //入度为0节点的队列
+  int ans[MAXN], tot = 0;
+  // in数组为每个节点的入度
+  for (register int i = 1; i <= n; i++)
+    if (in[i] == 0)
+      q.push(i);
+  while (!q.empty()) {
+    register int t = q.front();
+    q.pop();
+    ans[++tot] = t; //记录答案
+                    //干掉它
+    for (register int i = 0; i < G[t].size(); i++) {
+      in[G[t][i]]--;
+      if (in[G[t][i]] == 0)
+        q.push(G[t][i]);
+    }
+  }
+  return tot == n;
 }
 #+end_src
 
@@ -327,16 +360,23 @@ void euler(int u){
 
 上述代码仅适用于无向图，如果改为有向图，需要吧 =vis[u][v] = vis[v][u] = 1= 改为 =vis[u][v]= 即可。
 
-*** 环
+*** 并查集
 
-**** 并查集
+
+判断是否有环
+
+B 站讲解：[[https://www.bilibili.com/video/BV13t411v7Fs][【算法】并查集（Disjoint Set]]
+
+[[https://www.luogu.com.cn/problem/P3367][【模板】并查集]]:
+
+#+INCLUDE: ../oj/luogu/P3367.cpp src cpp
 
 ** 维护区间
 
 *** 树状数组
 
 如果在统计过程中存在中间操作，则树状数组不可用，请使用线段树
-#+INCLUDE: ./01_binary_indexed_tree.cpp src cpp
+#+INCLUDE: ./binary_indexed_tree.cpp src cpp
 *** 线段树
 
 利用线段树计算的公式必须满足结合律！e.g. $a + b + c + d = a + (b+c)+d$
@@ -371,23 +411,33 @@ void update(int start, int end){
 #+end_src
 **** 线段树模板
 
-#+INCLUDE: ./02_simple_segment_tree.cpp src cpp
+#+INCLUDE: ./segment_tree.cpp src cpp
+
 **** 加乘线段树模板
 
-#+INCLUDE: ./02_segment_tree.cpp src cpp
-**** zwk 线段树
+#+INCLUDE: ./segment_tree_with_plus_multi.cpp src cpp
 
- [[https://zhuanlan.zhihu.com/p/29876526][Mike He 的讲解]] ，[[https://www.luogu.com.cn/blog/pks-LOVING/senior-data-structure-qian-tan-xian-duan-shu-segment-tree][洛谷日报]],[[http://codeforces.com/blog/entry/18051][ Efficient and easy segment trees]]
+*** ST 表
+讲解： [[https://www.cnblogs.com/zwfymqz/p/8581995.html][浅谈 ST 表 - 自为风月马前卒]]：
+解决静态 RMQ(Range Minimum/Maximum Query, 区间最值查询) 问题的数据结构
 
- [[./figure/zkw.png]]
- #+INCLUDE: ./04_zkw_segment_tree.cpp src cpp
++ 线段树: 预处理 $O(n\log n)$, 单词询问 $O(\log n)$ ，空间 $O(n)$
++ ST 表: 预处理 $O(n)$, 单词询问 $O(1)$ ，空间 $O(n\log n)$
 
+  模板读入方式： =std::cin >> st.access(i,0)= , $i \in [1,len]$
+
+  *读入完成后需要执行=st.update()=来构建 ST 表*
+
+
+
+#+INCLUDE: ./sparse_table.cpp src cpp
+
++关于刚写出来的这个模板有 bug 也能过洛谷模板题这件事+
 ** 数学
-
 *** mod
 出题人为了减少难度而让输出模一个数的结果
 
-加法，乘法对取模的运算顺序和结果都无影响，但要注意要先算加或成
+加法, 减法，乘法对取模的运算顺序和结果都无影响，但要注意要先算加或成
 
 要
 #+begin_src cpp
@@ -400,8 +450,18 @@ ans+= value%modd;
 #+end_src
 
 *会 WA 的* [[https://www.luogu.com.cn/record/69237315][40]]->[[https://www.luogu.com.cn/record/69237350][100]]
-*** GCD
 
+\begin{equation}
+\begin{aligned}
+(a+b) \% p &= (a \% p+b \% p) \% p \\
+(a-b) \% p &= (a \% p-b \% p) \% p \\
+(a*b) \% p &= (a \% p*b \% p) \% p \\
+(a/b) \% p &= (a \% p/b \% p) \% p \text{错！}
+\end{aligned}
+\end{equation}
+
+*** GCD
+*后来我才知道 gcc 中的 algorithm 头提供了 =__gcd()= 函数*
 **** 更相减损法
 
 #+begin_src cpp :results output :exports both
@@ -460,8 +520,99 @@ int main(){
 
 一个数 $mod  9$ 就是他的数字根，特别的，如果模 9 得 0,那么数字根为 9
 
-*** 组合数的应用例题
+*** 费马小定理
+如果 a 是一个整数，p 是一个质数
++ 当 a 是 p 的倍数，$a^p \equiv a (mod \space p)$
++ 当 a 不是 p 的倍数，$a^{p-1} \equiv 1 (mod p)$
 
+*** 中位数切分
+
+[[https://ac.nowcoder.com/acm/contest/23106/F][中位数切分]]
+
+记数列中 $\ge m$ 的为 $cnt_1$, $< m$ 的为 $cnt_2$ 。
+
+$f(l,r)$ 为数列中 $a_l \cdots a_r$ 范围内 $cnt_2 - cnt_1$ 的值
+
+存在性质：
++ 当 $f(l,r) > 0$ 时，该范围中的中位数 $\ge m$
++ $f(l,r) = f(l,mid) + f(mid+1, r)$
+
+#+INCLUDE: ../oj/coder/23106/F.cpp src cpp
+
+** DP
+*** 组合数 DP
+
+[[https://ac.nowcoder.com/acm/contest/23106/A][九小时九个人九扇门]]
+
+#+INCLUDE: ../oj/coder/23106/A.cpp src cpp
+
+** 母函数
+求组合数
+
+
+解释没有，只有板子
+#+begin_src cpp
+#include<iostream>
+const int lmax = 1e4;
+int c1[lmax+1],c2[lmax+2];
+
+int main(){
+    int n,i,j,k;
+    while(std::cin >> n){
+        for(i = 0; i < n;i+=){
+            c1[i] = 0;
+            c2[i] = 0;
+        }
+
+        for(i = 0; i < n;i+=){
+            c1[i] = 1;
+        }
+
+        for(i = 2; i <= n; i++){
+            for(j = 0; j <= n;j++){
+                for(k = 0;k + j<=n;k+=i){
+                    c2[j+k] += c1[j];
+                    for(j = 0; j <= n; j++){
+                        c1[j] = c2[j];
+                        c2[j]  = 0;
+                    }
+                }
+            }
+        }
+        std::cout <<c1[n] << std::endl;
+    }
+    return 0;
+}
+#+end_src
+
+*** 指数型母函数
+用来求排列数
+[[../template/figure/指数型母函数的定义.png]]
+
+** 逆元
+
+求取 $\frac{a}{b} \% p=a*(b\text{的逆元} \% p)$
+
+$a$ 存在模 $p$ 的乘法逆元， *充要条件* 是 $gcd(a,p)=1$ ，既 $a$ 与 $p$ 互质
+
+
+
+*** 应用[[*费马小定理][费马小定理]]（p 为质数）
+
+
+$a \cdot x \equiv 1 (mod p)$ 其中 a 的逆元 x $= a^{p-2} \% p$
+
+p 一般很大，要用快速幂
+
+#+begin_src cpp
+#include<cmath>
+template<typename T> T inv_elem(T a,T p){
+    return std::pow(a,p-2) % p;
+}
+#+end_src
+
+** 金典
+*** 组合数
 **** 牛牛看云
 
 [[https://ac.nowcoder.com/acm/contest/23106/H][牛客网-牛牛看云]]
