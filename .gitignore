@@ -13,6 +13,7 @@ cmake-build-debug/
 *.hi
 *.map
 *.html
+*.pdf
 
 a.out
 CMakeSettings.json
