@@ -109,7 +109,6 @@
         "stop_token": "cpp",
         "syncstream": "cpp"
     },
-    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "files.watcherExclude": {
         "**/target": true
     },

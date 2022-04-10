@@ -8,7 +8,6 @@
                 "-std=c++11",
                 "-g",
                 "-Wall",
-                "-Werror",
                 "-fsanitize=address,undefined",
                 "-DDEBUG",
                 "${file}",

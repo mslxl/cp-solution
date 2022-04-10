@@ -1,89 +1,102 @@
 #include<bits/stdc++.h>
+
 #ifdef Local
 #define test if(1)
 #else
 #define test if(0)
 #endif
-#define rep(i,s,e) for(int i = s; i < e; i++)
-
-const int maxn = 1e4 + 17;
+#define rep(i,s,e) for(int i = (s); (i) < e; i++)
 typedef long long ll;
+
+const std::size_t maxn = 1e4 + 17;
 struct Edge{
-  int next, to;
-};
-std::vector<Edge> nodes;
-int head[maxn] = {0}, eid = 0;
+	int next, to;
+} edges[maxn * 10 + 17];
 
-void add_edge(int u, int v){
-  Edge e;
-  e.to = v;
-  e.next= head[u];
-  nodes.push_back(e);
-  head[u]  = nodes.size() - 1;
+int head[maxn], eid = -1;
+
+void add_edge(int u,int v){
+	eid++;
+	assert(eid < (maxn * 10 + 17)); // avoid access-violation
+	edges[eid].to = v;
+	edges[eid].next = head[u];
+	head[u] = eid;
 }
 
-struct Point{
-  int id, indegree = 0;
-  bool operator < (const Point& rhs) const {
-    return this->indegree < rhs.indegree;
-  }
-} points[maxn];
-
-std::vector<std::vector<int>>  routes;
-void dfs(int node, const std::vector<int>& pass){
-  test {
-    for(const auto& item: pass){
-      std::cout << "->" << item;
-    }
-    std::cout << std::endl;
-  }
-
-  if(head[node] == -1){
-    routes.push_back(pass);
-    return;
-  }
-  for(int node_id = head[node]; node_id != -1; node_id = nodes[node_id].next){
-    const int v = nodes[node_id].to;
-    std::vector<int> route(pass);
-    route.push_back(v);
-    dfs(v, route);
-  }
+int N;
+int parent[maxn], depth[maxn];
+int max_depth = 1, max_depth_node = maxn;
+void read_data(){
+	std::fill_n(head, maxn, -1);
+	std::fill_n(parent, maxn, -1);
+	std::fill_n(depth, maxn, 1);
+	std::cin >> N;
+	rep(u, 0, N){
+		int M;
+		int v;
+		std::cin >> M;
+		rep(_t, 0, M){
+			std::cin >> v;
+			add_edge(v, u); // reverse graph
+		}
+	}	
 }
 
-int n;
+void dp(const int u){
+	if(u == -1) return;
+	test std::cout << "dp " << u << std::endl ;
+	if(head[u] == -1 && max_depth <= 1){
+		max_depth_node = u;
+		return;
+	}
+	for(int node_id = head[u]; node_id != -1; node_id = edges[node_id].next){
+		const int v = edges[node_id].to;
+		if(depth[u] + 1 > depth[v]){
+			// deeper depth
+			depth[v] = depth[u] + 1;
+			parent[v] = u;
+			test std::cout << "connect " << v << " -> " << u << std::endl;
+			
+			if(depth[v] > max_depth ){
+				max_depth_node = v;
+				max_depth = depth[v];
+				test std::cout << "remark start point " << max_depth_node << std::endl;
+			}else if(depth[v] == max_depth){
+				max_depth_node = std::min(max_depth_node, v);
+				test std::cout << "remark start point " << max_depth_node << std::endl;
+			}
+			dp(v);
+		}else if(depth[u] + 1 == depth[v]){
+			// next node have same depth from different route
+			// choose the smaller id
+			if(u < parent[v]){
+				test std::cout << "override " << v << " -> " << u << std::endl;
+				parent[v] = u;
+			}
+		}
+	}
+}
 
 int main(){
-  std::memset(head, -1, sizeof(head));
-  std::ios::sync_with_stdio(false);
-  std::cin.tie(nullptr);
-  std::cout.tie(nullptr);
-  nodes.push_back(Edge());
-
-  std::cin >> n;
-  rep(u, 0, n){
-    points[u].id = u;
-    int m;
-    std::cin >> m;
-    rep(j, 0, m){
-      int v;
-      std::cin >> v;
-      add_edge(u, v);
-      points[v].indegree++;
-    }
-  }
-  std::sort(points, points + n);
-  test std::cout << "Start from " << points[0].id << std::endl;
-  std::vector<int> initial;
-  initial.push_back(points[0].id);
-  dfs(0, initial);
-  std::sort(routes.begin(), routes.end(), [](const std::vector<int>& lhs, const std::vector<int>& rhs)->bool{
-      if(lhs.size() != rhs.size()) return lhs.size() > rhs.size();
-      else return lhs < rhs;
-  });
-  std::cout << routes[0].size() << std::endl;
-  std::cout << routes[0][0];
-  rep(i, 1, routes[0].size()){
-    std::cout << ' ' << routes[0][i];
-  }
-  return 0;
+	std::ios::sync_with_stdio(false);
+	std::cin.tie(nullptr);
+	std::cout.tie(nullptr);
+	
+	read_data();
+	if(N == 0){ // ?
+		std::cout << 0;
+		return 0;
+	}
+	rep(i, 0, N) dp(i);
+	
+	std::cout << max_depth << std::endl;
+	// max_depth would never be ZERO, normally
+	int u = max_depth_node;
+	std::cout << u;
+	u = parent[u];
+	while(u != -1){
+		std::cout << ' ' << u;
+		u = parent[u];
+	}
+	return 0;
 }
