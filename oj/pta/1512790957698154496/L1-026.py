@@ -1,0 +1,1 @@
+print("\n".join("I Love GPLT"), end='')
