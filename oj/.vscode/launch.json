@@ -6,19 +6,19 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal",
+            "console": "externalTerminal",
             "justMyCode": true
         },
         {
-            "name": "CPP Launch",
+            "name": "C++: Current File",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/tmp/${fileBasenameNoExtension}",
+            "program": "${fileDirname}/${fileBasenameNoExtension}.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
-            "externalConsole": false,
+            "externalConsole": true,
             "MIMode": "gdb",
             "preLaunchTask": "C/C++: g++ build",
             "setupCommands": [
@@ -28,28 +28,6 @@
                     "ignoreFailures": true
                 }
             ]
-        },
-        {
-            "name": "Rust Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            // "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "program": "/tmp/${fileBasenameNoExtension}",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "gdb: enable pretty print",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "Rust: build",
-            "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
 }
