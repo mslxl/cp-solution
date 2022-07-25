@@ -1,7 +1,0 @@
-* [[./luogu/P3388.cpp][P3388 【模板】割点（割顶） <2022-03-13 Sun>]] :tarjan:模板:图:割点:
-[[./luogu/P3388.cpp]]
-#+INCLUDE: ./luogu/P3388.cpp src cpp
-
-* [[https://www.luogu.com.cn/problem/P3371][P3371【模板】单源最短路径（弱化版） - 洛谷]] <2022-03-25> :图:dijkstra:最短路:
-[[./luogu/P3371.cpp]]
-#+INCLUDE: ./luogu/P3371.cpp src cpp

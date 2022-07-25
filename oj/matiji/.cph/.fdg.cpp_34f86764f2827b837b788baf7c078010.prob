@@ -1,0 +1,1 @@
+{"name":"Local: fdg","url":"d:\\learn\\oj\\matiji\\fdg.cpp","tests":[{"id":1658481318388,"input":"5 3\n1 2 3 4 5","output":"74"},{"id":1658484547452,"input":"5 3\n1 1 1 1 1","output":"8"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\learn\\oj\\matiji\\fdg.cpp","group":"local","local":true}

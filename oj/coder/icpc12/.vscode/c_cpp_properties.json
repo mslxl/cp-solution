@@ -15,9 +15,14 @@
             "cStandard": "c17",
             "cppStandard": "c++11",
             "intelliSenseMode": "linux-gcc-x64",
-            "compilerArgs": [
-                "-O2 -g -DLocal"
-            ]
+            "compilerArgs": [],
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
         }
     ],
     "version": 4
