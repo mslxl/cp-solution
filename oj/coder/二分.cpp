@@ -114,13 +114,54 @@ using ul = unsigned long long;
 #define rep(i, s, e) for (int i = s; i < e; i++)
 #define fors(i, s, e) rep(i, s, e + 1)
 
-// ----------------------------------------------------
+const int maxn = 1e5 + 17;
+int n;
+int diff[maxn] = {0};
+
+struct Guess {
+  int num;
+  char ch;
+  int idx;
+  bool operator<(const Guess &rhs) const { return this->num < rhs.num; }
+} input[maxn];
 
 int main() {
-  IOS;
-  std::string i;
-  std::cin >> i;
-  std::cout << i;
-  debug("test", i);
+  std::cin >> n;
+  for (int i = 0; i < n; i++) {
+    std::cin >> input[i].num >> input[i].ch;
+  }
+  std::sort(input, input + n);
+  input[0].idx = 1;
+  for (int i = 1; i < n; i++) {
+    if (input[i].num == input[i - 1].num) {
+      input[i].idx = input[i - 1].idx;
+    } else if(input[i].num - input[i-1].num == 1) {
+      input[i].idx = input[i - 1].idx + 1;
+    }else{
+      input[i].idx = input[i - 1].idx + 2;
+    }
+  }
+
+  for (int i = 0; i < n; i++) {
+    const int pos = input[i].idx;
+    debug(input[i].idx,input[i].ch);
+    if (input[i].ch == '.') {
+      diff[pos]++;
+      diff[pos+1]--;
+    } else if (input[i].ch == '+') {
+      diff[pos]--;
+      diff[0]++;
+    } else {
+        // input[i].ch == '-'
+      diff[pos + 1]++;
+    }
+  }
+  int sum = 0;
+  int ans = 0;
+  for (int i = 0; i < maxn; i++) {
+    sum += diff[i];
+    ans = std::max(ans, sum);
+  }
+  std::cout << ans;
   return 0;
 }

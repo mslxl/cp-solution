@@ -118,9 +118,9 @@ using ul = unsigned long long;
 
 int main() {
   IOS;
-  std::string i;
-  std::cin >> i;
-  std::cout << i;
-  debug("test", i);
+  ll a,b;
+  read(a,b);
+  std::cout << (a+b);
+//   debug("test", a+b);
   return 0;
 }

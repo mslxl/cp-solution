@@ -3,23 +3,37 @@
         {
             "type": "cppbuild",
             "label": "C/C++: g++ build",
-            "command": "/usr/bin/g++",
+            "command": "g++",
             "args": [
                 "-std=c++11",
                 "-g",
                 "-Wall",
-                "-fsanitize=address,undefined",
+                // "-fsanitize=address,undefined",
+                "-fexec-charset=GB2312",
+                "-finput-charset=UTF-8",
                 "-DDEBUG",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}.exe"
+                "${workspaceFolder}/binary.exe"
             ],
             "options": {
                 "cwd": "${fileDirname}"
             },
-            "problemMatcher": [
-                "$gcc"
-            ],
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
