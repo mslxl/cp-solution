@@ -1,2 +1,4 @@
 - [激光炸弹](./coder/HNOI_2003_%E6%BF%80%E5%85%89%E7%82%B8%E5%BC%B9.cpp) #二维前缀数组
 - [二分](./coder/%E4%BA%8C%E5%88%86.cpp) #差分
+- [How far away](./hdu//How_far_away.cpp) #LCA
+- [Nearest Common Ancestors](./poj/poj1330_Nearest_Common_Ancestors.cpp) #LCA
