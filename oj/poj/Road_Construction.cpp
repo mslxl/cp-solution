@@ -7,7 +7,7 @@ int n, r;
 const int maxr = 1e4;
 const int maxn = 1e4 + 17;
 
-struct {
+struct Edge {
   int next;
   int to;
 } e[maxr * 2 + 17];
@@ -19,7 +19,7 @@ std::stack<int> stack;
 
 void add_edge(int u, int v) {
   eid++;
-  auto &d = e[eid];
+  Edge &d = e[eid];
   d.to = v;
   d.next = heads[u];
   heads[u] = eid;
