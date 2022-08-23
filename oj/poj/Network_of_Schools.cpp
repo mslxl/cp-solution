@@ -21,19 +21,17 @@ int indegree_belong[maxn] = {0}, outdegree_belong[maxn] = {0};
 bool vis[maxn + 17] = {false};
 
 
-void tarjan(int u, int father){
+void tarjan(int u){
     ttl++;
     dfn[u] = low[u] = ttl;
     s.push(u);
     vis[u]= true;
-    int outdegress = 0, indegress = 0;
     
     for(int i = heads[u];i; i = edges[i].next){
         const int v = edges[i].to;
 
-        if(father == v) continue;
         if(!dfn[v]){
-            tarjan(v,u);
+            tarjan(v);
             low[u] = std::min(low[u], low[v]);
         }else if(vis[v]){
             low[u] = std::min(low[u], dfn[v]);
@@ -53,7 +51,7 @@ void tarjan(int u, int father){
 void solve(){
     for(int i = 1; i <= N; i++){
         if(!dfn[i]){
-            tarjan(i, 0);
+            tarjan(i);
         }
     }
     for(int u = 1; u <= N; u++){

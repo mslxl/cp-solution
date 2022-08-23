@@ -1,0 +1,33 @@
+{
+    "name": "P1521 求逆序对",
+    "group": "Luogu",
+    "url": "https://www.luogu.com.cn/problem/P1521",
+    "interactive": false,
+    "memoryLimit": 125,
+    "timeLimit": 1000,
+    "tests": [
+        {
+            "id": 1660794929732,
+            "input": "5 3",
+            "output": "15"
+        }
+    ],
+    "testType": "single",
+    "input": {
+        "type": "stdin"
+    },
+    "output": {
+        "type": "stdout"
+    },
+    "languages": {
+        "java": {
+            "mainClass": "Main",
+            "taskClass": "P1521"
+        }
+    },
+    "batch": {
+        "id": "a97a0b71-1c40-4b1b-bb5d-a15c9417a2b0",
+        "size": 1
+    },
+    "srcPath": "d:\\learn\\oj\\luogu\\P_1521_求逆序对.cpp"
+}

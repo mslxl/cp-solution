@@ -1,4 +1,13 @@
 - [激光炸弹](./coder/HNOI_2003_%E6%BF%80%E5%85%89%E7%82%B8%E5%BC%B9.cpp) #二维前缀数组
 - [二分](./coder/%E4%BA%8C%E5%88%86.cpp) #差分
-- [How far away](./hdu//How_far_away.cpp) #LCA
-- [Nearest Common Ancestors](./poj/poj1330_Nearest_Common_Ancestors.cpp) #LCA
+---
+- [How far away](./hdu//How_far_away.cpp) #LCA(树上倍增)
+- [Nearest Common Ancestors](./poj/Nearest_Common_Ancestors.cpp) #LCA(树上倍增)
+- [P3379模板LCA](./luogu/P_3379_%E6%A8%A1%E6%9D%BF_%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88_LCA.cpp) #LCA(在线RMQ)
+---
+- [Network](./poj/Network.cpp) #tarjan #割点
+- [Network of Schools](./poj/Network_of_Schools.cpp) #tarjan #缩点
+
+---
+- [Japan](./poj/Japan.cpp) #树状数组 #逆序数
+- [Stars](./poj/Starts.cpp) #树状数组 #二维压一维
