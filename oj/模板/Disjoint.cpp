@@ -1,4 +1,5 @@
 #include <array>
+namespace disjoint {
 const int maxn = 5000;
 std::array<int, maxn> disjoint;
 std::array<int, maxn> rank;
@@ -30,3 +31,4 @@ void disjoint_joint(int x, int y) {
     rank[y]++;
   }
 }
+} // namespace disjoint

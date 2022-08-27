@@ -11,3 +11,6 @@
 ---
 - [Japan](./poj/Japan.cpp) #树状数组 #逆序数
 - [Stars](./poj/Starts.cpp) #树状数组 #二维压一维
+---
+- [The xor longest Path](./poj/The_xor-longest_Path.cpp) #Trie #树上边权异或 #转化Trie #二进制Trie
+- [Colored Sticks](./poj/Colored_Sticks.cpp) #欧拉道路 #Trie编号

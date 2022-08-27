@@ -1,9 +1,13 @@
 #include <string>
+namespace trie {
+const int maxn = 1e4 * 4;
+const int max_char = 26 + 7;
 using namespace std;
 
-int trie[1000 * 40][10 + 7], index_trie = 1;
-bool end_trie[1000 * 40];
-bool insert_into_trie(const string &str) {
+int trie[maxn][max_char], index_trie = 1;
+bool end_trie[maxn];
+
+bool insert(const string &str) {
   int depth = 1;
   for (int i = 0; i < str.size(); i++) {
     int ch = str[i] - '0';
@@ -21,3 +25,5 @@ bool insert_into_trie(const string &str) {
   end_trie[depth] = true;
   return false;
 }
+
+} // namespace trie
