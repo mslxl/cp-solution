@@ -12,5 +12,5 @@
 - [Japan](./poj/Japan.cpp) #树状数组 #逆序数
 - [Stars](./poj/Starts.cpp) #树状数组 #二维压一维
 ---
-- [The xor longest Path](./poj/The_xor-longest_Path.cpp) #Trie #树上边权异或 #转化Trie #二进制Trie
+- [The xor longest Path](./luogu/P_4551_%E6%9C%80%E9%95%BF%E5%BC%82%E6%88%96%E8%B7%AF%E5%BE%84.cpp) #Trie #树上边权异或 #转化Trie #二进制Trie
 - [Colored Sticks](./poj/Colored_Sticks.cpp) #欧拉道路 #Trie编号

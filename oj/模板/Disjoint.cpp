@@ -1,34 +1,37 @@
 #include <array>
-namespace disjoint {
-const int maxn = 5000;
-std::array<int, maxn> disjoint;
-std::array<int, maxn> rank;
+#include <unordered_map>
 
-void disjoint_init() {
-  for (int i = 0; i < disjoint.size(); i++) {
-    disjoint[i] = i;
+namespace ojlib {
+template <std::size_t Size = 5000, typename T = int,
+          typename Container = std::array<T, Size>>
+struct Disjoint {
+  Container disjoint;
+  Container rank;
+  Disjoint() {
+    for (int i = 0; i < Size; i++)
+      disjoint[i] = i;
   }
-}
+  T find_root(T u) {
+    while (disjoint[u] != u)
+      u = disjoint[u];
+    return u;
+  }
 
-int disjoint_find_root(int u) {
-  while (disjoint[u] != u) {
-    u = disjoint[u];
-  }
-  return u;
-}
+  bool is_joint(T u, T v) { return find_root(u) == find_root(v); }
 
-void disjoint_joint(int x, int y) {
-  x = disjoint_find_root(x);
-  y = disjoint_find_root(y);
-  if (x == y)
-    return;
-  if (rank[x] > rank[y]) {
-    disjoint[y] = x;
-  } else if (rank[y] > rank[x]) {
-    disjoint[x] = y;
-  } else {
-    disjoint[x] = y;
-    rank[y]++;
+  void joint(T x, T y) {
+    x = find_root(x);
+    y = find_root(y);
+    if (x == y)
+      return;
+    if (rank[x] > rank[y]) {
+      disjoint[y] = x;
+    } else if (rank[y] > rank[x]) {
+      disjoint[x] = y;
+    } else {
+      disjoint[x] = y;
+      rank[y]++;
+    }
   }
-}
-} // namespace disjoint
+};
+} // namespace ojlib

@@ -2,46 +2,58 @@
 
 #include <array>
 #include <iostream>
+#include <type_traits>
 #include <vector>
 
 
-namespace bit {
-#define lowbit(x) ((-x) & x)
-const int bit_size = 4000;
-std::array<int, bit_size> bit;
+namespace ojlib{
+  template<typename T>
+  inline typename std::enable_if<std::is_integral<T>::value, T>::type lowbit(T x){
+    return (-x) & x;
+  }
 
-void add(int i, int v) {
-  i++;
-  for (; i <= bit_size; i += lowbit(i))
-    bit[i] += v;
+  template<typename T = int,std::size_t BitSize = 5000, typename = typename std::enable_if<std::is_integral<T>::value>::type>
+  struct BitI{
+    std::array<T, BitSize> bit;
+
+    void add(std::size_t i, T v){
+      i++;
+      for(; i<=BitSize; i += lowbit(i))
+        bit[i]+=v;
+    }
+
+    T prefix(std::size_t i){
+      i++;
+      T s = 0;
+      for(; i>0; i-=lowbit(i))
+        s+= bit[i];
+      return s;
+    }
+
+    T sum_closerange(std::size_t l, std::size_t r){
+      return prefix(r) - prefix(l-1);
+    }
+  };
 }
 
-int prefix_sum(int i) {
-  i++;
-  int s = 0;
-  for (; i > 0; i -= lowbit(i))
-    s += bit[i];
-  return s;
-}
+// ------ test below -----
 
-int sum(int l, int r) { return prefix_sum(r) - prefix_sum(l - 1); }
-} // namespace bit
+ojlib::BitI<int> bit;
 
 int main() {
-  using namespace bit;
   int t;
   std::cin >> t;
-  int num;
   for (int i = 0; i < t; i++) {
+    int num;
     std::cin >> num;
-    add(i, num);
+    bit.add(i,num);
   }
   int q;
   std::cin >> q;
   for (int i = 0; i < q; i++) {
     int l, r;
     std::cin >> l >> r;
-    std::cout << sum(l, r) << std::endl;
+    std::cout << bit.sum_closerange(l, r) << std::endl;
   }
 
   return 0;
