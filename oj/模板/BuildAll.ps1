@@ -1,2 +1,2 @@
-Get-Item *.cpp | ForEach-Object { g++ -S $_.FullName }
+Get-Item *.cpp | ForEach-Object { g++ -Wall -Wextra -S $_.FullName }
 Pause
