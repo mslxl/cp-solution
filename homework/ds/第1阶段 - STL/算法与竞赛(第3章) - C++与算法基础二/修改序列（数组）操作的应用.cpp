@@ -7,14 +7,16 @@
 //
 
 #include "code.h"
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 int* Copy_N(int *arr, int n)
 // 函数功能：复制数组arr中前n个元素并作为函数返回值
 {
 	// 请在这里补充代码，完成本关任务
 	/********** Begin *********/
-	
+	int *addr = new int[n];
+	std::copy(arr, arr + n, addr);
+	return addr;
 	
 	/********** End **********/
 }
@@ -24,7 +26,7 @@ void Swap(int &a, int &b)
 {
 	// 请在这里补充代码，完成本关任务
 	/********** Begin *********/
-	
+	std::swap(a,b);
 	
 	/********** End **********/
 }
@@ -34,7 +36,7 @@ void Replace(int *arr, int n, int x, int y)
 {
 	// 请在这里补充代码，完成本关任务
 	/********** Begin *********/
-	
+	std::replace(arr,arr + n, x ,y);
 	
 	/********** End **********/
 }
@@ -44,7 +46,7 @@ void Fill(int *arr, int n, int z)
 {
 	// 请在这里补充代码，完成本关任务
 	/********** Begin *********/
-	
+	std::fill(arr,arr+n, z);
 	
 	/********** End **********/
 }
@@ -54,8 +56,7 @@ void Reverse(int *arr, int n)
 {
 	// 请在这里补充代码，完成本关任务
 	/********** Begin *********/
-	
-	
+	std::reverse(arr, arr+n);
 	/********** End **********/
 }
 
@@ -64,8 +65,7 @@ void Rotate(int *arr, int n, int m)
 {
 	// 请在这里补充代码，完成本关任务
 	/********** Begin *********/
-	
+	std::rotate(arr,arr + m,arr+n);
 	
 	/********** End **********/
 }
-
