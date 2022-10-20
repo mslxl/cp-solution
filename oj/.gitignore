@@ -9,4 +9,5 @@
 /.vs/
 /out/
 build/
+/vscode-profile/
 !/.vscode/test_data.sh

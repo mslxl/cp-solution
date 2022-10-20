@@ -1,1 +1,0 @@
-{"name":"Local: AC自动机","url":"d:\\learn\\oj\\模板\\AC自动机.cpp","tests":[{"id":1662222532746,"input":"5\nshe\nhe\nsay\nshr\nher\nyasherhs","output":"3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\learn\\oj\\模板\\AC自动机.cpp","group":"local","local":true}

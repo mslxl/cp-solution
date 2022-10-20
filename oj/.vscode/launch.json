@@ -15,7 +15,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/binary.exe",
             "args": [],
-            "stopAtEntry": true,
+            "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": true,
