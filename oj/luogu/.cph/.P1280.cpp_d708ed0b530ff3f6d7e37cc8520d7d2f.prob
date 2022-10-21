@@ -1,0 +1,1 @@
+{"name":"Local: P1280","url":"d:\\learn\\oj\\luogu\\P1280.cpp","tests":[{"id":1666234715619,"input":"15 6\n1 2\n1 6\n4 11\n8 5\n8 1\n11 5","output":"4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\learn\\oj\\luogu\\P1280.cpp","group":"local","local":true}
