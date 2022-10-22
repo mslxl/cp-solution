@@ -1,3 +1,4 @@
+//最长异或路径
 #include <bits/stdc++.h>
 #include <climits>
 #ifdef ONLINE_JUDGE

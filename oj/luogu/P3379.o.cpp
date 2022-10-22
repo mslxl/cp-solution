@@ -1,3 +1,4 @@
+//模板 最近公共祖先 LCA
 #include <bits/stdc++.h>
 
 const int maxn = 5e5 + 17;

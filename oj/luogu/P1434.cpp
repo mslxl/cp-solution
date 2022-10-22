@@ -1,3 +1,4 @@
+// SHOI2022 滑雪
 #include <bits/stdc++.h>
 #define rep(i, s, e) for (int i = s; i < e; i++)
 
