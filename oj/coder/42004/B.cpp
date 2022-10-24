@@ -1,3 +1,4 @@
+//异色格
 #include <bits/stdc++.h>
 
 std::vector<std::string> map(8);

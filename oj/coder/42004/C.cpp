@@ -1,3 +1,4 @@
+//小z的数列
 #include<bits/stdc++.h>
 const int maxn = 2 * 1e5;
 

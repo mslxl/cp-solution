@@ -1,3 +1,4 @@
+// 	破坏球
 #include <bits/stdc++.h>
 #define int unsigned long long
 int n, x;
@@ -43,8 +44,9 @@ int deal(int j) {
   }
   return total;
 }
-
-short main() {
+#undef int
+int main() {
+#define int long long
   std::cin >> n >> x;
   seq.resize(n);
   for (int i = 0; i < n; i++) {
