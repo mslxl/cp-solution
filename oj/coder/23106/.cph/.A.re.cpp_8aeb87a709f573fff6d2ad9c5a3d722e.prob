@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"d:\\learn\\oj\\coder\\23106\\A.re.cpp","tests":[{"id":1667187698747,"input":"9\n1 2 3 4 5 6 7 8 9","output":"56 56 58 56 56 58 56 56 59"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\learn\\oj\\coder\\23106\\A.re.cpp","group":"local","local":true}
