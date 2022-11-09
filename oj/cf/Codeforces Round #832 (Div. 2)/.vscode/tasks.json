@@ -1,0 +1,45 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++ build",
+            "command": "g++",
+            "args": [
+                "-std=c++11",
+                "-g",
+                "-Wall",
+                // "-fsanitize=address,undefined",
+                "-fexec-charset=GB2312",
+                "-finput-charset=UTF-8",
+                "-DDEBUG",
+                "${file}",
+                "-o",
+                "${workspaceFolder}/binary.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Start debugger"
+        }
+    ],
+    "version": "2.0.0"
+}

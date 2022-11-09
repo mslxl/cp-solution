@@ -1,0 +1,1 @@
+{"name":"Local: D_std","url":"d:\\learn\\oj\\cf\\Codeforces Round #832 (Div. 2)\\D_std.cpp","tests":[{"id":1667905418356,"input":"7 6\n3 0 3 3 1 2 3\n3 4\n4 6\n3 7\n5 6\n1 6\n2 2","output":"-1\n1\n1\n-1\n2\n0"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\learn\\oj\\cf\\Codeforces Round #832 (Div. 2)\\D_std.cpp","group":"local","local":true}
