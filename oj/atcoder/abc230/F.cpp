@@ -27,10 +27,6 @@ int main() {
   }
   dp[1] = 1;
   for(int i = 1; i <= N; i++){
-    // dp[i] = 2 * dp[i-1] - dp[map[prefix[i-1]]];
-    // dp[i] = (dp[i] + modd) % modd;
-    // map[prefix[i-1]] = i;
-
     dp[i+1] = 2 * dp[i] - dp[map[prefix[i]]];
     dp[i+1] = (dp[i+1] + modd)%modd;
     map[prefix[i]] = i;

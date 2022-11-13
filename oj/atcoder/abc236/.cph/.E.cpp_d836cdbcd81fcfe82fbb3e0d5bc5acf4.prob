@@ -1,0 +1,1 @@
+{"name":"Local: E","url":"d:\\learn\\oj\\atcoder\\abc236\\E.cpp","tests":[{"id":1667386531669,"input":"6\n2 1 2 1 1 10\n","output":"4\n2\n"},{"id":1667386537184,"input":"7\n3 1 4 1 5 9 2","output":"5.250000000\n4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\learn\\oj\\atcoder\\abc236\\E.cpp","group":"local","local":true}
