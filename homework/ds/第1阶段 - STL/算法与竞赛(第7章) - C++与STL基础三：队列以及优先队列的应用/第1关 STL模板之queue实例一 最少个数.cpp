@@ -38,7 +38,7 @@ int main(int argc, const char * argv[]) {
 		}
 	}
 	if(len == 0x3f3f3f){
-		std::cout << -1;
+		std::cout << 0;
 	}else{
 		std::cout << len;
 	}
