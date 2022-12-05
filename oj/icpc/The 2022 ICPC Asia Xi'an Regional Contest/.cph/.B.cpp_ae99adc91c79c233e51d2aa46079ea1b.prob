@@ -1,0 +1,1 @@
+{"name":"Local: B","url":"d:\\learn\\oj\\icpc\\The 2022 ICPC Asia Xi'an Regional Contest\\B.cpp","tests":[{"id":1668234016531,"input":"2\n4 2\n1 1 3 2\n8 3\n1 3 2 8 6 4 7 5","output":"2\n12"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\learn\\oj\\icpc\\The 2022 ICPC Asia Xi'an Regional Contest\\B.cpp","group":"local","local":true}

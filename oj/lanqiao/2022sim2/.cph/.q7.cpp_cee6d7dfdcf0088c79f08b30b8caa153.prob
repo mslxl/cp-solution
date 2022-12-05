@@ -1,0 +1,1 @@
+{"name":"Local: q7","url":"d:\\learn\\oj\\lanqiao\\2022sim2\\q7.cpp","tests":[{"id":1670066266220,"input":"5\nlanqiao\nhi\nhello\nhello\nlanqiao","output":"lanqiao\nhi\nhello"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\learn\\oj\\lanqiao\\2022sim2\\q7.cpp","group":"local","local":true}

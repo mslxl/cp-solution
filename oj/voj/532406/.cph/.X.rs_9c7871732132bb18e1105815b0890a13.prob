@@ -1,0 +1,1 @@
+{"name":"Local: X","url":"d:\\learn\\oj\\voj\\532406\\X.rs","tests":[{"id":1669724780157,"input":"1 48\n5 7\n","output":"NO"},{"id":1669724790358,"input":"2 5\n0 1\n3 5","output":"YES\n1 4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\learn\\oj\\voj\\532406\\X.rs","group":"local","local":true}

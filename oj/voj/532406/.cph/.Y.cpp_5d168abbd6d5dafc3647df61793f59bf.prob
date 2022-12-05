@@ -1,0 +1,1 @@
+{"name":"Local: Y","url":"d:\\learn\\oj\\voj\\532406\\Y.cpp","tests":[{"id":1669724379074,"input":"5\n1 2 4 3 3\n","output":"4"},{"id":1669724391142,"input":"8\n2 3 4 4 2 1 3 1","output":"5"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\learn\\oj\\voj\\532406\\Y.cpp","group":"local","local":true}

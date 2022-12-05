@@ -6,6 +6,8 @@
 *.a
 *.obj
 *.exe
+*.pdb
+*.class
 
 /.vs/
 /out/

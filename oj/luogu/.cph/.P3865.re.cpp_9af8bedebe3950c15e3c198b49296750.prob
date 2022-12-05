@@ -1,0 +1,1 @@
+{"name":"Local: P3865","url":"d:\\learn\\oj\\luogu\\P3865.re.cpp","tests":[{"id":1668692598756,"input":"8 8\n9 3 1 7 5 6 0 8\n1 6\n1 5\n2 7\n2 6\n1 8\n4 8\n3 7\n1 8","output":"9\n9\n7\n7\n9\n8\n7\n9"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\learn\\oj\\luogu\\P3865.re.cpp","group":"local","local":true}

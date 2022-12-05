@@ -1,0 +1,1 @@
+{"name":"Local: 01","url":"d:\\learn\\oj\\acwing\\01.cpp","tests":[{"id":1670129259557,"input":"4 5\n1 2\n2 4\n3 4\n4 5","output":"8"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\learn\\oj\\acwing\\01.cpp","group":"local","local":true}
