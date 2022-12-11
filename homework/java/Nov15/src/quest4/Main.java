@@ -1,7 +1,8 @@
-package quest3;
+package quest4;
 
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -22,6 +23,8 @@ class Win extends JFrame{
     private JTextField fieldFilePath = new JTextField(20);
 
     private BufferedImage bufferedImage;
+
+    private static Clip bgm;
 
     public Win(){
         btnOpenImg.addActionListener(e -> {
@@ -71,6 +74,17 @@ class Win extends JFrame{
         add(topPanel, BorderLayout.NORTH);
         add(image, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
+
+        try {
+            bgm= AudioSystem.getClip();
+            FileInputStream is = new FileInputStream("bgm.wav");
+            AudioInputStream ais=AudioSystem.getAudioInputStream(is);
+            bgm.open(ais);
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
+        bgm.start();
+        bgm.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }
 
