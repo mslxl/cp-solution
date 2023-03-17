@@ -1,0 +1,1 @@
+{"name":"Local: U279115","url":"d:\\learn\\solution\\luogu\\U279115.cpp","tests":[{"id":1675673061273,"input":"1\n2 2 2\n1 1 1","output":"4"},{"id":1675673071481,"input":"2\n4 6 8\n1 2 1\n2 3 4","output":"184"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\learn\\solution\\luogu\\U279115.cpp","group":"local","local":true}
