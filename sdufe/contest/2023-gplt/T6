@@ -1,0 +1,67 @@
+#include <bits/stdc++.h>
+using ll = long long;
+using ul = unsigned long long;
+#define int ll
+const int maxn = 2e5 + 17;
+int w[maxn];
+std::pair<int, int> wp[maxn];
+int n;
+struct Edge {
+  int next, to;
+} e[maxn * 2 + 17];
+int head[maxn], eid;
+void add_edge(int u, int v) {
+  e[++eid].to = v;
+  e[eid].next = head[u];
+  head[u] = eid;
+}
+void add_biedge(int u, int v) {
+  add_edge(u, v);
+  add_edge(v, u);
+}
+
+int depth[maxn];
+
+void dfs_depth(int x, int fa) {
+  depth[x] = depth[fa] + 1;
+  for (int i = head[x]; i; i = e[i].next) {
+    int v = e[i].to;
+    if (v == fa) continue;
+    dfs_depth(v, x);
+  }
+}
+#undef int
+int modd = 1e9 + 7;
+int main() {
+#define int ll
+  std::ios::sync_with_stdio(false);
+  std::cin.tie(nullptr);
+  std::cout.tie(nullptr);
+  std::cin >> n;
+  for (int i = 1; i <= n; i++) {
+    std::cin >> w[i];
+    wp[i].first = w[i];
+    wp[i].second = i;
+  }
+  std::sort(wp + 1, wp + n + 1);
+  for (int i = 1; i <= n; i++) {
+    int u, v;
+    std::cin >> u >> v;
+    add_biedge(u, v);
+  }
+  depth[0] = -1;
+  dfs_depth(1, 0);
+  int ans = 0;
+  depth[0] = 0;
+  for (int i = 1; i <= n; i++) {
+    ll dep = (i - 1) * depth[wp[i].second];
+    dep %= modd;
+    ans += (depth[wp[i - 1].second] + dep) % modd * wp[i].first;
+    ans %= modd;
+    depth[wp[i].second] += depth[wp[i - 1].second];
+    depth[wp[i].second] %= modd;
+  }
+  std::cout << ans % modd;
+
+  return 0;
+}
