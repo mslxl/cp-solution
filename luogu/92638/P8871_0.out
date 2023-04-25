@@ -1,0 +1,11 @@
+ 1 #include<iostream>
+ 2 using namespace std;
+ 3 int main(){
+ 4     int a, b;
+ 5     cin >> a >> b;
+ 6     cout << a + b << endl;
+ 7     cout << a - b << endl;
+ 8     cout << a * b << endl;
+ 9     cout << a / b << endl;
+10     return 0;
+11 }

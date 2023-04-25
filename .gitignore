@@ -1,6 +1,4 @@
-*.in
 *.bin
-*.out
 *.eg
 *.diff
 *.a

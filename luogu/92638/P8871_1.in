@@ -1,0 +1,30 @@
+public class Main {
+    public static void main(String[] args) throws Exception {
+        int b = 0, c = 0;
+        for (int a = 123; a < 333; a++) {
+            int[] array = new int[10];
+            Boolean flag = true;
+            b = a * 2;
+            c = a * 3;
+            array[a / 100] = 1;
+            array[a / 10 % 10] = 1;
+            array[a % 10] = 1;
+
+            array[b / 100] = 1;
+            array[b / 10 % 10] = 1;
+            array[b % 10] = 1;
+
+            array[c / 100] = 1;
+            array[c / 10 % 10] = 1;
+            array[c % 10] = 1;
+            for (int i = 1; i < array.length; i++) {
+                if (array[i] != 1) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag)
+                System.out.println(a + " " + b + " " + c);
+        }
+    }
+}
