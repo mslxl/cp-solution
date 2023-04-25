@@ -1,8 +1,8 @@
-// Problem: P3379 【模板】最近公共祖先（LCA）
-// Contest: Luogu
-// URL: https://www.luogu.com.cn/problem/P3379
+// Problem: L3-2 拼题A打卡奖励
+// Contest: PTA
+// URL: https://pintia.cn/problem-sets/1639284043721900032/exam/problems/1639284302049079310
 // Memory Limit: 512 MB
-// Time Limit: 2000 ms
+// Time Limit: 10000 ms
 // 
 // Powered by CP Editor (https://cpeditor.org)
 
@@ -30,82 +30,36 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 #define debug(...) debug_do std::cerr << "[" << #__VA_ARGS__ << "]:", __debug_out(__VA_ARGS__)
 
 // clang-format on
+const int maxn = 1e3 + 17;
+const int maxm = 365 * 24 * 60 + 17;
+#define int ll
+struct Paper{
+  int c = 0;
+  int m = 0;
+} paper[maxn];
+int n,m;
 
-const int maxn = 5e5 + 17;
-
-struct Edge{
-  int to, next;
-} e[maxn * 2 + 1];
-
-int head[maxn], eid = 0;
-
-void add_edge(int u, int v){
-  e[++eid].next = head[u];
-  e[eid].to = v;
-  head[u] = eid;
-}
-void add_biedge(int u, int v){
-  add_edge(u, v);
-  add_edge(v, u);
-}
-
-int N, M, S;
-
-
-int st[maxn][21];
-int parent[maxn];
-int depth[maxn];
-void dfs(int x, int fa){
-  parent[x] = fa;
-  depth[x] = depth[fa] + 1;
-  for(int i = head[x]; i; i = e[i].next){
-    const int v = e[i].to;
-    if(v == fa) continue;
-    dfs(v, x);
-  }
-}
-void build_multiply(){
-  for(int i = 1; i <= N; i++){
-    st[i][0] = parent[i];
-  }
-  for(int j = 1; j < 21; j++){
-    for(int i = 1; i <= N; i++){
-      st[i][j] = st[st[i][j-1]][j-1];
-    }
-  }
-}
-int LCA(int x,int y){
-  if(depth[x] > depth[y]) std::swap(x, y);
-  for(int j = 20; j >= 0; j--){
-    if(depth[st[y][j]] >= depth[x]){
-      y = st[y][j];
-    }
-  }
-  debug(x, y, depth[x], depth[y]);
-  if(x == y) return x;
-  for(int j = 20; j >= 0; j--){
-    if(st[x][j] != st[y][j]){
-      x = st[x][j];
-      y = st[y][j];
-    }
-  }
-  return st[x][0];
-}
+int f[maxm], sum;
 
 void solve(const std::size_t testcase){
-  read(N, M, S);
-  for(int i = 0; i < N-1; i++){
-    int x, y;
-    read(x, y);
-    add_biedge(x, y);
-  }
-  dfs(S,0);
-  build_multiply();
-  
-  for(int i = 0; i < M; i++){
-    int a,b;
-    read(a,b);
-    std::cout << LCA(a,b) << "\n";
+  read(n, m);
+  for(int i = 1; i <= n; i++) read(paper[i].m);
+  for(int i = 1; i <= n; i++){
+     read(paper[i].c);
+     sum += paper[i].c;
   }
   
+  std::memset(f, 0x3f, sizeof(f));
+  f[0] = 0;
+  for(int i = 1; i <= n; i++){
+    for(int j = sum; j >= paper[i].c; j--){
+        f[j] = std::min(f[j], f[j - paper[i].c] + paper[i].m);
+    }
+  }
+  for(int i = sum; i >= 0; i--){
+    if(f[i] <= m){
+      std::cout << i;
+      return;
+    }
+  }
 }

@@ -1,14 +1,7 @@
-// Problem: P3379 【模板】最近公共祖先（LCA）
-// Contest: Luogu
-// URL: https://www.luogu.com.cn/problem/P3379
-// Memory Limit: 512 MB
-// Time Limit: 2000 ms
-// 
-// Powered by CP Editor (https://cpeditor.org)
-
 // clang-format off
 #include <bits/stdc++.h> 
 using ll = long long; using ul = unsigned long long; using ld = long double;
+using pii = std::pair<int,int>; using pli = std::pair<ll, int>;
 template <typename T> inline typename std::enable_if<std::is_integral<T>::value>::type read(T &x){ char c;T f=1; while(!isdigit(c=getchar())) if(c=='-')f=-1; x=(c&15); while(isdigit(c=getchar())) x= (x<<1) + (x<<3) + (c&15); x*=f; } template <typename T, typename... A> inline void read(T &value, A &..._t) { read(value), read(_t...); }
 void solve(const std::size_t testcase);
 
@@ -31,81 +24,36 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 
 // clang-format on
 
-const int maxn = 5e5 + 17;
-
-struct Edge{
-  int to, next;
-} e[maxn * 2 + 1];
-
-int head[maxn], eid = 0;
-
-void add_edge(int u, int v){
-  e[++eid].next = head[u];
-  e[eid].to = v;
-  head[u] = eid;
-}
-void add_biedge(int u, int v){
-  add_edge(u, v);
-  add_edge(v, u);
-}
-
-int N, M, S;
-
-
-int st[maxn][21];
-int parent[maxn];
-int depth[maxn];
-void dfs(int x, int fa){
-  parent[x] = fa;
-  depth[x] = depth[fa] + 1;
-  for(int i = head[x]; i; i = e[i].next){
-    const int v = e[i].to;
-    if(v == fa) continue;
-    dfs(v, x);
-  }
-}
-void build_multiply(){
-  for(int i = 1; i <= N; i++){
-    st[i][0] = parent[i];
-  }
-  for(int j = 1; j < 21; j++){
-    for(int i = 1; i <= N; i++){
-      st[i][j] = st[st[i][j-1]][j-1];
-    }
-  }
-}
-int LCA(int x,int y){
-  if(depth[x] > depth[y]) std::swap(x, y);
-  for(int j = 20; j >= 0; j--){
-    if(depth[st[y][j]] >= depth[x]){
-      y = st[y][j];
-    }
-  }
-  debug(x, y, depth[x], depth[y]);
-  if(x == y) return x;
-  for(int j = 20; j >= 0; j--){
-    if(st[x][j] != st[y][j]){
-      x = st[x][j];
-      y = st[y][j];
-    }
-  }
-  return st[x][0];
-}
-
+int N, M;
+std::map<std::vector<int>, int> counter;
 void solve(const std::size_t testcase){
-  read(N, M, S);
-  for(int i = 0; i < N-1; i++){
-    int x, y;
-    read(x, y);
-    add_biedge(x, y);
+  read(N, M);
+  for(int i = 0; i < N; i++){
+    std::vector<int> seq(M);
+    for(int j = 0; j < M; j++){
+      read(seq[j]);
+    }
+    counter[std::move(seq)]++;
   }
-  dfs(S,0);
-  build_multiply();
-  
-  for(int i = 0; i < M; i++){
-    int a,b;
-    read(a,b);
-    std::cout << LCA(a,b) << "\n";
+  std::vector<std::pair<int, std::vector<int>>> ord;
+  for(auto &[key, cnt]: counter){
+    ord.push_back(std::make_pair(cnt, key));
   }
+  using elem = std::pair<int, std::vector<int>>;
+  std::sort(ord.begin(), ord.end(), [](const elem&lhs, const elem&rhs){
+    if(lhs.first == rhs.first){
+      return lhs.second < rhs.second;
+    }
+    return lhs.first > rhs.first;
+  });
   
+  std::cout << ord.size() << "\n";
+  for(auto &v :ord){
+    std::cout << v.first;
+    for(auto &e: v.second){
+      std::cout << " " << e;
+    }
+    std::cout << "\n";
+  }
+ 
 }

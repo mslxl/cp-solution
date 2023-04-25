@@ -1,8 +1,8 @@
-// Problem: P3379 【模板】最近公共祖先（LCA）
+// Problem: P8787 [蓝桥杯 2022 省 B] 砍竹子
 // Contest: Luogu
-// URL: https://www.luogu.com.cn/problem/P3379
-// Memory Limit: 512 MB
-// Time Limit: 2000 ms
+// URL: https://www.luogu.com.cn/problem/P8787
+// Memory Limit: 128 MB
+// Time Limit: 1000 ms
 // 
 // Powered by CP Editor (https://cpeditor.org)
 
@@ -20,8 +20,6 @@ int main() {
   return 0;
 }
 template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<A, B> const &a) { return s << "(" << std::get<0>(a) << ", " << std::get<1>(a) << ")"; } template <size_t n, typename... T> typename std::enable_if<(n >= sizeof...(T))>::type print_tuple(std::ostream &, const std::tuple<T...> &) {} template <size_t n, typename... T> typename std::enable_if<(n < sizeof...(T))>::type print_tuple(std::ostream &os, const std::tuple<T...> &tup) { if (n != 0) os << ", "; os << std::get<n>(tup); print_tuple<n + 1>(os, tup); } template <typename... T> std::ostream &operator<<(std::ostream &os, const std::tuple<T...> &tup) { os << "("; print_tuple<0>(os, tup); return os << ")"; } template <class T> std::ostream &print_collection(std::ostream &s, T const &a) { s << '['; for (auto it = std::begin(a); it != std::end(a); ++it) { s << *it; if (it != std::prev(end(a))) s << ", "; } return s << ']'; } template <class T, class U> std::ostream &operator<<(std::ostream &s, std::map<T, U> const &a) { return print_collection(s, a); } template <class T> std::ostream &operator<<(std::ostream &s, std::set<T> const &a) { return print_collection(s, a); } template <class T> std::ostream &operator<<(std::ostream &s, std::vector<T> const &a) { return print_collection(s, a); } void __debug_out() { std::cerr << std::endl; } template <typename T, class = typename std::enable_if<std::is_pointer<T>::value>::type> void __debug_out(T beg, T end) { std::cerr << '['; for (auto it = beg; it != end; it++) { std::cerr << *it; if (it != std::prev(end)) { std::cerr << ", "; } } std::cerr << ']' << std::endl; } template <typename H, typename... Tail> void __debug_out(H h, Tail... T) { std::cerr << " " << h; __debug_out(T...); }
-#define TO_STRING_IMPL(type) void _to_string_##type(std::ostream& buffer, const type& value); std::ostream& operator<<(std::ostream& buff, const type& value){ _to_string_##type(buff, value); return buff; }\
-  void _to_string_##type(std::ostream& buffer, const type& value)
 #ifdef LOCAL
 #define debug_do if(true)
 #else
@@ -31,81 +29,61 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 
 // clang-format on
 
-const int maxn = 5e5 + 17;
-
-struct Edge{
-  int to, next;
-} e[maxn * 2 + 1];
-
-int head[maxn], eid = 0;
-
-void add_edge(int u, int v){
-  e[++eid].next = head[u];
-  e[eid].to = v;
-  head[u] = eid;
-}
-void add_biedge(int u, int v){
-  add_edge(u, v);
-  add_edge(v, u);
-}
-
-int N, M, S;
-
-
-int st[maxn][21];
-int parent[maxn];
-int depth[maxn];
-void dfs(int x, int fa){
-  parent[x] = fa;
-  depth[x] = depth[fa] + 1;
-  for(int i = head[x]; i; i = e[i].next){
-    const int v = e[i].to;
-    if(v == fa) continue;
-    dfs(v, x);
-  }
-}
-void build_multiply(){
-  for(int i = 1; i <= N; i++){
-    st[i][0] = parent[i];
-  }
-  for(int j = 1; j < 21; j++){
-    for(int i = 1; i <= N; i++){
-      st[i][j] = st[st[i][j-1]][j-1];
+#define slice(H) sqrtl((H/2) + 1)
+#define int ll
+const int maxn = 2e5 + 17;
+struct bamboo{
+  int height = 0;
+  int pos = 0;
+  bool operator<(const bamboo & rhs) const {
+    if(this->height == rhs.height){
+      return this->pos < rhs.pos;
     }
+    return this->height < rhs.height;
   }
+};
+int fa[maxn];
+int n;
+bamboo a[maxn];
+
+int find(int x){
+  while(fa[x] != x) x = fa[x];
+  return x;
 }
-int LCA(int x,int y){
-  if(depth[x] > depth[y]) std::swap(x, y);
-  for(int j = 20; j >= 0; j--){
-    if(depth[st[y][j]] >= depth[x]){
-      y = st[y][j];
-    }
-  }
-  debug(x, y, depth[x], depth[y]);
-  if(x == y) return x;
-  for(int j = 20; j >= 0; j--){
-    if(st[x][j] != st[y][j]){
-      x = st[x][j];
-      y = st[y][j];
-    }
-  }
-  return st[x][0];
+
+void joint(int u, int v){
+  u = find(u);
+  v = find(v);
+  if(v < u) std::swap(u,v);
+  fa[v] = u;
 }
+
 
 void solve(const std::size_t testcase){
-  read(N, M, S);
-  for(int i = 0; i < N-1; i++){
-    int x, y;
-    read(x, y);
-    add_biedge(x, y);
+  read(n);
+  for(int i = 0; i <= n; i++) fa[i] = i;
+  for(int i = 1; i <= n; i++) {
+    read(a[i].height);
+    a[i].pos = i;
   }
-  dfs(S,0);
-  build_multiply();
-  
-  for(int i = 0; i < M; i++){
-    int a,b;
-    read(a,b);
-    std::cout << LCA(a,b) << "\n";
+  for(int i = 2; i <= n; i++)
+    if(a[i].height == a[i-1].height)
+      joint(i, i-1);
+  std::priority_queue<bamboo> seq;
+  for(int i = 1; i <= n; i++)
+    if(fa[i] == i && a[i].height > 1)
+      seq.push(a[i]);
+  int ans = 0;
+  while(!seq.empty()){
+    auto select = seq.top();
+    seq.pop();
+    if(select.height == a[find(select.pos-1)].height)
+      joint(select.pos, select.pos - 1);
+    if(find(select.pos) != select.pos) continue;
+    a[select.pos].height = select.height = slice(select.height);
+    if(select.height > 1) seq.push(select);
+    ans++;
   }
+  std::cout << ans;
   
 }

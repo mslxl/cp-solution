@@ -1,14 +1,7 @@
-// Problem: P3379 【模板】最近公共祖先（LCA）
-// Contest: Luogu
-// URL: https://www.luogu.com.cn/problem/P3379
-// Memory Limit: 512 MB
-// Time Limit: 2000 ms
-// 
-// Powered by CP Editor (https://cpeditor.org)
-
 // clang-format off
 #include <bits/stdc++.h> 
 using ll = long long; using ul = unsigned long long; using ld = long double;
+using pii = std::pair<int,int>; using pli = std::pair<ll, int>; using pll = std::pair<ll,ll>;  using pdd = std::pair<long double,long double>; using pid = std::pair<int,long double>; using pld = std::pair<long long, double>; using pdl = std::pair<double, long long>;
 template <typename T> inline typename std::enable_if<std::is_integral<T>::value>::type read(T &x){ char c;T f=1; while(!isdigit(c=getchar())) if(c=='-')f=-1; x=(c&15); while(isdigit(c=getchar())) x= (x<<1) + (x<<3) + (c&15); x*=f; } template <typename T, typename... A> inline void read(T &value, A &..._t) { read(value), read(_t...); }
 void solve(const std::size_t testcase);
 
@@ -31,81 +24,40 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 
 // clang-format on
 
-const int maxn = 5e5 + 17;
+int n;
 
-struct Edge{
-  int to, next;
-} e[maxn * 2 + 1];
+std::vector<pdd> map;
 
-int head[maxn], eid = 0;
-
-void add_edge(int u, int v){
-  e[++eid].next = head[u];
-  e[eid].to = v;
-  head[u] = eid;
-}
-void add_biedge(int u, int v){
-  add_edge(u, v);
-  add_edge(v, u);
+long double cross(const pdd& lhs, const pdd& rhs){
+  return lhs.first * rhs.second - lhs.second * rhs.first;
 }
 
-int N, M, S;
-
-
-int st[maxn][21];
-int parent[maxn];
-int depth[maxn];
-void dfs(int x, int fa){
-  parent[x] = fa;
-  depth[x] = depth[fa] + 1;
-  for(int i = head[x]; i; i = e[i].next){
-    const int v = e[i].to;
-    if(v == fa) continue;
-    dfs(v, x);
-  }
-}
-void build_multiply(){
-  for(int i = 1; i <= N; i++){
-    st[i][0] = parent[i];
-  }
-  for(int j = 1; j < 21; j++){
-    for(int i = 1; i <= N; i++){
-      st[i][j] = st[st[i][j-1]][j-1];
-    }
-  }
-}
-int LCA(int x,int y){
-  if(depth[x] > depth[y]) std::swap(x, y);
-  for(int j = 20; j >= 0; j--){
-    if(depth[st[y][j]] >= depth[x]){
-      y = st[y][j];
-    }
-  }
-  debug(x, y, depth[x], depth[y]);
-  if(x == y) return x;
-  for(int j = 20; j >= 0; j--){
-    if(st[x][j] != st[y][j]){
-      x = st[x][j];
-      y = st[y][j];
-    }
-  }
-  return st[x][0];
-}
-
-void solve(const std::size_t testcase){
-  read(N, M, S);
-  for(int i = 0; i < N-1; i++){
-    int x, y;
-    read(x, y);
-    add_biedge(x, y);
-  }
-  dfs(S,0);
-  build_multiply();
-  
-  for(int i = 0; i < M; i++){
-    int a,b;
-    read(a,b);
-    std::cout << LCA(a,b) << "\n";
+void solve(const std::size_t testcase) {
+  std::cin >> n;
+  map.resize(n);
+  for (int i = 0; i < n; i++) {
+    std::cin >> map[i].first >> map[i].second;
   }
   
+  long double min = 0x3f3f3f3f;
+  std::vector<pdd> vec;
+  for (int i = 0; i < map.size(); i++) {
+    vec.clear();
+    for(int j = 0; j < map.size(); j++){
+      if(i == j) continue;
+      vec.push_back({map[i].first - map[j].first, map[i].second - map[j].second});
+    }
+    
+    std::sort(vec.begin(), vec.end(), [](const pdd& lhs, const pdd& rhs){
+      long double c = cross(lhs, rhs);
+      if(c == 0) return lhs.first < rhs.first;
+      return c > 0;
+    });
+    
+    for(int j = 1; j < vec.size(); j++){
+      long double v = std::abs(cross(vec[j], vec[j-1])) * 0.5;
+      min = std::min(min, v);
+    }
+  }
+  printf("%.3Lf", min);
 }

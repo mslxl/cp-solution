@@ -1,14 +1,7 @@
-// Problem: P3379 【模板】最近公共祖先（LCA）
-// Contest: Luogu
-// URL: https://www.luogu.com.cn/problem/P3379
-// Memory Limit: 512 MB
-// Time Limit: 2000 ms
-// 
-// Powered by CP Editor (https://cpeditor.org)
-
 // clang-format off
 #include <bits/stdc++.h> 
 using ll = long long; using ul = unsigned long long; using ld = long double;
+using pii = std::pair<int,int>; using pli = std::pair<ll, int>;using pll = std::pair<ll,ll>;
 template <typename T> inline typename std::enable_if<std::is_integral<T>::value>::type read(T &x){ char c;T f=1; while(!isdigit(c=getchar())) if(c=='-')f=-1; x=(c&15); while(isdigit(c=getchar())) x= (x<<1) + (x<<3) + (c&15); x*=f; } template <typename T, typename... A> inline void read(T &value, A &..._t) { read(value), read(_t...); }
 void solve(const std::size_t testcase);
 
@@ -25,87 +18,76 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 #ifdef LOCAL
 #define debug_do if(true)
 #else
+
 #define debug_do if(false)
 #endif
 #define debug(...) debug_do std::cerr << "[" << #__VA_ARGS__ << "]:", __debug_out(__VA_ARGS__)
 
 // clang-format on
-
-const int maxn = 5e5 + 17;
-
-struct Edge{
-  int to, next;
-} e[maxn * 2 + 1];
-
-int head[maxn], eid = 0;
-
-void add_edge(int u, int v){
-  e[++eid].next = head[u];
-  e[eid].to = v;
-  head[u] = eid;
-}
-void add_biedge(int u, int v){
-  add_edge(u, v);
-  add_edge(v, u);
-}
-
-int N, M, S;
-
-
-int st[maxn][21];
-int parent[maxn];
-int depth[maxn];
-void dfs(int x, int fa){
-  parent[x] = fa;
-  depth[x] = depth[fa] + 1;
-  for(int i = head[x]; i; i = e[i].next){
-    const int v = e[i].to;
-    if(v == fa) continue;
-    dfs(v, x);
-  }
-}
-void build_multiply(){
-  for(int i = 1; i <= N; i++){
-    st[i][0] = parent[i];
-  }
-  for(int j = 1; j < 21; j++){
-    for(int i = 1; i <= N; i++){
-      st[i][j] = st[st[i][j-1]][j-1];
+#define int ll
+bool isPrime(int x){
+  if(x <= 1) return false;
+  for(int i = 2; i * i <= x; i++){
+    if(x % i == 0){
+      return false;
     }
   }
+  return true;
 }
-int LCA(int x,int y){
-  if(depth[x] > depth[y]) std::swap(x, y);
-  for(int j = 20; j >= 0; j--){
-    if(depth[st[y][j]] >= depth[x]){
-      y = st[y][j];
-    }
+
+int A, B;
+std::unordered_map<int, int> happiness;
+std::unordered_set<int> unhappiness;
+std::unordered_set<int> dep_happiness;
+
+int powsum(int V){
+  int sum = 0;
+  while(V != 0){
+    sum += std::pow(V % 10, 2);
+    V /= 10;
   }
-  debug(x, y, depth[x], depth[y]);
-  if(x == y) return x;
-  for(int j = 20; j >= 0; j--){
-    if(st[x][j] != st[y][j]){
-      x = st[x][j];
-      y = st[y][j];
-    }
+  return sum;
+}
+
+int iter(int value, std::unordered_set<int>& r){
+  if(value == 1) return 0;
+  else if(happiness.count(value)) return happiness[value];
+  else if(unhappiness.count(value)) return -1;
+  else if(r.count(value)) return -1;
+  r.insert(value);
+  int dep = iter(powsum(value), r);
+  if(dep == -1) unhappiness.insert(value);
+  else happiness[value] = dep + 1;
+  
+  if(dep != -1){
+    dep_happiness.insert(value);
+    return dep + 1;
+  }else{
+    return -1;
   }
-  return st[x][0];
 }
 
 void solve(const std::size_t testcase){
-  read(N, M, S);
-  for(int i = 0; i < N-1; i++){
-    int x, y;
-    read(x, y);
-    add_biedge(x, y);
-  }
-  dfs(S,0);
-  build_multiply();
-  
-  for(int i = 0; i < M; i++){
-    int a,b;
-    read(a,b);
-    std::cout << LCA(a,b) << "\n";
+  read(A, B);
+  std::stack<pll> st;
+  for(int i = B; i >= A; i--){
+    std::unordered_set<int> r;
+    if(happiness.count(i)) continue;
+    int dep = iter(i, r);
+    
+    if(dep != -1){
+      if(isPrime(i)) dep *= 2;
+      st.push({i, dep});
+    }
   }
   
+  if(st.empty()){
+    std::cout << "SAD";
+  }else{
+    while(!st.empty()){
+      std::cout << st.top().first << " " << st.top().second << "\n";
+      st.pop();
+    } 
+  }
+ 
 }

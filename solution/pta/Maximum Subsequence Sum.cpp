@@ -1,8 +1,8 @@
-// Problem: P3379 【模板】最近公共祖先（LCA）
-// Contest: Luogu
-// URL: https://www.luogu.com.cn/problem/P3379
-// Memory Limit: 512 MB
-// Time Limit: 2000 ms
+// Problem: 1007 Maximum Subsequence Sum
+// Contest: PTA
+// URL: https://pintia.cn/problem-sets/994805342720868352/exam/problems/994805514284679168
+// Memory Limit: 64 MB
+// Time Limit: 200 ms
 // 
 // Powered by CP Editor (https://cpeditor.org)
 
@@ -30,82 +30,35 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 #define debug(...) debug_do std::cerr << "[" << #__VA_ARGS__ << "]:", __debug_out(__VA_ARGS__)
 
 // clang-format on
-
-const int maxn = 5e5 + 17;
-
-struct Edge{
-  int to, next;
-} e[maxn * 2 + 1];
-
-int head[maxn], eid = 0;
-
-void add_edge(int u, int v){
-  e[++eid].next = head[u];
-  e[eid].to = v;
-  head[u] = eid;
-}
-void add_biedge(int u, int v){
-  add_edge(u, v);
-  add_edge(v, u);
-}
-
-int N, M, S;
-
-
-int st[maxn][21];
-int parent[maxn];
-int depth[maxn];
-void dfs(int x, int fa){
-  parent[x] = fa;
-  depth[x] = depth[fa] + 1;
-  for(int i = head[x]; i; i = e[i].next){
-    const int v = e[i].to;
-    if(v == fa) continue;
-    dfs(v, x);
-  }
-}
-void build_multiply(){
-  for(int i = 1; i <= N; i++){
-    st[i][0] = parent[i];
-  }
-  for(int j = 1; j < 21; j++){
-    for(int i = 1; i <= N; i++){
-      st[i][j] = st[st[i][j-1]][j-1];
-    }
-  }
-}
-int LCA(int x,int y){
-  if(depth[x] > depth[y]) std::swap(x, y);
-  for(int j = 20; j >= 0; j--){
-    if(depth[st[y][j]] >= depth[x]){
-      y = st[y][j];
-    }
-  }
-  debug(x, y, depth[x], depth[y]);
-  if(x == y) return x;
-  for(int j = 20; j >= 0; j--){
-    if(st[x][j] != st[y][j]){
-      x = st[x][j];
-      y = st[y][j];
-    }
-  }
-  return st[x][0];
-}
-
+#define int ll
+int k;
+const int maxk = 1e5 + 17;
+int a[maxk];
+int p[maxk];
 void solve(const std::size_t testcase){
-  read(N, M, S);
-  for(int i = 0; i < N-1; i++){
-    int x, y;
-    read(x, y);
-    add_biedge(x, y);
-  }
-  dfs(S,0);
-  build_multiply();
-  
-  for(int i = 0; i < M; i++){
-    int a,b;
-    read(a,b);
-    std::cout << LCA(a,b) << "\n";
-  }
-  
+    read(k);
+   
+    for(int i = 1; i <= k; i++){
+      read(a[i]);
+      p[i] = p[i-1] + a[i];
+    }
+
+    int sum = -0x3f3f3f3f, maxl = 1, maxr = k;
+    
+    for(int l = 1; l <= k; l++){
+      for(int r = l; r <= k; r++){
+        int partial = p[r] - p[l-1];
+        if(partial > sum){
+          maxl = l;
+          maxr = r;
+          sum = partial;
+        }
+      }
+    }
+    if(sum >= 0){
+      std::cout << sum << " " << a[maxl] << " " << a[maxr];
+    }else{
+       std::cout << 0 << " " << a[1] << " " << a[k];
+    }
+    
 }

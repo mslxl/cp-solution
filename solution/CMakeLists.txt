@@ -16,6 +16,7 @@ set(Folder_Black_List CMakeFiles/
     out/)
 
 add_definitions(-DLOCAL_TEST)
+add_definitions(-DLOCAL)
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
 foreach (Src ${SRC_LIST})
