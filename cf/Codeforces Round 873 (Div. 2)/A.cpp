@@ -1,12 +1,20 @@
+// Problem: A. Divisible Array
+// Contest: Codeforces - Codeforces Round 873 (Div. 2)
+// URL: https://codeforces.com/contest/1828/problem/0
+// Memory Limit: 256 MB
+// Time Limit: 1000 ms
+// 
+// Powered by CP Editor (https://cpeditor.org)
+
 // clang-format off
 #include <bits/stdc++.h> 
 using ll = long long; using ul = unsigned long long; using ld = long double;
-template <typename T> inline typename std::enable_if<std::is_integral<T>::value>::type read(T &x){ char c;T f=1; while(!isdigit(c=getchar())) if(c=='-')f=-1; x=(c&15); while(isdigit(c=getchar())) x= (x<<1) + (x<<3) + (c&15); x*=f; } template <typename T, typename... A> inline void read(T &value, A &..._t) { read(value), read(_t...); } template <typename T> inline void reads(T begin, T end){ while(begin != end) { read(*begin); begin++; } }
+template <typename T> inline typename std::enable_if<std::is_integral<T>::value>::type read(T &x){ char c;T f=1; while(!isdigit(c=getchar())) if(c=='-')f=-1; x=(c&15); while(isdigit(c=getchar())) x= (x<<1) + (x<<3) + (c&15); x*=f; } template <typename T, typename... A> inline void read(T &value, A &..._t) { read(value), read(_t...); } template <typename T> inline void read_batch(T begin, T end){ while(begin != end) { read(*begin); begin++; } }
 void solve(const std::size_t testcase);
 int main() {
   std::size_t t = 1;
   // std::ios::sync_with_stdio(false); std::cin.tie(nullptr); std::cout.tie(nullptr);
-  // read(t); // std::cin >> t;
+  read(t); // std::cin >> t;
   for(std::size_t i = 1; i <= t; i++) solve(t);
   return 0;
 }
@@ -19,21 +27,46 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 #define debug_do if(false)
 #endif
 #define debug(...) debug_do std::cerr << "[" << #__VA_ARGS__ << "]:", __debug_out(__VA_ARGS__)
-#define maxnum(type) std::numeric_limits<type>::max()
-#define minnum(type) std::numeric_limits<type>::min()
 #define pb push_back
 #define pf push_front
 #define mk std::make_pair
-#define mt std::make_tuple
-#define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
-#define all1(x) ++(x).begin(), (x).end()
-#define rall1(x) (x).rbegin(), --(x).rend()
 #define mmax(a,  b) a = std::max(a, (decltype(a)) b);
 #define mmin(a, b) a = std::min(a, (decltype(a)) b);
-#define rep(i, n) for(int i = 0; i < n; i++)
-#define rep1(i, n) for(int i = 1; i <= n; i++)
 // clang-format on
 
 #define int ll
-void solve(const std::size_t testcase) {}
+
+template<typename T> T gcd(T a, T b){ return std::__gcd(a,b); }
+template<typename T> T lcm(T a, T b){ return a * b / gcd(a,b); }
+
+int ans[2300];
+int pre[2300];
+void solve(const std::size_t testcase) {
+  int n;
+  read(n);
+  for(int i = 1; i <= n; i++){
+    ans[i] = i;
+    pre[i] = pre[i-1] + ans[i];
+  }
+  if(pre[n] % n == 0){
+    for(int i = 1; i <= n; i++){
+      std::cout << ans[i] << " ";
+    }
+    std::cout << "\n";
+    return;
+  }else{
+    int diff = pre[n] % n;
+    for(int i = 0; diff != 0; i++, diff >>= 1){
+      if(diff & 1){
+        int v = 1 << i;
+        ans[v] += v;
+      }
+    }
+    for(int i = 1; i <= n; i++){
+      std::cout << ans[i] << " ";
+    }
+    std::cout << "\n";
+    return; 
+  }
+
+}

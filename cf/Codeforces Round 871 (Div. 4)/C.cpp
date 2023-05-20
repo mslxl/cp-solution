@@ -1,3 +1,11 @@
+// Problem: C. Mr. Perfectly Fine
+// Contest: Codeforces - Codeforces Round 871 (Div. 4)
+// URL: https://codeforces.com/contest/1829/problem/C
+// Memory Limit: 256 MB
+// Time Limit: 2000 ms
+// 
+// Powered by CP Editor (https://cpeditor.org)
+
 // clang-format off
 #include <bits/stdc++.h> 
 using ll = long long; using ul = unsigned long long; using ld = long double;
@@ -6,7 +14,7 @@ void solve(const std::size_t testcase);
 int main() {
   std::size_t t = 1;
   // std::ios::sync_with_stdio(false); std::cin.tie(nullptr); std::cout.tie(nullptr);
-  // read(t); // std::cin >> t;
+  read(t); // std::cin >> t;
   for(std::size_t i = 1; i <= t; i++) solve(t);
   return 0;
 }
@@ -19,8 +27,6 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 #define debug_do if(false)
 #endif
 #define debug(...) debug_do std::cerr << "[" << #__VA_ARGS__ << "]:", __debug_out(__VA_ARGS__)
-#define maxnum(type) std::numeric_limits<type>::max()
-#define minnum(type) std::numeric_limits<type>::min()
 #define pb push_back
 #define pf push_front
 #define mk std::make_pair
@@ -31,9 +37,31 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 #define rall1(x) (x).rbegin(), --(x).rend()
 #define mmax(a,  b) a = std::max(a, (decltype(a)) b);
 #define mmin(a, b) a = std::min(a, (decltype(a)) b);
-#define rep(i, n) for(int i = 0; i < n; i++)
-#define rep1(i, n) for(int i = 1; i <= n; i++)
 // clang-format on
 
 #define int ll
-void solve(const std::size_t testcase) {}
+void solve(const std::size_t testcase) {
+  int b01 = std::numeric_limits<int>::max()/2;
+  int b10 = std::numeric_limits<int>::max()/2;
+  int b11 = std::numeric_limits<int>::max()/2;
+  int n;
+  read(n);
+  for(int i = 0; i < n; i++){
+    int t, v;
+    read(t, v);
+    if(v==0) continue;
+    if(v == 1){
+      mmin(b01, t);
+    }else if(v == 10){
+      mmin(b10, t);
+    }else{
+      mmin(b11, t);
+    }
+  }
+  if(std::min(b01 + b10, b11) ==std::numeric_limits<int>::max()/2 ){
+    std::cout << "-1\n";
+  }else{
+    std::cout << std::min(b01 + b10, b11) << "\n";
+  }
+  
+}

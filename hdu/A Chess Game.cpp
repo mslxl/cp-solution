@@ -1,3 +1,11 @@
+// Problem: A Chess Game
+// Contest: Virtual Judge - HDU
+// URL: https://vjudge.net/problem/HDU-1524
+// Memory Limit: 32 MB
+// Time Limit: 1000 ms
+//
+// Powered by CP Editor (https://cpeditor.org)
+
 // clang-format off
 #include <bits/stdc++.h> 
 using ll = long long; using ul = unsigned long long; using ld = long double;
@@ -31,9 +39,122 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 #define rall1(x) (x).rbegin(), --(x).rend()
 #define mmax(a,  b) a = std::max(a, (decltype(a)) b);
 #define mmin(a, b) a = std::min(a, (decltype(a)) b);
-#define rep(i, n) for(int i = 0; i < n; i++)
-#define rep1(i, n) for(int i = 1; i <= n; i++)
 // clang-format on
 
-#define int ll
-void solve(const std::size_t testcase) {}
+int n;
+const int maxn = 1e4 + 7;
+
+//------ 图定义 ----------
+std::vector<int> rev_g[maxn];
+std::vector<int> g[maxn];
+
+int rev_indeg[maxn];
+int rev_outdeg[maxn];
+
+
+void clear() {
+  for (int i = 0; i < maxn; i++) {
+    rev_g[i].clear();
+    g[i].clear();
+  }
+  std::memset(rev_indeg, 0, sizeof(rev_indeg));
+  std::memset(rev_outdeg, 0, sizeof(rev_outdeg));
+}
+void add_edge(int u, int v) {
+  rev_g[v].push_back(u);
+  g[u].push_back(v);
+
+  rev_indeg[u]++;
+  rev_outdeg[v]++;
+}
+
+//------ SG ----------
+
+int SG[maxn];
+bool mex_vis[maxn];  // 仅用于 SG 函数中求 mex
+
+// 输入节点编号
+// 输出 SG 函数中的点编号
+int mex(int node) {
+  std::memset(mex_vis, false, sizeof(mex_vis));
+  for (auto v : g[node]) {  // 遍利能转移到的点
+    mex_vis[SG[v]] = true;
+  }
+  for (int i = 0; i < maxn; i++) {
+    if (!mex_vis[i]) return i;
+  }
+  return -1;
+}
+
+void topo_dfs(int u) {
+  if (rev_indeg[u] == 0) {
+    SG[u] = mex(u);
+  } else
+    return;
+
+  for (auto v : rev_g[u]) {
+    rev_indeg[v]--;
+    if (rev_indeg[v] == 0) {
+      topo_dfs(v);
+    }
+  }
+}
+
+void sg() {
+  std::memset(SG, 0, sizeof(SG));
+  for (int i = 0; i < n; i++) {
+    if (rev_indeg[i] == 0) {
+      SG[i] = 0;  // 无法行动的点的 SG 为 0
+      for (auto v : rev_g[i]) {
+        rev_indeg[v]--;
+        if (rev_indeg[v] == 0) {
+          topo_dfs(v);
+        }
+      }
+    }
+  }
+}
+
+void solve(const std::size_t testcase) {
+  while (std::cin >> n) {
+    clear();
+    for (int i = 0; i < n; i++) {
+      int m;
+      std::cin >> m;
+      for (int j = 0; j < m; j++) {
+        int v;
+        std::cin >> v;
+
+        add_edge(i, v);
+      }
+    }
+    sg();
+
+    debug_do {
+      for (int i = 0; i < n; i++) {
+        std::cerr << SG[i] << " ";
+      }
+      std::cerr << std::endl;
+    }
+
+    int k;
+    
+    while (std::cin >> k && k != 0) {
+      int v;
+      int sg_sum = -1;
+      for (int i = 0; i < k; i++) {
+        std::cin >> v;
+        if (sg_sum == -1) {
+          sg_sum = SG[v];
+        } else {
+          sg_sum = sg_sum ^ SG[v];
+        }
+      }
+      if(sg_sum == 0){
+        std::cout << "LOSE\n"; 
+      }else{
+        std::cout << "WIN\n";
+      }
+    }
+  }
+}

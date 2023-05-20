@@ -1,3 +1,11 @@
+// Problem: Stone Game
+// Contest: NowCoder
+// URL: https://ac.nowcoder.com/acm/contest/34655/C
+// Memory Limit: 524288 MB
+// Time Limit: 1000 ms
+// 
+// Powered by CP Editor (https://cpeditor.org)
+
 // clang-format off
 #include <bits/stdc++.h> 
 using ll = long long; using ul = unsigned long long; using ld = long double;
@@ -36,4 +44,37 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 // clang-format on
 
 #define int ll
-void solve(const std::size_t testcase) {}
+int n;
+const int maxn = 50 + 17;
+int C[maxn], S[maxn];
+const int maxc = 1e6 + 17;
+
+
+int sg(int si,int ci){
+  if(si == ci) return 0;
+  int q = sqrt((double) si);
+	while(q+q*q >= si) q--;
+	if(ci > q)
+		return si - ci;
+	else 
+		return sg(q, ci);
+}
+
+
+void solve(const std::size_t testcase) {
+  read(n);
+  rep(i, n){
+    read(S[i], C[i]);
+  }
+
+  int sg_sum = sg(S[0], C[0]);
+  for(int i = 1; i < n; i++){
+    sg(S[i], C[i]);
+    sg_sum = sg_sum ^ sg(S[i], C[i]);
+  }
+  if(sg_sum != 0){
+    std::cout << "Yes";
+  }else{
+    std::cout << "No";
+  }
+}

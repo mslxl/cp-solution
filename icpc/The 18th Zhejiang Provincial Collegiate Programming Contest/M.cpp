@@ -1,7 +1,15 @@
+// Problem: M. Game Theory
+// Contest: Codeforces - The 18th Zhejiang Provincial Collegiate Programming Contest
+// URL: https://codeforces.com/gym/103055/problem/M
+// Memory Limit: 512 MB
+// Time Limit: 1000 ms
+// 
+// Powered by CP Editor (https://cpeditor.org)
+
 // clang-format off
 #include <bits/stdc++.h> 
 using ll = long long; using ul = unsigned long long; using ld = long double;
-template <typename T> inline typename std::enable_if<std::is_integral<T>::value>::type read(T &x){ char c;T f=1; while(!isdigit(c=getchar())) if(c=='-')f=-1; x=(c&15); while(isdigit(c=getchar())) x= (x<<1) + (x<<3) + (c&15); x*=f; } template <typename T, typename... A> inline void read(T &value, A &..._t) { read(value), read(_t...); } template <typename T> inline void reads(T begin, T end){ while(begin != end) { read(*begin); begin++; } }
+template <typename T> inline typename std::enable_if<std::is_integral<T>::value>::type read(T &x){ char c;T f=1; while(!isdigit(c=getchar())) if(c=='-')f=-1; x=(c&15); while(isdigit(c=getchar())) x= (x<<1) + (x<<3) + (c&15); x*=f; } template <typename T, typename... A> inline void read(T &value, A &..._t) { read(value), read(_t...); } template <typename T> inline void read_batch(T begin, T end){ while(begin != end) { read(*begin); begin++; } }
 void solve(const std::size_t testcase);
 int main() {
   std::size_t t = 1;
@@ -19,21 +27,14 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 #define debug_do if(false)
 #endif
 #define debug(...) debug_do std::cerr << "[" << #__VA_ARGS__ << "]:", __debug_out(__VA_ARGS__)
-#define maxnum(type) std::numeric_limits<type>::max()
-#define minnum(type) std::numeric_limits<type>::min()
 #define pb push_back
 #define pf push_front
 #define mk std::make_pair
-#define mt std::make_tuple
-#define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
-#define all1(x) ++(x).begin(), (x).end()
-#define rall1(x) (x).rbegin(), --(x).rend()
 #define mmax(a,  b) a = std::max(a, (decltype(a)) b);
 #define mmin(a, b) a = std::min(a, (decltype(a)) b);
-#define rep(i, n) for(int i = 0; i < n; i++)
-#define rep1(i, n) for(int i = 1; i <= n; i++)
 // clang-format on
 
 #define int ll
-void solve(const std::size_t testcase) {}
+void solve(const std::size_t testcase) {
+  std::cout << "0.0000";
+}

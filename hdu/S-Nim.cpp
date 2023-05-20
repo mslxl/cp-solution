@@ -1,3 +1,11 @@
+// Problem: S-Nim
+// Contest: NowCoder
+// URL: https://ac.nowcoder.com/acm/contest/34655/B
+// Memory Limit: 524288 MB
+// Time Limit: 2000 ms
+// 
+// Powered by CP Editor (https://cpeditor.org)
+
 // clang-format off
 #include <bits/stdc++.h> 
 using ll = long long; using ul = unsigned long long; using ld = long double;
@@ -36,4 +44,57 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 // clang-format on
 
 #define int ll
-void solve(const std::size_t testcase) {}
+int k;
+const int maxk = 100 + 17;
+int S[maxk];
+
+int m;
+
+const int maxl = 100 + 17;
+int l;
+int H[maxl];
+
+bool mex_vis[maxl];
+const int maxh =   1e4 + 7;
+int SG[maxh];
+
+int sg(int target){
+  std::memset(SG, 0, sizeof(SG));
+  for(int i = 1; i <= target; i++){
+     std::memset(mex_vis, false, sizeof(mex_vis));
+     
+     for(int j = 0; j < k; j++){
+       if(i - S[j] >= 0){
+         mex_vis[SG[i-S[j]]] = true;
+       }
+     }
+     
+     int mex = -1;
+     for(int j = 0; j < k; j++){
+       if(!mex_vis[j]){
+         mex = j;
+         break;
+       }
+     }
+     SG[i] = mex;
+  }
+  return SG[target];
+}
+
+void solve(const std::size_t testcase) {
+  read(k);
+  rep(i, k) read(S[i]);
+  read(m);
+  sg(1e4+1);
+  rep(i, m){
+    read(l);
+    rep(j, l) read(H[j]);
+    
+    int sg_sum = SG[H[0]];
+
+    for(int j = 1; j < l; j++){
+      sg_sum = sg_sum ^ SG[H[j]];
+    }
+    std::cout << (sg_sum == 0?'L':'W');
+  }
+}

@@ -1,11 +1,19 @@
+// Problem: D2. Red-Blue Operations (Hard Version)
+// Contest: Codeforces - Educational Codeforces Round 148 (Rated for Div. 2)
+// URL: https://codeforces.com/contest/1832/problem/D2
+// Memory Limit: 256 MB
+// Time Limit: 2000 ms
+// 
+// Powered by CP Editor (https://cpeditor.org)
+
 // clang-format off
 #include <bits/stdc++.h> 
 using ll = long long; using ul = unsigned long long; using ld = long double;
-template <typename T> inline typename std::enable_if<std::is_integral<T>::value>::type read(T &x){ char c;T f=1; while(!isdigit(c=getchar())) if(c=='-')f=-1; x=(c&15); while(isdigit(c=getchar())) x= (x<<1) + (x<<3) + (c&15); x*=f; } template <typename T, typename... A> inline void read(T &value, A &..._t) { read(value), read(_t...); } template <typename T> inline void reads(T begin, T end){ while(begin != end) { read(*begin); begin++; } }
+template <typename T> inline typename std::enable_if<std::is_integral<T>::value>::type read(T &x){ char c;T f=1; while(!isdigit(c=getchar())) if(c=='-')f=-1; x=(c&15); while(isdigit(c=getchar())) x= (x<<1) + (x<<3) + (c&15); x*=f; } template <typename T, typename... A> inline void read(T &value, A &..._t) { read(value), read(_t...); } template <typename T> inline void read_batch(T begin, T end){ while(begin != end) { read(*begin); begin++; } }
 void solve(const std::size_t testcase);
 int main() {
   std::size_t t = 1;
-  // std::ios::sync_with_stdio(false); std::cin.tie(nullptr); std::cout.tie(nullptr);
+  std::ios::sync_with_stdio(false); std::cin.tie(nullptr); std::cout.tie(nullptr);
   // read(t); // std::cin >> t;
   for(std::size_t i = 1; i <= t; i++) solve(t);
   return 0;
@@ -19,21 +27,64 @@ template <class A, class B> std::ostream &operator<<(std::ostream &s, std::pair<
 #define debug_do if(false)
 #endif
 #define debug(...) debug_do std::cerr << "[" << #__VA_ARGS__ << "]:", __debug_out(__VA_ARGS__)
-#define maxnum(type) std::numeric_limits<type>::max()
-#define minnum(type) std::numeric_limits<type>::min()
 #define pb push_back
 #define pf push_front
 #define mk std::make_pair
-#define mt std::make_tuple
-#define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
-#define all1(x) ++(x).begin(), (x).end()
-#define rall1(x) (x).rbegin(), --(x).rend()
 #define mmax(a,  b) a = std::max(a, (decltype(a)) b);
 #define mmin(a, b) a = std::min(a, (decltype(a)) b);
-#define rep(i, n) for(int i = 0; i < n; i++)
-#define rep1(i, n) for(int i = 1; i <= n; i++)
 // clang-format on
 
+const int maxn = 2e5 + 17;
 #define int ll
-void solve(const std::size_t testcase) {}
+int n, q;
+int seq[maxn];
+int arr[maxn];
+
+
+int sum, min_x;
+
+void prepare_check(){
+  min_x = std::numeric_limits<int>::max();
+  
+  sum = 0;
+  for(int i = 1; i <= n; i++){
+    sum += arr[i];
+    mmin(min_x, arr[i]);
+  }
+}
+
+ll check2(int x) {
+  if(min_x < x){
+    return -1e9;
+  }
+  return sum - n * x;
+}
+
+
+void solve(const std::size_t testcase) {
+  read(n, q);
+
+  read_batch(seq + 1, seq + 1 + n);
+  std::sort(seq + 1, seq + 1 + n);
+  while (q--) {
+    int k;
+    read(k);
+    for (int i = 1; i <= n; i++)
+      arr[i] = seq[i] + std::max(k + 1 - i, int(0));  
+    if (k >= n && (k - n) % 2 == 1)
+      arr[n] = seq[n]; 
+    int del =
+        std::max((k - n + 1) / 2, int(0)); 
+    
+    int l = 0, r = std::numeric_limits<int>::max() - 1;
+    prepare_check();
+    while (l < r) {
+      int mid = l + ((r - l)+1) / 2;
+      if (check2(mid) < del)
+        r = mid - 1;
+      else
+        l = mid;
+    }
+    std::cout << l << " ";
+  }
+}
