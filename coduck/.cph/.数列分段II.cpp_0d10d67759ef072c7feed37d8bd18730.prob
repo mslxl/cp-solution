@@ -1,0 +1,1 @@
+{"name":"Local: 数列分段II","url":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\数列分段II.cpp","tests":[{"id":1690166696952,"input":"5 3\n4 2 4 5 1","output":"6"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\数列分段II.cpp","group":"local","local":true}

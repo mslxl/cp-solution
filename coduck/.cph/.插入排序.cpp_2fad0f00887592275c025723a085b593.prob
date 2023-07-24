@@ -1,0 +1,1 @@
+{"name":"Local: 插入排序","url":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\插入排序.cpp","tests":[{"id":1690103410206,"input":"3 4\n3 2 1\n2 3\n1 3 2\n2 2\n2 3","output":"1\n1\n2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\插入排序.cpp","group":"local","local":true}

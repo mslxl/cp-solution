@@ -1,0 +1,1 @@
+{"name":"Local: 龙虎斗","url":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\龙虎斗.cpp","tests":[{"id":1690131174907,"input":"6\n2 3 2 3 2 3\n4 6 5 2","output":"2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\龙虎斗.cpp","group":"local","local":true}

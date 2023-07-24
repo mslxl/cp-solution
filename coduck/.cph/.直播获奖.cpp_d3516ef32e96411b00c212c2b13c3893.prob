@@ -1,0 +1,1 @@
+{"name":"Local: 直播获奖","url":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\直播获奖.cpp","tests":[{"id":1690100958993,"input":"10 60\n200 300 400 500 600 600 0 300 200 100","output":"200 300 400 400 400 500 400 400 300 300"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\直播获奖.cpp","group":"local","local":true}
