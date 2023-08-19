@@ -1,0 +1,1 @@
+{"name":"Local: 子集和","url":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\子集和.cpp","tests":[{"id":1690219624848,"input":"5 10\n2 3 4 5 6","output":"Yes"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\子集和.cpp","group":"local","local":true}

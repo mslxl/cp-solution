@@ -1,0 +1,1 @@
+{"name":"Local: 出栈合法性","url":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\出栈合法性.cpp","tests":[{"id":1690249041666,"input":"5\n3 4 2 1 5\n5\n3 5 1 4 2\n0","output":"Yes\nNo"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\出栈合法性.cpp","group":"local","local":true}

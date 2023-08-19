@@ -1,0 +1,1 @@
+{"name":"Local: 小可出国","url":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\小可出国.cpp","tests":[{"id":1690353627814,"input":"5 2\n2 0.4\n3 0.1\n0 0","output":"46.0%"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\小可出国.cpp","group":"local","local":true}

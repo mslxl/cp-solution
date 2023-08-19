@@ -1,0 +1,1 @@
+{"name":"Local: 修复篱笆","url":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\修复篱笆.cpp","tests":[{"id":1690270623357,"input":"3\n8\n5\n8","output":"34"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\lnslf\\Documents\\solution\\coduck\\修复篱笆.cpp","group":"local","local":true}
