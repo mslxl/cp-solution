@@ -55,6 +55,4 @@ void solve(const std::size_t testcase) {
     if(s[i] == i) cnt++;
   }
   std::cout << (cnt == 0 ? 0 : (cnt+1)/2) << "\n";
-  
-  
 }

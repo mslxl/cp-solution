@@ -5,17 +5,17 @@ struct tt{
   std::string name;
   int h;
   bool operator<(const tt&rhs) const {
-    if(h == rhs.h){
-      return name < rhs.name;
-    }else{
-      return h > rhs.h;
-    }
+    if(h == rhs.h) return name < rhs.name;
+    return h > rhs.h;
   }
 };
 
 std::vector<tt> seq;
 
-void solve(){
+int main(){
+  int T;
+  std::cin >> T;
+  while(T--){
     std::string name;
     int c,t;
     std::cin >> name >> c >> t;
@@ -24,12 +24,6 @@ void solve(){
       name,
       hard
     });
-}
-int main(){
-  int T;
-  std::cin >> T;
-  while(T--){
-    solve();
   }
   std::sort(seq.begin(), seq.end());
   for(auto i: seq){
